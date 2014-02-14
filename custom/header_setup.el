@@ -1,0 +1,6 @@
+(require 'header2)
+(autoload 'auto-make-header "header2")
+(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
+(add-hook 'c-mode-common-hook   'auto-make-header)
+(autoload 'auto-update-file-header "header2")
+(add-hook 'write-file-hooks 'auto-update-file-header)

@@ -1,0 +1,352 @@
+;; -------------------------------------------------------------------- ;;
+;; ; init.el ---                                                        ;;
+;;                                                                      ;;
+;;  Filename: init.el                                                   ;;
+;;  Description:                                                        ;;
+;;  Author: y_pe                                                        ;;
+;;  Maintainer:                                                         ;;
+;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
+;;  Version:                                                            ;;
+;;  Package-Requires: ()                                                ;;
+;;  Last-Updated: Fri Feb 14 08:08:31 2014 (+0000)
+;;            By: anton
+;;      Update #: 5                                                     ;;
+;;  URL: isoty.pe                                                       ;;
+;;  Doc URL: built-in                                                   ;;
+;;  Keywords: dotemacs, init, custom                                    ;;
+;;  Compatibility:                                                      ;;
+;;  See various modes for compatibility                                 ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;
+;;                                                                      ;;
+;; ; Commentary:                                                        ;;
+;;   emacs customizations and defuns                                    ;;
+;;                                                                      ;;
+;;                                                                      ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;
+;;                                                                      ;;
+;; ; Change Log:                                                        ;;
+;;   3. Added file header                                               ;;
+;;   4. Change tabbar keybindings                                       ;;
+;;                                                                      ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;
+;;                                                                      ;;
+;;  This program is free software; you can redistribute it and/or       ;;
+;;  modify it under the terms of the GNU General Public License as      ;;
+;;  published by the Free Software Foundation; either version 3, or     ;;
+;;  (at your option) any later version.                                 ;;
+;;                                                                      ;;
+;;  This program is distributed in the hope that it will be useful,     ;;
+;;  but WITHOUT ANY WARRANTY; without even the implied warranty of      ;;
+;;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU   ;;
+;;  General Public License for more details.                            ;;
+;;                                                                      ;;
+;;  You should have received a copy of the GNU General Public License   ;;
+;;  along with this program; see the file COPYING.  If not, write to    ;;
+;;  the Free Software Foundation, Inc., 51 Franklin Street, Fifth       ;;
+;;  Floor, Boston, MA 02110-1301, USA.                                  ;;
+;;                                                                      ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;
+;;                                                                      ;;
+;; ; Code:                                                              ;;
+;; -------------------------------------------------------------------- ;;
+;;Package Manager See ~Cask~ file for its configuration
+;;https://github.com/cask/cask
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
+
+;;Keeps ~Cask~ file in sync with the packages
+;;that you install/uninstall via ~M-x list-packages~
+;;https://github.com/rdallasgray/pallet
+(require 'pallet)
+
+;;Customizations
+(add-to-list 'load-path "~/.emacs.d/custom")
+
+;;No annoy emacs beep
+(setq ring-bell-function #'ignore)
+
+;;Theme
+(load-theme 'solarized-dark t)
+
+;;Powerline instead of modeline
+(require 'powerline)
+(powerline-default-theme)
+(setq powerline-color1 "#073642")
+(setq powerline-color2 "#002B36")
+
+(set-face-attribute 'mode-line nil
+                    :foreground "#fdf6e3"
+                    :background "#2aa198"
+                    :box nil
+		    :inverse-video nil)
+(set-face-attribute 'mode-line-inactive nil
+		    :foreground "#586e75"
+                    :background "#002b36"
+                    :box nil)
+;;Font
+(setq default-frame-alist '((font . "Fira Mono-14")))
+
+;;Wrap Text
+(global-visual-line-mode 1)
+
+;;Highlight cursor line
+(global-hl-line-mode 1)
+
+;;System setups
+(set-language-environment 'utf-8)
+(prefer-coding-system 'utf-8)
+
+;;Deletes selected text when typing
+(delete-selection-mode t)
+(transient-mark-mode t)
+
+;;Column numbers in bottom menu
+(column-number-mode 1)
+
+;;Keep a list of recently opened files
+(recentf-mode 1)
+
+;;Removes annoying bar at top
+(tool-bar-mode -1)
+
+;;Remove Scroll bar
+(scroll-bar-mode -1)
+
+;;Auto-insert/close bracket pairs
+(electric-pair-mode 1)
+
+;;Highlight matching parens
+(show-paren-mode 1)
+
+;;Recent files
+(recentf-mode 1)
+
+;;Hightlight entire bracket expression
+(setq show-paren-style 'expression)
+
+;;Show current time
+(display-time-mode 1)
+(setq display-time-day-and-date t)
+(setq display-time-use-mail-icon t)
+
+;;Don't display battery life
+(display-battery-mode -1)
+(size-indication-mode -1)
+
+;;Delete to trash
+(setq delete-by-moving-to-trash t)
+
+;;Y for yes N for no
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;;Confirm Emacs Quit
+(set-variable 'confirm-kill-emacs 'yes-or-no-p)
+;;(set-variable )
+
+;;Root directory
+(setq root-dir (file-name-directory
+                (or (buffer-file-name) load-file-name)))
+
+;;Path
+(require 'exec-path-from-shell)
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
+;;Global Line Numbers
+(global-linum-mode t)
+
+;;Show keystrokes
+(setq echo-keystrokes 0.02)
+
+;;Don't show startup screen
+(setq inhibit-startup-screen t)
+
+;;IDO Search
+(require 'ido)
+(ido-mode t)
+
+;;SMEX M-x IDO
+(require 'smex)
+(smex-initialize)
+
+;;flx-ido completion system, recommended by Projectile
+(require 'flx-ido)
+(flx-ido-mode 1)
+;; change it if you have a fast processor.
+(setq flx-ido-threshhold 1000)
+
+;;Drag Stuff is a minor mode for Emacs that makes
+;;it possible to drag stuff (words, region, lines) around in Emacs
+(require 'drag-stuff)
+(drag-stuff-mode t)
+
+;;Project management
+(require 'ack-and-a-half)
+(require 'projectile)
+(projectile-global-mode)
+
+;;Sauron events tracking
+(require 'sauron)
+(setq sauron-separate-frame nil)
+(setq sauron-hide-mode-line t)
+;;Sauron window appear on every (virtual) desktop
+(setq sauron-sticky-frame t)
+(setq sauron-dbus-cookie t)
+
+;;Load GTAGS for getting tags from source files
+(setq load-path (cons "/usr/local/Cellar/global/6.2.9/share/gtags/" load-path))
+(autoload 'gtags-mode "gtags" "" t)
+(add-hook 'c-mode-hook 'helm-gtags-mode)
+(add-hook 'c++-mode-hook 'helm-gtags-mode)
+
+;;Auto Complete
+(require 'auto-complete)
+(when (require 'auto-complete-config nil 'noerror)
+  (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
+  (setq ac-comphist-file  "~/.emacs.d/ac-comphist.dat")
+  (ac-config-default)
+  (define-key ac-completing-map (kbd "ESC") 'ac-stop)
+  (global-auto-complete-mode t)
+  (setq ac-delay 0.1
+	ac-auto-show-menu 0.3
+	ac-auto-start 1
+	ac-quick-help-delay 1.0
+	ac-quick-help-prefer-pos-tip t
+	ac-ignore-case nil
+	ac-candidate-menu-min 2
+	ac-use-quick-help t
+	ac-limit 10
+	ac-disable-faces nil)
+  (setq ac-sources-yasnippet t)
+  (ac-flyspell-workaround))
+
+;;Yasnippet
+(require 'yasnippet)
+(yas/global-mode t)
+
+;;Key modifiers
+(setq ns-option-modifier 'meta)
+(setq ns-command-modifier 'super)
+(setq ns-right-command-modifier 'hyper)
+(setq ns-right-option-modifier 'alt)
+(setq ns-right-control-modifier 'nil)
+;;Git
+(require 'magit)
+
+;;Rainbow Delimiter
+(require 'rainbow-delimiters)
+(global-rainbow-delimiters-mode t)
+
+;;Rainbow CSS
+(rainbow-mode t)
+
+;;Multiple Cursors
+(require 'multiple-cursors)
+(multiple-cursors-mode t)
+
+;;Buffer Backups (files in ~/.emacs.d/backup)
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t  ; Automatically delete excess backups
+      kept-new-versions 20   ; how many of the newest versions to keep
+      kept-old-versions 5    ; and how many of the old
+      )
+
+;;Flyspell spell-mode
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+(setq exec-path (append exec-path '("/usr/local/bin")))
+
+;;SLIME
+(load (expand-file-name "/Users/anton/quicklisp/slime-helper.el"))
+(setq inferior-lisp-program "/usr/local/bin/sbcl")
+(require 'slime-autoloads)
+;; Replace "sbcl" with the path to your implementation
+;;(setq slime-lisp-implementations "sbcl")
+(slime-setup '(slime-fancy))
+;;AC-Slime
+(add-hook 'slime-mode-hook 'set-up-slime-ac)
+(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+(eval-after-load "auto-complete"
+  '(add-to-list 'ac-modes 'slime-repl-mode))
+(setq slime-threads-update-interval 0.5)
+
+(require 'terminal-notifier)
+(require 'itail)
+
+;;Custom Functions
+(load "defuns")
+
+;;TMUX
+(load "tmux_setup")
+
+;;Tabs
+(load "tabbar-custom")
+
+;;Auto Header
+(load "header_setup")
+
+;;Clean up modeline
+(load "clean-modeline")
+
+;;MU4E
+(add-to-list 'load-path "/usr/local/Cellar/mu/HEAD/share/emacs/site-lisp/mu4e")
+(load "mu4e-custom")
+(add-to-list 'ac-modes 'mu4e-compose-mode)
+
+;;Ruby Setup
+(load "erb-setup")
+
+;;The Big Giant Org
+(load "org-custom")
+
+;;Custom Keybindings
+(load "keybindings")
+
+;;New packages(Added: Jan 17)
+;;Word Count Mode
+;;https://github.com/bnbeckwith/wc-mode
+(require 'wc-mode)
+;; Suggested setting
+(global-set-key "\C-cw" 'wc-mode)
+
+;;Undo Tree
+;;http://ergoemacs.org/emacs/emacs_best_redo_mode.html
+(require 'undo-tree)
+(global-undo-tree-mode 1)
+
+;;Rebox2 Test
+(setq rebox-style-loop '(23 223 26))
+(require 'rebox2)
+(global-set-key [(meta q)] 'rebox-dwim)
+(global-set-key [(shift meta q)] 'rebox-cycle)
+
+;;Web Mode
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(setq web-mode-extra-auto-pairs 
+      '(("erb"  . (("open" "close")))
+        ("php"  . (("open" "close")
+                   ("open" "close")))
+	))
+(defun web-mode-hook ()
+  (add-hook 'local-write-file-hooks
+            (lambda ()
+	      (delete-trailing-whitespace)
+	      nil)))
+
+(add-hook 'web-mode-hook  'web-mode-hook)
+
+;;Emmet
+(require 'emmet-mode)
+(add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; init.el ends here
