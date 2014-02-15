@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Fri Feb 14 08:08:31 2014 (+0000)
+;;  Last-Updated: Sat Feb 15 18:47:11 2014 (+0000)
 ;;            By: anton
-;;      Update #: 5                                                     ;;
+;;      Update #: 9                                                     ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
