@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Sun Feb 16 00:38:07 2014 (+0000)
+;;  Last-Updated: Sun Feb 16 22:10:02 2014 (+0000)
 ;;            By: anton
-;;      Update #: 16                                                     ;;
+;;      Update #: 71                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -49,8 +49,21 @@
 ;;                                                                      ;;
 ;; ; Code:                                                              ;;
 ;; -------------------------------------------------------------------- ;;
-;;Package Manager See ~Cask~ file for its configuration
-;;https://github.com/cask/cask
+(add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
+(require 'init-benchmarking) ;; Measure startup time
+
+(defconst *is-a-mac* (eq system-type 'darwin))
+
+;; ---------------- ;;
+;; Bootstrap Config ;;
+;; ---------------- ;;
+(require 'init-utils)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ----------------------------------------------------- ;;
+;; Package Manager See ~Cask~ file for its configuration ;;
+;; https://github.com/cask/cask                          ;;
+;; ----------------------------------------------------- ;;
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 
@@ -230,11 +243,9 @@
 (setq ns-right-command-modifier 'hyper)
 (setq ns-right-option-modifier 'alt)
 (setq ns-right-control-modifier 'nil)
+
 ;;Git
-(require 'magit)
-;; Use the fringe version of git-gutter
-(require 'git-gutter-fringe)
-(global-git-gutter-mode +1)
+(require 'init-git)
 
 ;;Rainbow Delimiter
 (require 'rainbow-delimiters)
@@ -354,5 +365,28 @@
 (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
 (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
 
+;;----------------------------------------------------------------------------
+;; Allow access from emacsclient
+;;----------------------------------------------------------------------------
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
+;;----------------------------------------------------------------------------
+;; Variables configured via the interactive 'customize' interface
+;;----------------------------------------------------------------------------
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+(add-hook 'after-init-hook
+          (lambda ()
+            (message "init completed in %.2fms"
+                     (sanityinc/time-subtract-millis after-init-time before-init-time))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
+
+;; Local Variables:
+;; coding: utf-8
+;; no-byte-compile: t
+;; End:
