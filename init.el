@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Sat Feb 15 18:47:11 2014 (+0000)
+;;  Last-Updated: Sun Feb 16 00:36:15 2014 (+0000)
 ;;            By: anton
-;;      Update #: 9                                                     ;;
+;;      Update #: 16                                                     ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -232,6 +232,9 @@
 (setq ns-right-control-modifier 'nil)
 ;;Git
 (require 'magit)
+;; Use the fringe version of git-gutter
+(require 'git-gutter-fringe)
+(global-git-gutter-mode +1)
 
 ;;Rainbow Delimiter
 (require 'rainbow-delimiters)
@@ -293,6 +296,9 @@
 (add-to-list 'load-path "/usr/local/Cellar/mu/HEAD/share/emacs/site-lisp/mu4e")
 (load "mu4e-custom")
 (add-to-list 'ac-modes 'mu4e-compose-mode)
+
+;;Sprint.ly private stuff
+(load "sprintly-mode-setup")
 
 ;;Ruby Setup
 (load "erb-setup")

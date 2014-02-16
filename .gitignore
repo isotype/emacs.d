@@ -27,3 +27,5 @@ offlineimap.*
 /custom/ac_semantic.el
 /custom/flycheck_setup.el
 /custom/xcode_setup.el
+/custom/sprintly-mode-setup.el
+/custom/sprintly-org/
