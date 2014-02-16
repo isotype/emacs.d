@@ -75,12 +75,6 @@
 (add-hook 'yas/minor-mode-on-hook 
 	  (define-key yas-minor-mode-map yas/trigger-key 'yas-expand))
 
-;;Magit
-(eval-after-load 'magit
-  (progn '(global-set-key (kbd "H-s") 'magit-status)))
-(eval-after-load 'magit
-  (progn '(global-set-key (kbd "H-l") 'magit-log)))
-
 ;;Multiple Cursors
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
