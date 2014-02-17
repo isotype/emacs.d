@@ -7,9 +7,9 @@
 ;; Created: Sun Feb 16 19:18:34 2014 (+0000)
 ;; Version: 
 ;; Package-Requires: ()
-;; Last-Updated: Sun Feb 16 21:55:20 2014 (+0000)
+;; Last-Updated: Mon Feb 17 08:37:02 2014 (+0000)
 ;;           By: anton
-;;     Update #: 4
+;;     Update #: 6
 ;; URL: isoty.pe
 ;; Doc URL: https://github.com/purcell/emacs.d/tree/master/lisp
 ;; Keywords: git, git-gutter, magit, git-wip
@@ -82,7 +82,7 @@
 
 ;; When we start working on git-backed files, use git-wip if available
 (after-load 'vc-git
-	    (global-magit-wip-save-mode)
+	    (global-magit-wip-save-mode 1)
 	    (diminish 'magit-wip-save-mode))
 
 ;; Use the fringe version of git-gutter
