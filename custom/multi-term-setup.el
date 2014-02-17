@@ -7,9 +7,9 @@
 ;; Created: Mon Feb 17 17:14:49 2014 (+0000)
 ;; Version: 
 ;; Package-Requires: (multi-term)
-;; Last-Updated: Mon Feb 17 17:16:17 2014 (+0000)
+;; Last-Updated: Mon Feb 17 17:41:23 2014 (+0000)
 ;;           By: anton
-;;     Update #: 3
+;;     Update #: 6
 ;; URL: isoty.pe
 ;; Keywords: 
 ;; Compatibility: 
@@ -54,6 +54,48 @@
   (global-set-key (kbd "<C-prior>") 'multi-term-prev)
   (setq multi-term-buffer-name "term"
         multi-term-program "/bin/zsh"))
+
+(add-hook 'term-mode-hook
+          (lambda ()
+            (setq show-trailing-whitespace nil)))
+
+(defcustom term-unbind-key-list
+  '("C-z" "C-x" "C-c" "C-h" "C-y" "<ESC>")
+  "The key list that will need to be unbind."
+  :type 'list
+  :group 'multi-term)
+ 
+(defcustom term-bind-key-alist
+  '(
+    ("C-c C-c" . term-interrupt-subjob)
+    ("C-p" . previous-line)
+    ("C-n" . next-line)
+    ("C-s" . isearch-forward)
+    ("C-r" . isearch-backward)
+    ("C-m" . term-send-raw)
+    ("M-f" . term-send-forward-word)
+    ("M-b" . term-send-backward-word)
+    ("M-o" . term-send-backspace)
+    ("M-p" . term-send-up)
+    ("M-n" . term-send-down)
+    ("C-k" . term-send-forward-kill-word)
+    ("M-N" . term-send-backward-kill-word)
+    ("M-r" . term-send-reverse-search-history)
+    ("M-," . term-send-input)
+    ("M-." . comint-dynamic-complete))
+  "The key alist that will need to be bind.
+If you do not like default setup, modify it, with (KEY . COMMAND) format."
+  :type 'alist
+  :group 'multi-term)
+
+(add-hook 'term-mode-hook
+          (lambda ()
+            (add-to-list 'term-bind-key-alist '("M-[" . multi-term-prev))
+            (add-to-list 'term-bind-key-alist '("M-]" . multi-term-next))))
+
+(add-hook 'term-mode-hook
+          (lambda ()
+            (define-key term-raw-map (kbd "C-y") 'term-paste)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; multi-term.el ends here
