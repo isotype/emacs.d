@@ -7,12 +7,12 @@
 ;; Created: Sun Feb 16 19:18:34 2014 (+0000)
 ;; Version: 
 ;; Package-Requires: ()
-;; Last-Updated: Mon Feb 17 08:37:02 2014 (+0000)
+;; Last-Updated: Mon Feb 17 16:46:59 2014 (+0000)
 ;;           By: anton
-;;     Update #: 6
+;;     Update #: 8
 ;; URL: isoty.pe
 ;; Doc URL: https://github.com/purcell/emacs.d/tree/master/lisp
-;; Keywords: git, git-gutter, magit, git-wip
+;; Keywords: git, git-gutter, magit
 ;; Compatibility: Emacs 24.3.50.1+
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -29,6 +29,7 @@
 ;;; Change Log:
 ;;  - Added git-gutter-fringe
 ;;  - Set color preferences for git-gutter
+;;  - removed git wip support
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -80,10 +81,10 @@
 (after-load 'magit
 	    (fullframe magit-status magit-mode-quit-window))
 
-;; When we start working on git-backed files, use git-wip if available
-(after-load 'vc-git
-	    (global-magit-wip-save-mode 1)
-	    (diminish 'magit-wip-save-mode))
+;; ;; When we start working on git-backed files, use git-wip if available
+;; (after-load 'vc-git
+;; 	    (global-magit-wip-save-mode 1)
+;; 	    (diminish 'magit-wip-save-mode))
 
 ;; Use the fringe version of git-gutter
 (after-load 'git-gutter
