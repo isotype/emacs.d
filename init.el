@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Mon Feb 17 08:29:49 2014 (+0000)
+;;  Last-Updated: Mon Feb 17 17:17:51 2014 (+0000)
 ;;            By: anton
-;;      Update #: 73                                                    ;;
+;;      Update #: 79                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -25,8 +25,9 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;
 ;;                                                                      ;;
 ;; ; Change Log:                                                        ;;
-;;   3. Added file header                                               ;;
-;;   4. Change tabbar keybindings                                       ;;
+;;   - Added file header                                                ;;
+;;   - Change tabbar keybindings                                        ;;
+;;   - Added Multi-term, and multi-term-setup.el                        ;;
 ;;                                                                      ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;
 ;;                                                                      ;;
@@ -74,6 +75,10 @@
 
 ;;Customizations
 (add-to-list 'load-path "~/.emacs.d/custom")
+
+(require 'init-frame-hooks)
+(require 'init-xterm)
+
 
 ;;No annoy emacs beep
 (setq ring-bell-function #'ignore)
@@ -290,6 +295,9 @@
 
 ;;Custom Functions
 (load "defuns")
+
+;;Emacs Terminal
+(load "multi-term-setup")
 
 ;;TMUX
 (load "tmux_setup")
