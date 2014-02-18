@@ -3,7 +3,9 @@
 (source marmalade)
 (source org)
 
+
 (depends-on "ac-helm")
+(depends-on "ac-ispell")
 (depends-on "ac-slime")
 (depends-on "ace-jump-mode")
 (depends-on "ack-and-a-half")
@@ -51,6 +53,8 @@
 (depends-on "howdoi")
 (depends-on "htmlize")
 (depends-on "ido")
+(depends-on "ido-ubiquitous")
+(depends-on "ido-vertical-mode")
 (depends-on "inf-ruby")
 (depends-on "itail")
 (depends-on "js2-mode")
