@@ -7,9 +7,9 @@
 ;; Created: Sun Feb 16 19:18:34 2014 (+0000)
 ;; Version: 
 ;; Package-Requires: ()
-;; Last-Updated: Tue Feb 18 11:12:06 2014 (+0000)
+;; Last-Updated: Tue Feb 18 18:15:46 2014 (+0000)
 ;;           By: anton
-;;     Update #: 11
+;;     Update #: 12
 ;; URL: isoty.pe
 ;; Doc URL: https://github.com/purcell/emacs.d/tree/master/lisp
 ;; Keywords: git, git-gutter, magit, git-wip
@@ -52,7 +52,7 @@
 ;;; Code:
 (require 'magit)
 (require 'git-gutter-fringe)
-(require 'git-blame)
+(require 'magit-blame)
 (require 'git-commit-mode)
 (require 'git-rebase-mode)
 (require 'gitignore-mode)

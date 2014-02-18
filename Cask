@@ -3,7 +3,6 @@
 (source marmalade)
 (source org)
 
-
 (depends-on "ac-helm")
 (depends-on "ac-ispell")
 (depends-on "ac-slime")
@@ -16,7 +15,6 @@
 (depends-on "bm")
 (depends-on "bug-reference-github")
 (depends-on "cask")
-(depends-on "color-theme-sanityinc-solarized")
 (depends-on "csv-mode")
 (depends-on "csv-nav")
 (depends-on "dash")
