@@ -28,6 +28,7 @@
 (depends-on "exec-path-from-shell")
 (depends-on "expand-region")
 (depends-on "f")
+(depends-on "floobits")
 (depends-on "flx-ido")
 (depends-on "flycheck")
 (depends-on "flycheck-color-mode-line")

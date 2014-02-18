@@ -7,9 +7,9 @@
 ;; Created: Sun Feb 16 19:18:34 2014 (+0000)
 ;; Version: 
 ;; Package-Requires: ()
-;; Last-Updated: Mon Feb 17 17:34:10 2014 (+0000)
+;; Last-Updated: Tue Feb 18 11:12:06 2014 (+0000)
 ;;           By: anton
-;;     Update #: 9
+;;     Update #: 11
 ;; URL: isoty.pe
 ;; Doc URL: https://github.com/purcell/emacs.d/tree/master/lisp
 ;; Keywords: git, git-gutter, magit, git-wip
@@ -75,6 +75,9 @@
 
 (after-load 'magit
 	    (define-key magit-status-mode-map (kbd "C-M-<up>") 'magit-goto-parent-section))
+
+(after-load 'magit
+  (global-set-key (kbd "H-b") 'magit-blame-mode))
 
 (require 'fullframe)
 (after-load 'magit
