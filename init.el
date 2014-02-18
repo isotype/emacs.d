@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Mon Feb 17 17:17:51 2014 (+0000)
+;;  Last-Updated: Tue Feb 18 17:49:47 2014 (+0000)
 ;;            By: anton
-;;      Update #: 79                                                    ;;
+;;      Update #: 96                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -122,7 +122,20 @@
 (column-number-mode 1)
 
 ;;Keep a list of recently opened files
-(recentf-mode 1)
+(require 'recentf)
+(setq recentf-max-saved-items 200
+      recentf-max-menu-items 15)
+(recentf-mode +1)
+(defun recentf-ido-find-file ()
+  "Find a recent file using ido."
+  (interactive)
+  (let ((file (ido-completing-read "Choose recent file: " (-map 'abbreviate-file-name recentf-list) nil t)))
+    (when file
+      (find-file file))))
+(global-set-key (kbd "C-c f") 'recentf-ido-find-file)
+
+;;Winner Mode
+(winner-mode 1)
 
 ;;Removes annoying bar at top
 (tool-bar-mode -1)
@@ -135,9 +148,6 @@
 
 ;;Highlight matching parens
 (show-paren-mode 1)
-
-;;Recent files
-(recentf-mode 1)
 
 ;;Hightlight entire bracket expression
 (setq show-paren-style 'expression)
@@ -159,7 +169,6 @@
 
 ;;Confirm Emacs Quit
 (set-variable 'confirm-kill-emacs 'yes-or-no-p)
-;;(set-variable )
 
 ;;Root directory
 (setq root-dir (file-name-directory
@@ -182,16 +191,33 @@
 ;;IDO Search
 (require 'ido)
 (ido-mode t)
+(setq ido-enable-prefix nil
+      ido-enable-flex-matching t
+      ido-case-fold nil
+      ido-auto-merge-work-directories-length -1
+      ido-create-new-buffer 'always
+      ido-use-filename-at-point nil
+      ido-max-prospects 10)
+
+;;flx-ido completion system
+(require 'flx-ido)
+(flx-ido-mode 1)
+;; change it if you have a fast processor.
+(setq ido-use-faces nil)
+
+(require 'ido-vertical-mode)
+(ido-vertical-mode 1)
+(setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
+
+;; Use ido everywhere
+(require 'ido-ubiquitous)
+(ido-ubiquitous-mode 1)
+
+(setq ido-ubiquitous-use-new-completing-read 'webjump)
 
 ;;SMEX M-x IDO
 (require 'smex)
 (smex-initialize)
-
-;;flx-ido completion system, recommended by Projectile
-(require 'flx-ido)
-(flx-ido-mode 1)
-;; change it if you have a fast processor.
-(setq flx-ido-threshhold 1000)
 
 ;;Drag Stuff is a minor mode for Emacs that makes
 ;;it possible to drag stuff (words, region, lines) around in Emacs
@@ -237,6 +263,17 @@
 	ac-disable-faces nil)
   (setq ac-sources-yasnippet t)
   (ac-flyspell-workaround))
+
+;; Completion words longer than 4 characters
+(custom-set-variables
+  '(ac-ispell-requires 4))
+
+(after-load "auto-complete"
+      (ac-ispell-setup))
+
+(add-hook 'git-commit-mode-hook 'ac-ispell-ac-setup)
+(add-hook 'org-mode-hook 'ac-ispell-ac-setup)
+(add-hook 'mu4e-compose-mode-hook 'ac-ispell-ac-setup)
 
 ;;Yasnippet
 (require 'yasnippet)
