@@ -12,14 +12,6 @@
 ;; (global-unset-key (kbd "<M-up>"))
 ;; (global-unset-key (kbd "<M-down>"))
 
-(global-set-key (kbd "s-h") 'backward-char)
-(global-set-key (kbd "s-j") 'previous-line)
-(global-set-key (kbd "s-k") 'next-line)
-(global-set-key (kbd "s-l") 'forward-char)
-
-(global-set-key (kbd "s-i") 'backward-word)
-(global-set-key (kbd "s-o") 'forward-word)
-
 (global-set-key (kbd "M-SPC") 'set-mark-command)
 
 ;;Quick Open init.el C-x r j e
@@ -141,3 +133,6 @@
 
 ;;Reload Browser
 (global-set-key (kbd "C-x C-r") 'y_pe/reload-browser)
+
+;;Webjump
+(global-set-key (kbd "s-j") 'webjump)
