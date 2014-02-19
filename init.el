@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Tue Feb 18 17:49:47 2014 (+0000)
+;;  Last-Updated: Wed Feb 19 18:35:20 2014 (+0000)
 ;;            By: anton
-;;      Update #: 96                                                    ;;
+;;      Update #: 100                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -73,18 +73,17 @@
 ;;https://github.com/rdallasgray/pallet
 (require 'pallet)
 
-;;Customizations
-(add-to-list 'load-path "~/.emacs.d/custom")
-
 (require 'init-frame-hooks)
 (require 'init-xterm)
-
 
 ;;No annoy emacs beep
 (setq ring-bell-function #'ignore)
 
 ;;Theme
 (load-theme 'solarized-dark t)
+
+;;Customizations
+(add-to-list 'load-path (expand-file-name "custom" user-emacs-directory))
 
 ;;Powerline instead of modeline
 (require 'powerline)
@@ -101,6 +100,7 @@
 		    :foreground "#586e75"
                     :background "#002b36"
                     :box nil)
+
 ;;Font
 (setq default-frame-alist '((font . "Fira Mono-14")))
 
@@ -274,6 +274,7 @@
 (add-hook 'git-commit-mode-hook 'ac-ispell-ac-setup)
 (add-hook 'org-mode-hook 'ac-ispell-ac-setup)
 (add-hook 'mu4e-compose-mode-hook 'ac-ispell-ac-setup)
+(add-hook 'markdown-mode-hook 'ac-ispell-ac-setup)
 
 ;;Yasnippet
 (require 'yasnippet)
@@ -352,6 +353,9 @@
 (add-to-list 'load-path "/usr/local/Cellar/mu/HEAD/share/emacs/site-lisp/mu4e")
 (load "mu4e-custom")
 (add-to-list 'ac-modes 'mu4e-compose-mode)
+
+;;Markdown mode
+(require 'init-markdown)
 
 ;;Sprint.ly private stuff
 (load "sprintly-mode-setup")
