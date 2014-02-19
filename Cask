@@ -58,6 +58,7 @@
 (depends-on "js2-mode")
 (depends-on "magit")
 (depends-on "magit-svn")
+(depends-on "markdown-mode")
 (depends-on "mu4e-maildirs-extension")
 (depends-on "multi-term")
 (depends-on "multiple-cursors")
