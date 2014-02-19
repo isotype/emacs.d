@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Wed Feb 19 18:35:20 2014 (+0000)
+;;  Last-Updated: Wed Feb 19 19:31:28 2014 (+0000)
 ;;            By: anton
-;;      Update #: 100                                                    ;;
+;;      Update #: 103                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -126,13 +126,6 @@
 (setq recentf-max-saved-items 200
       recentf-max-menu-items 15)
 (recentf-mode +1)
-(defun recentf-ido-find-file ()
-  "Find a recent file using ido."
-  (interactive)
-  (let ((file (ido-completing-read "Choose recent file: " (-map 'abbreviate-file-name recentf-list) nil t)))
-    (when file
-      (find-file file))))
-(global-set-key (kbd "C-c f") 'recentf-ido-find-file)
 
 ;;Winner Mode
 (winner-mode 1)
@@ -189,21 +182,19 @@
 (setq inhibit-startup-screen t)
 
 ;;IDO Search
-(require 'ido)
+(require 'flx-ido)
 (ido-mode t)
-(setq ido-enable-prefix nil
-      ido-enable-flex-matching t
-      ido-case-fold nil
-      ido-auto-merge-work-directories-length -1
-      ido-create-new-buffer 'always
+(ido-everywhere t)
+(setq ido-enable-flex-matching t
       ido-use-filename-at-point nil
-      ido-max-prospects 10)
+      ido-auto-merge-work-directories-length 0
+      ido-use-virtual-buffers t)
 
 ;;flx-ido completion system
-(require 'flx-ido)
 (flx-ido-mode 1)
-;; change it if you have a fast processor.
+;; disable ido faces to see flx highlights.
 (setq ido-use-faces nil)
+(setq flx-ido-threshhold 10000)
 
 (require 'ido-vertical-mode)
 (ido-vertical-mode 1)
@@ -212,8 +203,15 @@
 ;; Use ido everywhere
 (require 'ido-ubiquitous)
 (ido-ubiquitous-mode 1)
-
 (setq ido-ubiquitous-use-new-completing-read 'webjump)
+
+(defun recentf-ido-find-file ()
+  "Find a recent file using ido."
+  (interactive)
+  (if (and ido-use-virtual-buffers (fboundp 'ido-toggle-virtual-buffers))
+       (ido-switch-buffer)
+     (find-file (ido-completing-read "Open file: " recentf-list nil t))))
+(global-set-key (kbd "C-c f") 'recentf-ido-find-file)
 
 ;;SMEX M-x IDO
 (require 'smex)
