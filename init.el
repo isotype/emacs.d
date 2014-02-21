@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Wed Feb 19 19:31:28 2014 (+0000)
+;;  Last-Updated: Fri Feb 21 09:22:09 2014 (+0000)
 ;;            By: anton
-;;      Update #: 103                                                    ;;
+;;      Update #: 104                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -337,6 +337,9 @@
 
 ;;TMUX
 (load "tmux_setup")
+
+;;W3M
+(load "y_pe-w3m")
 
 ;;Tabs
 (load "tabbar-custom")
