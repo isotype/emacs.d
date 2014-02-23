@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Fri Feb 21 09:22:09 2014 (+0000)
+;;  Last-Updated: Sun Feb 23 23:13:26 2014 (+0000)
 ;;            By: anton
-;;      Update #: 104                                                    ;;
+;;      Update #: 105                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -268,6 +268,11 @@
 
 (after-load "auto-complete"
       (ac-ispell-setup))
+
+(add-hook 'slime-mode-hook 'set-up-slime-ac)
+(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+(after-load "auto-complete"
+  '(add-to-list 'ac-modes 'slime-repl-mode))
 
 (add-hook 'git-commit-mode-hook 'ac-ispell-ac-setup)
 (add-hook 'org-mode-hook 'ac-ispell-ac-setup)
