@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Sun Feb 23 23:13:26 2014 (+0000)
+;;  Last-Updated: Wed Feb 26 14:04:59 2014 (+0000)
 ;;            By: anton
-;;      Update #: 105                                                    ;;
+;;      Update #: 108                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -333,6 +333,9 @@
 
 (require 'terminal-notifier)
 (require 'itail)
+
+;;Load init-javascript
+(require 'init-javascript)
 
 ;;Custom Functions
 (load "defuns")
