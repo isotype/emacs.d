@@ -55,6 +55,7 @@
 (depends-on "highlight")
 (depends-on "howdoi")
 (depends-on "htmlize")
+(depends-on "ibuffer-vc")
 (depends-on "ido")
 (depends-on "ido-ubiquitous")
 (depends-on "ido-vertical-mode")
