@@ -7,8 +7,8 @@
 ;;  Maintainer: y_pe                                                                      ;;
 ;;  Created: Wed Feb 26 13:59:38 2014 (+0000)                                             ;;
 ;;  Version: 0.1                                                                          ;;
-;;  Package-Requ(ires: (json-mode, js2-mode, ac-js2, coffee-mode, js-comint, skewer-mode) ;;
-;;  Last-Updated: Wed Feb 26 14:04:09 2014 (+0000)
+;;  Package-Requires: (json-mode, js2-mode, ac-js2, coffee-mode, js-comint, skewer-mode)  ;;
+;;  Last-Updated: Wed Feb 26 14:08:19 2014 (+0000)
 ;;            By: anton
 ;;      Update #: 1                                                                       ;;
 ;;  URL: isoty.pe                                                                         ;;
