@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Wed Feb 26 14:04:59 2014 (+0000)
+;;  Last-Updated: Wed Feb 26 21:45:43 2014 (+0000)
 ;;            By: anton
-;;      Update #: 108                                                    ;;
+;;      Update #: 109                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -212,6 +212,9 @@
        (ido-switch-buffer)
      (find-file (ido-completing-read "Open file: " recentf-list nil t))))
 (global-set-key (kbd "C-c f") 'recentf-ido-find-file)
+
+;;ibuffer
+(require 'init-ibuffer)
 
 ;;SMEX M-x IDO
 (require 'smex)
