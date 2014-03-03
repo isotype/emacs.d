@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Wed Feb 26 21:45:43 2014 (+0000)
+;;  Last-Updated: Mon Mar  3 10:00:13 2014 (+0000)
 ;;            By: anton
-;;      Update #: 109                                                    ;;
+;;      Update #: 120                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -75,6 +75,9 @@
 
 (require 'init-frame-hooks)
 (require 'init-xterm)
+
+;;Appearance Setup
+(require 'init-appearance)
 
 ;;No annoy emacs beep
 (setq ring-bell-function #'ignore)
@@ -339,6 +342,12 @@
 
 ;;Load init-javascript
 (require 'init-javascript)
+
+;;Rainbow Blocks
+(eval-after-load 'rainbow-blocks '(diminish 'rainbow-blocks-mode))
+(add-hook 'lisp-mode-hook 'rainbow-blocks-mode)
+(add-hook 'emacs-lisp-mode-hook 'rainbow-blocks-mode)
+(global-set-key (kbd "C-c C-d") 'rainbow-blocks-mode)
 
 ;;Custom Functions
 (load "defuns")
