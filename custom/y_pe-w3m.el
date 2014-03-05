@@ -7,9 +7,9 @@
 ;; Created: Fri Feb 21 09:22:22 2014 (+0000)
 ;; Version: 0.1
 ;; Package-Requires: (w3m)
-;; Last-Updated: Fri Feb 21 16:28:43 2014 (+0000)
+;; Last-Updated: Wed Mar  5 09:37:25 2014 (+0000)
 ;;           By: anton
-;;     Update #: 1
+;;     Update #: 13
 ;; URL: isoty.pe
 ;; Doc URL: isoty.pe
 ;; Keywords: w3m, emacs
@@ -32,7 +32,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
 ;;; Change Log:
-;; 
+;;  - Added conkeror/0.9.3 user-agent
+;;  - Added OSX and character bug fixes
+;;  - Quick link ace-jump using "f" key
+;;  - Quick open url
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -54,22 +57,52 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
 ;;; Code:
-
 (require 'w3m)
 
 ;;Open new URL in tab
 (setq browse-url-browser-function 'w3m-goto-url-new-session)
 
-(setq w3m-user-agent "Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.")
+;;Use Conkeror user agent
+(setq w3m-user-agent "Mozilla/5.0 (X11; Linux x86_64; rv:6.0.1) Gecko/20110831 conkeror/0.9.3")
 
-(defun y_pe/w3m-site-jump ()
-  "Incomplete, didn't have time to finish, more urgent matters
-   like actual work for example...basically this is supposed to
-   function that allows me to quickly select from a list of options
-   using IDO websites that I regularly visit."
-  (interactive)
-   (setq list-websites '("http://news.ycombinator.com"
-			 "http://github.com"
-			 "http://www.quicklisp.org/beta/releases.html")))
+;; Mac OSX fix
+(if (string= system-type "darwin")
+     (setq process-connection-type nil))
+
+;;Quick ace-jump links with "f" key
+(w3m-lnum-mode +1)
+
+;;Enable w3m cookies
+(setq w3m-use-cookies t)
+
+;; Fix word character problems
+(setq w3m-coding-system 'utf-8
+          w3m-file-coding-system 'utf-8
+          w3m-file-name-coding-system 'utf-8
+          w3m-input-coding-system 'utf-8
+          w3m-output-coding-system 'utf-8
+          w3m-terminal-coding-system 'utf-8)
+
+;; Fix evil bullet character that display as \225
+(standard-display-ascii ?\225 [?+])
+
+;; Function needs work - haven't had time to finish
+;; (defun y_pe/w3m-site-jump (picksite)
+;;   "Incomplete, didn't have time to finish, more urgent matters
+;;    like actual work for example...basically this is supposed to
+;;    function that allows me to quickly select from a list of options
+;;    using IDO websites that I regularly visit."
+;;   (interactive)
+;;   (setq list-websites '("http://news.ycombinator.com"
+;; 			"http://github.com"
+;; 			"http://www.quicklisp.org/beta/releases.html")))
+
+;;Quick open site
+(defun y_pe/qsite (site)
+  "Opens site in new w3m session with 'http://' appended"
+  (interactive
+   (list (read-string "Enter website address(default: w3m-home):" nil nil w3m-home-page nil )))
+  (w3m-goto-url-new-session
+   (concat "http://" site)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; y_pe-w3m.el ends here
