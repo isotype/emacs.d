@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Mon Mar  3 16:54:15 2014 (+0000)
+;;  Last-Updated: Sat Mar  8 15:26:57 2014 (+0000)
 ;;            By: anton
-;;      Update #: 120                                                    ;;
+;;      Update #: 126                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -51,6 +51,7 @@
 ;; ; Code:                                                              ;;
 ;; -------------------------------------------------------------------- ;;
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
+
 (require 'init-benchmarking) ;; Measure startup time
 
 (defconst *is-a-mac* (eq system-type 'darwin))
@@ -103,9 +104,6 @@
 		    :foreground "#586e75"
                     :background "#002b36"
                     :box nil)
-
-;;Font
-(setq default-frame-alist '((font . "Fira Mono-14")))
 
 ;;Wrap Text
 (global-visual-line-mode 1)
@@ -359,7 +357,7 @@
 (load "tmux_setup")
 
 ;;W3M
-(load "y_pe-w3m")
+;;(load "y_pe-w3m")
 
 ;;Tabs
 (load "tabbar-custom")
@@ -410,6 +408,7 @@
 
 ;;Web Mode
 (require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
@@ -441,6 +440,13 @@
 (require 'server)
 (unless (server-running-p)
   (server-start))
+
+
+;;Set/Refresh Font
+;;Font
+;;(setq default-frame-alist '((font . "Fira Mono-14")))
+(set-face-attribute 'default nil
+                    :family "Fira Mono" :height 145 :weight 'bold)
 
 ;;----------------------------------------------------------------------------
 ;; Variables configured via the interactive 'customize' interface
