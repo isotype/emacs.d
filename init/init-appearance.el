@@ -7,9 +7,9 @@
 ;; Created: Mon Mar  3 09:48:41 2014 (+0000)
 ;; Version: 0.1
 ;; Package-Requires: ()
-;; Last-Updated: Mon Mar  3 09:58:55 2014 (+0000)
+;; Last-Updated: Sat Mar  8 18:22:55 2014 (+0000)
 ;;           By: anton
-;;     Update #: 2
+;;     Update #: 4
 ;; URL: isoty.pe
 ;; Doc URL: https://github.com/isotype/emacs.d
 ;; Keywords: Emacs, init, appearence
@@ -70,6 +70,12 @@
   "Quick function to turn off pretty-mode when it gets annoying"
   (pretty-mode -1)
   (pretty-symbols-mode -1))
+
+;;Page break line mode
+(turn-on-page-break-lines-mode)
+"Examples Line below ^L (C-q C-l)"
+
+
 
 (provide 'init-appearance)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
