@@ -7,12 +7,12 @@
 ;; Created: Sun Feb 16 19:18:34 2014 (+0000)
 ;; Version: 
 ;; Package-Requires: ()
-;; Last-Updated: Tue Feb 18 18:15:46 2014 (+0000)
+;; Last-Updated: Wed Mar 19 09:27:59 2014 (+0000)
 ;;           By: anton
-;;     Update #: 12
+;;     Update #: 15
 ;; URL: isoty.pe
 ;; Doc URL: https://github.com/purcell/emacs.d/tree/master/lisp
-;; Keywords: git, git-gutter, magit, git-wip
+;; Keywords: git, git-gutter, magit
 ;; Compatibility: Emacs 24.3.50.1+
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -29,6 +29,7 @@
 ;;; Change Log:
 ;;  - Added git-gutter-fringe
 ;;  - Set color preferences for git-gutter
+;;  - Removed Git-wip due to onslaught of file load errors
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -68,38 +69,38 @@
 ;; Hint: customize `magit-repo-dirs' so that you can use H-s to
 ;; quickly open magit on any one of your projects.
 ;;Magit
-(eval-after-load 'magit
-  (progn '(global-set-key (kbd "H-s") 'magit-status)))
-(eval-after-load 'magit
-  (progn '(global-set-key (kbd "H-l") 'magit-log)))
+(after-load 'magit
+  (global-set-key (kbd "H-s") 'magit-status))
+(after-load 'magit
+  (global-set-key (kbd "H-l") 'magit-log))
 
 (after-load 'magit
-	    (define-key magit-status-mode-map (kbd "C-M-<up>") 'magit-goto-parent-section))
+  (define-key magit-status-mode-map (kbd "C-M-<up>") 'magit-goto-parent-section))
 
 (after-load 'magit
   (global-set-key (kbd "H-b") 'magit-blame-mode))
 
 (require 'fullframe)
 (after-load 'magit
-	    (fullframe magit-status magit-mode-quit-window))
+  (fullframe magit-status magit-mode-quit-window))
 
 ;; When we start working on git-backed files, use git-wip if available
-(after-load 'vc-git
-	    (global-magit-wip-save-mode 1)
-	    (diminish 'magit-wip-save-mode))
+;; (after-load 'vc-git
+;; 	    (global-magit-wip-save-mode 1)
+;; 	    (diminish 'magit-wip-save-mode))
 
 ;; Use the fringe version of git-gutter
 (after-load 'git-gutter
-	    (require 'git-gutter-fringe)
-	    (setq git-gutter:lighter " GG")
-	    (global-git-gutter-mode +1)
-	    (set-face-foreground 'git-gutter-fr:added "#B4C342")
-	    (set-face-foreground 'git-gutter-fr:modified "#F2804F")
-	    (set-face-foreground 'git-gutter-fr:deleted "#990A1B"))
+  (require 'git-gutter-fringe)
+  (setq git-gutter:lighter " GG")
+  (global-git-gutter-mode +1)
+  (set-face-foreground 'git-gutter-fr:added "#B4C342")
+  (set-face-foreground 'git-gutter-fr:modified "#F2804F")
+  (set-face-foreground 'git-gutter-fr:deleted "#990A1B"))
 
 (when *is-a-mac*
   (after-load 'magit
-	      (add-hook 'magit-mode-hook (lambda () (local-unset-key [(meta h)])))))
+    (add-hook 'magit-mode-hook (lambda () (local-unset-key [(meta h)])))))
 
 ;; Convenient binding for vc-git-grep
 (global-set-key (kbd "C-x v f") 'vc-git-grep)
@@ -107,13 +108,13 @@
 ;; git-svn support
 (require 'magit-svn)
 (after-load 'magit-key-mode
-	    (require 'magit-svn))
+  (require 'magit-svn))
 
 (after-load 'compile
-	    (dolist (defn (list '(git-svn-updated "^\t[A-Z]\t\\(.*\\)$" 1 nil nil 0 1)
-				'(git-svn-needs-update "^\\(.*\\): needs update$" 1 nil nil 2 1)))
-	      (add-to-list 'compilation-error-regexp-alist-alist defn)
-	      (add-to-list 'compilation-error-regexp-alist (car defn))))
+  (dolist (defn (list '(git-svn-updated "^\t[A-Z]\t\\(.*\\)$" 1 nil nil 0 1)
+		      '(git-svn-needs-update "^\\(.*\\): needs update$" 1 nil nil 2 1)))
+    (add-to-list 'compilation-error-regexp-alist-alist defn)
+    (add-to-list 'compilation-error-regexp-alist (car defn))))
 
 (defvar git-svn--available-commands nil "Cached list of git svn subcommands")
 
