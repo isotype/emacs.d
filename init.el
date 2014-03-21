@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Fri Mar 21 18:07:37 2014 (+0000)
+;;  Last-Updated: Fri Mar 21 21:59:54 2014 (+0000)
 ;;            By: y_pe
-;;      Update #: 154                                                    ;;
+;;      Update #: 155                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -217,7 +217,7 @@
   (if (and ido-use-virtual-buffers (fboundp 'ido-toggle-virtual-buffers))
        (ido-switch-buffer)
      (find-file (ido-completing-read "Open file: " recentf-list nil t))))
-(global-set-key (kbd "C-c f") 'recentf-ido-find-file)
+(global-set-key (kbd "C-c C-f") 'recentf-ido-find-file)
 
 ;;ibuffer
 (require 'init-ibuffer)
