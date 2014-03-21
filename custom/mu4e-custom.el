@@ -39,11 +39,7 @@
 (setq message-send-mail-function 'message-send-mail-with-sendmail
       sendmail-program "/usr/local/bin/msmtp")
 
-;; something about ourselves
-(setq
- user-mail-address "anton@ilyfa.cc"
- user-full-name "anton"
- message-signature nil)
+(setq message-signature nil)
 
 (setq message-sendmail-extra-arguments '("-a" "ilyfa"))
 
