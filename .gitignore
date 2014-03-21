@@ -30,3 +30,4 @@ offlineimap.*
 /custom/sprintly-mode-setup.el
 /custom/sprintly-org/
 /mthesaur.txt.cache
+/var/
