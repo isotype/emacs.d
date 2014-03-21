@@ -1,5 +1,11 @@
 ;;; init-appearance.el --- 
-;; 
+;;
+;;; Table of Contents:
+;;  [[Commentary]]
+;;  [[Change Log]]
+;;  [[License]]
+;;  [[Code]]
+;;
 ;; Filename: init-appearance.el
 ;; Description: Emacs Look-n-feel yo! 
 ;; Author: y_pe
@@ -7,45 +13,45 @@
 ;; Created: Mon Mar  3 09:48:41 2014 (+0000)
 ;; Version: 0.1
 ;; Package-Requires: ()
-;; Last-Updated: Sat Mar  8 18:22:55 2014 (+0000)
-;;           By: anton
-;;     Update #: 4
-;; URL: isoty.pe
-;; Doc URL: https://github.com/isotype/emacs.d
+;; Last-Updated: Fri Mar 21 22:26:07 2014 (+0000)
+;;           By: y_pe
+;;     Update #: 7
+;; URL: [[http://isoty.pe]]
+;; Doc URL: [[https://github.com/isotype/emacs.d]]
 ;; Keywords: Emacs, init, appearence
 ;; Compatibility: Emacs 24++
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
-;;; Commentary: 
+;;; [[<Commentary]] 
 ;;  This is where all the pretty glitz and glam of emacs happens
 ;;  with customizations to make everything look a little nicer.
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
-;;; Change Log:
+;;; [[<Change Log]]
 ;;  - Added pretty mode and symbols
 ;;  - Added OSX mouse scroll stuff
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; [[<License]]
+;;  This program is free software; you can redistribute it and/or
+;;  modify it under the terms of the GNU General Public License as
+;;  published by the Free Software Foundation; either version 3, or
+;;  (at your option) any later version.
 ;; 
-;; This program is free software; you can redistribute it and/or
-;; modify it under the terms of the GNU General Public License as
-;; published by the Free Software Foundation; either version 3, or
-;; (at your option) any later version.
-;; 
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-;; General Public License for more details.
-;; 
-;; You should have received a copy of the GNU General Public License
-;; along with this program; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth
-;; Floor, Boston, MA 02110-1301, USA.
-;; 
+;;  This program is distributed in the hope that it will be useful,
+;;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;;  General Public License for more details.
+;;  
+;;  You should have received a copy of the GNU General Public License
+;;  along with this program; see the file COPYING.  If not, write to
+;;  the Free Software Foundation, Inc., 51 Franklin Street, Fifth
+;;  Floor, Boston, MA 02110-1301, USA.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
-;;; Code:
+;;; [[<Code]]
 (require 'pretty-mode)
 (global-pretty-mode t)
 
@@ -76,6 +82,12 @@
 "Examples Line below ^L (C-q C-l)"
 
 
+;;Highlight fixme, todo, XXX, @@@
+(require 'fixmee)
+(global-fixmee-mode 1)
+
+(require 'wiki-nav)
+(global-wiki-nav-mode 1)
 
 (provide 'init-appearance)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
