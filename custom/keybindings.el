@@ -17,6 +17,9 @@
 ;;Quick Open init.el C-x r j e
 (set-register ?e (cons 'file "~/.emacs.d/init.el"))
 
+;;Quick open keybindings
+(set-register ?k (cons 'file "~/custom/keybindings.el"))
+
 ;;Quick Open Cask
 (set-register ?c (cons 'file "~/.emacs.d/Cask"))
 
