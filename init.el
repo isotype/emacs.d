@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Sat Mar  8 18:35:47 2014 (+0000)
-;;            By: anton
-;;      Update #: 131                                                    ;;
+;;  Last-Updated: Fri Mar 21 18:07:37 2014 (+0000)
+;;            By: y_pe
+;;      Update #: 154                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -50,6 +50,11 @@
 ;;                                                                      ;;
 ;; ; Code:                                                              ;;
 ;; -------------------------------------------------------------------- ;;
+
+(setq
+ user-mail-address "anton@isoty.pe"
+ user-full-name "y_pe")
+
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
 
 (require 'init-benchmarking) ;; Measure startup time
@@ -297,6 +302,9 @@
 ;;Git
 (require 'init-git)
 
+;;Dash
+(require 'init-dash)
+
 ;;Rainbow Delimiter
 (require 'rainbow-delimiters)
 (global-rainbow-delimiters-mode t)
@@ -360,6 +368,7 @@
 ;;(load "y_pe-w3m")
 
 ;;Tabs
+;; Currently Disabled due to display lag issues
 (load "tabbar-custom")
 
 ;;Auto Header
@@ -375,6 +384,9 @@
 
 ;;Markdown mode
 (require 'init-markdown)
+
+;;LATEX
+(require 'init-latex)
 
 ;;Sprint.ly private stuff
 (load "sprintly-mode-setup")
@@ -441,15 +453,17 @@
 (unless (server-running-p)
   (server-start))
 
-
 ;;Set/Refresh Font
 ;;Font
-;;(setq default-frame-alist '((font . "Fira Mono-14")))
+;;(setq default-frame-alist '(font . "Fira Mono-16"))
 (set-face-attribute 'default nil
-                    :family "Fira Mono" :height 145 :weight 'bold)
+                    :family "Fira Mono"
+		    :height 145
+		    :weight 'bold)
 
 ;;----------------------------------------------------------------------------
-;; Variables configured via the interactive 'customize' interface
+
+;; variables configured via the interactive 'customize' interface
 ;;----------------------------------------------------------------------------
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
