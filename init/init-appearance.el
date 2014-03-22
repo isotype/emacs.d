@@ -1,11 +1,5 @@
 ;;; init-appearance.el --- 
 ;;
-;;; Table of Contents:
-;;  [[Commentary]]
-;;  [[Change Log]]
-;;  [[License]]
-;;  [[Code]]
-;;
 ;; Filename: init-appearance.el
 ;; Description: Emacs Look-n-feel yo! 
 ;; Author: y_pe
@@ -13,28 +7,29 @@
 ;; Created: Mon Mar  3 09:48:41 2014 (+0000)
 ;; Version: 0.1
 ;; Package-Requires: ()
-;; Last-Updated: Fri Mar 21 22:26:07 2014 (+0000)
+;; Last-Updated: Sat Mar 22 13:43:35 2014 (+0000)
 ;;           By: y_pe
-;;     Update #: 7
-;; URL: [[http://isoty.pe]]
-;; Doc URL: [[https://github.com/isotype/emacs.d]]
+;;     Update #: 8
+;; URL: http://isoty.pe
+;; Doc URL: https://github.com/isotype/emacs.d
 ;; Keywords: Emacs, init, appearence
 ;; Compatibility: Emacs 24++
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
-;;; [[<Commentary]] 
+;;; Commentary
 ;;  This is where all the pretty glitz and glam of emacs happens
 ;;  with customizations to make everything look a little nicer.
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
-;;; [[<Change Log]]
+;;; Change Log
 ;;  - Added pretty mode and symbols
 ;;  - Added OSX mouse scroll stuff
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;;; [[<License]]
+;;; License
 ;;  This program is free software; you can redistribute it and/or
 ;;  modify it under the terms of the GNU General Public License as
 ;;  published by the Free Software Foundation; either version 3, or
@@ -51,7 +46,7 @@
 ;;  Floor, Boston, MA 02110-1301, USA.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
-;;; [[<Code]]
+;;; Code
 (require 'pretty-mode)
 (global-pretty-mode t)
 
