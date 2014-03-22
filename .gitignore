@@ -31,3 +31,5 @@ offlineimap.*
 /custom/sprintly-org/
 /mthesaur.txt.cache
 /var/
+/#init.el#
+/.#init.el
