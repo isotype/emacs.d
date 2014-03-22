@@ -8,9 +8,9 @@
 ;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
 ;;  Version:                                                            ;;
 ;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Fri Mar 21 21:59:54 2014 (+0000)
+;;  Last-Updated: Sat Mar 22 15:51:58 2014 (+0000)
 ;;            By: y_pe
-;;      Update #: 155                                                    ;;
+;;      Update #: 156                                                    ;;
 ;;  URL: isoty.pe                                                       ;;
 ;;  Doc URL: built-in                                                   ;;
 ;;  Keywords: dotemacs, init, custom                                    ;;
@@ -88,33 +88,8 @@
 ;;No annoy emacs beep
 (setq ring-bell-function #'ignore)
 
-;;Theme
-(load-theme 'solarized-dark t)
-
 ;;Customizations
 (add-to-list 'load-path (expand-file-name "custom" user-emacs-directory))
-
-;;Powerline instead of modeline
-(require 'powerline)
-(powerline-default-theme)
-(setq powerline-color1 "#073642")
-(setq powerline-color2 "#002B36")
-
-(set-face-attribute 'mode-line nil
-                    :foreground "#fdf6e3"
-                    :background "#2aa198"
-                    :box nil
-		    :inverse-video nil)
-(set-face-attribute 'mode-line-inactive nil
-		    :foreground "#586e75"
-                    :background "#002b36"
-                    :box nil)
-
-;;Wrap Text
-(global-visual-line-mode 1)
-
-;;Highlight cursor line
-(global-hl-line-mode 1)
 
 ;;System setups
 (set-language-environment 'utf-8)
@@ -124,9 +99,6 @@
 (delete-selection-mode t)
 (transient-mark-mode t)
 
-;;Column numbers in bottom menu
-(column-number-mode 1)
-
 ;;Keep a list of recently opened files
 (require 'recentf)
 (setq recentf-max-saved-items 200
@@ -135,12 +107,6 @@
 
 ;;Winner Mode
 (winner-mode 1)
-
-;;Removes annoying bar at top
-(tool-bar-mode -1)
-
-;;Remove Scroll bar
-(scroll-bar-mode -1)
 
 ;;Auto-insert/close bracket pairs
 (electric-pair-mode 1)
