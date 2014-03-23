@@ -1,60 +1,16 @@
-;; -------------------------------------------------------------------- ;;
-;; ; init.el ---                                                        ;;
-;;                                                                      ;;
-;;  Filename: init.el                                                   ;;
-;;  Description:                                                        ;;
-;;  Author: y_pe                                                        ;;
-;;  Maintainer:                                                         ;;
-;;  Created: Tue Feb 11 16:53:36 2014 (+0000)                           ;;
-;;  Version:                                                            ;;
-;;  Package-Requires: ()                                                ;;
-;;  Last-Updated: Sat Mar 22 15:51:58 2014 (+0000)
-;;            By: y_pe
-;;      Update #: 156                                                    ;;
-;;  URL: isoty.pe                                                       ;;
-;;  Doc URL: built-in                                                   ;;
-;;  Keywords: dotemacs, init, custom                                    ;;
-;;  Compatibility:                                                      ;;
-;;  See various modes for compatibility                                 ;;
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;
-;;                                                                      ;;
-;; ; Commentary:                                                        ;;
-;;   emacs customizations and defuns                                    ;;
-;;                                                                      ;;
-;;                                                                      ;;
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;
-;;                                                                      ;;
-;; ; Change Log:                                                        ;;
-;;   - Added file header                                                ;;
-;;   - Change tabbar keybindings                                        ;;
-;;   - Added Multi-term, and multi-term-setup.el                        ;;
-;;                                                                      ;;
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;
-;;                                                                      ;;
-;;  This program is free software; you can redistribute it and/or       ;;
-;;  modify it under the terms of the GNU General Public License as      ;;
-;;  published by the Free Software Foundation; either version 3, or     ;;
-;;  (at your option) any later version.                                 ;;
-;;                                                                      ;;
-;;  This program is distributed in the hope that it will be useful,     ;;
-;;  but WITHOUT ANY WARRANTY; without even the implied warranty of      ;;
-;;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU   ;;
-;;  General Public License for more details.                            ;;
-;;                                                                      ;;
-;;  You should have received a copy of the GNU General Public License   ;;
-;;  along with this program; see the file COPYING.  If not, write to    ;;
-;;  the Free Software Foundation, Inc., 51 Franklin Street, Fifth       ;;
-;;  Floor, Boston, MA 02110-1301, USA.                                  ;;
-;;                                                                      ;;
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;
-;;                                                                      ;;
-;; ; Code:                                                              ;;
-;; -------------------------------------------------------------------- ;;
-
-(setq
- user-mail-address "anton@isoty.pe"
- user-full-name "y_pe")
-
+;;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-  ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Author: y_pe <anton@isoty.pe>                                  ;;;
+;;; URL: http://isoty.pe                                           ;;;
+;;; Created: 01-01-2013                                            ;;;
+;;; Last-Updated: 23-03-2014                                       ;;;
+;;;   By: y_pe <anton@isoty.pe>                                    ;;;
+;;;                                                                ;;;
+;;; Filename: init                                                 ;;;
+;;; Version:                                                       ;;;
+;;; Description:                                                   ;;;
+;;;                                                                ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
 
 (require 'init-benchmarking) ;; Measure startup time
@@ -79,9 +35,13 @@
 ;;https://github.com/rdallasgray/pallet
 (require 'pallet)
 
+(setq
+ user-mail-address "anton@isoty.pe"
+ user-full-name "y_pe")
+
 (require 'init-frame-hooks)
 (require 'init-xterm)
-
+(require 'fold-dwim)
 ;;Appearance Setup
 (require 'init-appearance)
 
@@ -121,10 +81,6 @@
 (display-time-mode 1)
 (setq display-time-day-and-date t)
 (setq display-time-use-mail-icon t)
-
-;;Don't display battery life
-(display-battery-mode -1)
-(size-indication-mode -1)
 
 ;;Delete to trash
 (setq delete-by-moving-to-trash t)
