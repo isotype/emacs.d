@@ -7,8 +7,8 @@
 ;;;   By: y_pe <anton@isoty.pe>                                    ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
-;;; Version:                                                       ;;;
-;;; Description:                                                   ;;;
+;;; Version: 0.0.1                                                 ;;;
+;;; Description: Emacs init                                        ;;;
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
