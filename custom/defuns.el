@@ -91,10 +91,32 @@ source: http://stackoverflow.com/questions/6762686/prevent-emacs-from-asking-mod
     (add-hook 'erc-text-matched-hook 'erc-terminal-notifier-text-matched))
 
 
+;;String Manipulation
+(setq custom/fill-length 70)
 
+(defun custom/length (&rest rest)
+  "Summed length of all the strings/lists in `rest'."
+  (apply '+ (mapcar 'length rest)))
 
+(defun custom/fill-str (delim &optional total &rest str)
+  (let* ((total-len (or total
+                        custom/fill-length))
+         (str-len (or (apply 'custom/length str)
+                      0))
+         (rem-length (- total-len str-len)))
+    (if (> rem-length 0)
+        (make-string rem-length delim)
+      "")))
 
+(defun custom/aligned-str (pre &rest str &optional total)
+  (let* ((l (car (last str)))
+         (total (unless (stringp l) l))
+         (str   (replace-regexp-in-string
+                 "\\` ?\\| ?$" " "
+                 (apply 'concat (remove-if-not 'stringp str)))))
+    (concat pre str
+            (custom/fill-str ?\s total pre str pre)
+            pre)))
 
-
-
-
+(defun custom/file-name ()
+  (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))
