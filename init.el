@@ -1,15 +1,16 @@
 ;;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-  ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Author: y_pe <anton@isoty.pe>                                  ;;;
+;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
-;;; Created: 01-01-2013                                            ;;;
+;;; Created: 23-03-2014                                            ;;;
 ;;; Last-Updated: 23-03-2014                                       ;;;
-;;;   By: y_pe <anton@isoty.pe>                                    ;;;
+;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
-;;; Version: 0.0.1                                                 ;;;
-;;; Description: Emacs init                                        ;;;
+;;; Version:                                                       ;;;
+;;; Description:                                                   ;;;
 ;;;                                                                ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
 
@@ -37,7 +38,7 @@
 
 (setq
  user-mail-address "anton@isoty.pe"
- user-full-name "y_pe")
+ user-full-name "Anton Strilchuk")
 
 (require 'init-frame-hooks)
 (require 'init-xterm)

@@ -1,10 +1,10 @@
 ;;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-  ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Author: y_pe <anton@isoty.pe>                                  ;;;
+;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 23-03-2014                                            ;;;
 ;;; Last-Updated: 23-03-2014                                       ;;;
-;;;   By: y_pe <anton@isoty.pe>                                    ;;;
+;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: header_setup                                         ;;;
 ;;; Version:                                                       ;;;
@@ -15,7 +15,6 @@
 (require 'header2)
 
 (setq
- custom-user-name "y_pe"
  header-date-format	"%d-%m-%Y"
  header-max 5000
  header-copyright-notice nil
@@ -69,7 +68,7 @@
                          "; tab-width: 2; indent-tabs-mode:nil; -*-"))
 
 (defun custom/user-str ()
-  (concat custom-user-name " <" user-mail-address ">"))
+  (concat user-full-name " <" user-mail-address ">"))
 
 (defun header-author ()
   (custom/insert-aligned "Author: " (custom/user-str)))
