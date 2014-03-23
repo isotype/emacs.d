@@ -7,40 +7,44 @@
 ;;;   By: y_pe <anton@isoty.pe>                                    ;;;
 ;;;                                                                ;;;
 ;;; Filename: header_setup                                         ;;;
-;;; Version: 0.0.1                                                 ;;;
+;;; Version:                                                       ;;;
 ;;; Description:                                                   ;;;
 ;;;                                                                ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'header2)
 
 (setq
- custom-user-name		"y_pe"
- header-date-format           	"%d-%m-%Y"
- header-max 			5000
- header-copyright-notice	nil
- header-url-str			"http://isoty.pe"
+ custom-user-name "y_pe"
+ header-date-format	"%d-%m-%Y"
+ header-max 5000
+ header-copyright-notice nil
+ header-url-str "http://isoty.pe"
  make-header-hook '(
-		    custom/header-prefix-string
-		    header-mode-line
-		    header-end-line
-		    header-author
-		    header-url
-		    header-copyright
-		    header-creation-date
-		    header-modification-date
-		    header-modification-author
-		    header-blank
-		    header-file-name
-		    header-version
-		    header-description
-		    header-lib-requires
-		    header-end-line
-		    ))
+                    custom/header-prefix-string
+                    header-mode-line
+                    header-end-line
+                    header-author
+                    header-url
+                    header-copyright
+                    header-creation-date
+                    header-modification-date
+                    header-modification-author
+                    header-blank
+                    header-file-name
+                    header-version
+                    header-description
+                    header-lib-requires
+                    header-end-line
+                    ;;TODO header-license
+                    header-end-line
+                    ))
 ;;; From: https://github.com/ahilsend/dotfiles/blob/master/.emacs.d/rc/rc-header2.el
 (defun custom/header-prefix-string ()
   (setq header-prefix-string
         (pcase  major-mode
           (`c-mode           "///")
+          (`arduino-mode		 "///")
           (`c++-mode         "///")
           (`conf-mode        "##")
           (`conf-colon-mode  "##")
@@ -102,6 +106,39 @@
 
 (defun header-end-line ()
   (insert (custom/fill-str (nth 0 (string-to-list header-prefix-string))) "\n"))
+
+;;;FIXME custom header license
+(setq header-license
+      "Distributed under an [MIT-style][license] license.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files \(the \"Software\"), to deal with
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+- Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimers.
+- Redistributions in binary form must reproduce the above copyright notice, this
+  list of conditions and the following disclaimers in the documentation and/or
+  other materials provided with the distribution.
+- Neither the names of the copyright holders, nor the names of the authors, nor
+  the names of other contributors may be used to endorse or promote products
+  derived from this Software without specific prior written permission.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE CONTRIBUTORS
+OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
+
+\[license]: http://www.opensource.org/licenses/ncsa")
+
+(defun header-license ()
+  "Insert license"
+   (custom/insert-aligned (split-string header-license)))
 
 ;;; Update header
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
