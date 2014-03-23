@@ -7,9 +7,9 @@
 ;; Created: Mon Mar  3 09:48:41 2014 (+0000)
 ;; Version: 0.1
 ;; Package-Requires: ()
-;; Last-Updated: Sat Mar 22 13:43:35 2014 (+0000)
+;; Last-Updated: Sat Mar 22 16:53:22 2014 (+0000)
 ;;           By: y_pe
-;;     Update #: 8
+;;     Update #: 14
 ;; URL: http://isoty.pe
 ;; Doc URL: https://github.com/isotype/emacs.d
 ;; Keywords: Emacs, init, appearence
@@ -47,6 +47,50 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
 ;;; Code
+
+;;; Color-theme
+(defun light ()
+  (interactive)
+  (load-theme 'solarized-light t))
+
+(defun dark ()
+  (interactive)
+  (load-theme 'solarized-dark t))
+
+;;Default theme
+(dark)
+
+;;;Powerline
+(require 'powerline)
+(powerline-default-theme)
+(setq powerline-color1 "#073642")
+(setq powerline-color2 "#002B36")
+
+(set-face-attribute 'mode-line nil
+                    :foreground "#fdf6e3"
+                    :background "#2aa198"
+                    :box nil
+		    :inverse-video nil)
+(set-face-attribute 'mode-line-inactive nil
+		    :foreground "#586e75"
+                    :background "#002b36"
+                    :box nil)
+
+;;; Wrap Text
+(global-visual-line-mode 1)
+
+;;; Highlight Cursor Line
+(global-hl-line-mode 1)
+
+;;; Column Numbers
+(column-number-mode 1)
+
+;;; Remove Toolbar
+(tool-bar-mode -1)
+
+;;; Remove scrollbar
+(scroll-bar-mode -1)
+
 (require 'pretty-mode)
 (global-pretty-mode t)
 
@@ -55,6 +99,10 @@
 
 ;;Less Flickery Display
 (setq redisplay-dont-pause t)
+
+;;Don't display battery life
+(display-battery-mode -1)
+(size-indication-mode -1)
 
 ;; Nicer scrolling with mouse wheel/trackpad.
 (unless (and (boundp 'mac-mouse-wheel-smooth-scroll) mac-mouse-wheel-smooth-scroll)
@@ -73,16 +121,27 @@
   (pretty-symbols-mode -1))
 
 ;;Page break line mode
-(turn-on-page-break-lines-mode)
+(require 'page-break-lines)
+(global-page-break-lines-mode)
 "Examples Line below ^L (C-q C-l)"
 
 
-;;Highlight fixme, todo, XXX, @@@
-(require 'fixmee)
-(global-fixmee-mode 1)
+;;Highlight
+;;FIXME
+;;TODO
+(require 'fic-ext-mode)
+(defun fic-ext-mode-modes ()
+  (interactive)
+  (add-hook 'emacs-lisp-mode-hook 'fic-ext-mode)
+  (add-hook 'lisp-mode-hook 'fic-ext-mode)
+  (add-hook 'web-mode-hook 'fic-ext-mode)
+  (add-hook 'c-mode-common-hook 'fic-ext-mode)
+  (add-hook 'python-mode-hook 'fic-ext-mode))
 
-(require 'wiki-nav)
-(global-wiki-nav-mode 1)
+(fic-ext-mode-modes)
+
+;;(require 'wiki-nav)
+;;(global-wiki-nav-mode)
 
 (provide 'init-appearance)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
