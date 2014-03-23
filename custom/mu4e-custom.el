@@ -1,7 +1,7 @@
 (require 'mu4e)
 (require 'org-mu4e)
-;; (require 'mu4e-maildirs-extension)
-;; (mu4e-maildirs-extension)
+;;(require 'mu4e-maildirs-extension)
+;;(mu4e-maildirs-extension)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; defaults
 (setq mu4e-maildir "~/.mail/anton-ilyfa.cc")
@@ -99,14 +99,13 @@
 (setq gnus-dired-mail-mode 'mu4e-user-agent)
 (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 (setq mu4e-update-interval 300) ;; update every 5 minutes
-;; (add-hook 'mu4e-index-updated-hook 
-;; 	  '(lambda () 
-;; 	     (tn-notify "Mail has been updated next update in 5 minutes" "MU4E" "New/Updated Mail")))
+(add-hook 'mu4e-index-updated-hook 
+	  '(lambda () 
+	     (tn-notify "Mail has been updated, next update in 3 minutes" "MU4E" "New/Updated Mail")))
 
 ;;MU4E Maildirs Extentions
 ;; (setq mu4e-maildirs-extension-insert-before-str "\n  Bookmarks")
-;; (setq mu4e-maildirs-extension-title " Folders\n")
-;; (setq mu4e-maildirs-extension-maildir-separator "\n\t∑ ")
+;; (setq mu4e-maildirs-extension-maildir-separator "∑ ")
 ;; (setq mu4e-maildirs-extension-submaildir-separator "\t ∫ ")
 
 (defalias 'org-mail 'org-mu4e-compose-org-mode)
