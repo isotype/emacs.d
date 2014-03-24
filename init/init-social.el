@@ -23,7 +23,7 @@
  twittering-enable-unread-status-notifier t ; unread status in mode line
 )
 
-;; Spell check tweets
+;;; Spell Checking
 (add-hook 'twittering-edit-mode-hook
           (lambda ()
             (ispell-minor-mode)
