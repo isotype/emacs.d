@@ -14,6 +14,7 @@
 
 ;;; TWITTER
 ;; Configurations for twittering-mode
+;; Package from MELPA
 (require 'twittering-mode)
 (setq
  twittering-use-master-password t ; write to ~/.twittering-mode.gpg
