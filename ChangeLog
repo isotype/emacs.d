@@ -1,0 +1,5 @@
+2014-03-24  Anton Strilchuk  <anton@isoty.pe>
+
+	* init/init-appearance.el: Moved Powerline, Color-Theme, and
+	tabbar color setup to init/init-theme.el
+
