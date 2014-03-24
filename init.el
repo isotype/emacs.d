@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 23-03-2014                                            ;;;
-;;; Last-Updated: 23-03-2014                                       ;;;
+;;; Last-Updated: 24-03-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -43,6 +43,7 @@
 (require 'init-xterm)
 (require 'fold-dwim)
 ;;Appearance Setup
+(require 'init-theme)
 (require 'init-appearance)
 
 ;;No annoy emacs beep
@@ -226,6 +227,9 @@
 
 ;;Dash
 (require 'init-dash)
+
+;;Social Networking
+(require 'init-social)
 
 ;;Rainbow Delimiter
 (require 'rainbow-delimiters)
