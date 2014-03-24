@@ -1,80 +1,19 @@
-;;; init-appearance.el --- 
-;;
-;; Filename: init-appearance.el
-;; Description: Emacs Look-n-feel yo! 
-;; Author: y_pe
-;; Maintainer: y_pe
-;; Created: Mon Mar  3 09:48:41 2014 (+0000)
-;; Version: 0.1
-;; Package-Requires: ()
-;; Last-Updated: Sat Mar 22 16:53:22 2014 (+0000)
-;;           By: y_pe
-;;     Update #: 14
-;; URL: http://isoty.pe
-;; Doc URL: https://github.com/isotype/emacs.d
-;; Keywords: Emacs, init, appearence
-;; Compatibility: Emacs 24++
-;; 
+;;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-  ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;;; Commentary
-;;  This is where all the pretty glitz and glam of emacs happens
-;;  with customizations to make everything look a little nicer.
-;; 
+;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
+;;; URL: http://isoty.pe                                           ;;;
+;;; Created: 24-03-2014                                            ;;;
+;;; Last-Updated: 24-03-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;;;                                                                ;;;
+;;; Filename: init-appearance                                      ;;;
+;;; Description: Setup for the look and feel of emacs              ;;;
+;;; Files Required: init-theme                                     ;;;
+;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;;; Change Log
-;;  - Added pretty mode and symbols
-;;  - Added OSX mouse scroll stuff
-;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; License
-;;  This program is free software; you can redistribute it and/or
-;;  modify it under the terms of the GNU General Public License as
-;;  published by the Free Software Foundation; either version 3, or
-;;  (at your option) any later version.
-;; 
-;;  This program is distributed in the hope that it will be useful,
-;;  but WITHOUT ANY WARRANTY; without even the implied warranty of
-;;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-;;  General Public License for more details.
-;;  
-;;  You should have received a copy of the GNU General Public License
-;;  along with this program; see the file COPYING.  If not, write to
-;;  the Free Software Foundation, Inc., 51 Franklin Street, Fifth
-;;  Floor, Boston, MA 02110-1301, USA.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;;; Code
-
-;;; Color-theme
-(defun light ()
-  (interactive)
-  (load-theme 'solarized-light t))
-
-(defun dark ()
-  (interactive)
-  (load-theme 'solarized-dark t))
-
 ;;Default theme
-(dark)
-
-;;;Powerline
-(require 'powerline)
-(powerline-default-theme)
-(setq powerline-color1 "#073642")
-(setq powerline-color2 "#002B36")
-
-(set-face-attribute 'mode-line nil
-                    :foreground "#fdf6e3"
-                    :background "#2aa198"
-                    :box nil
-		    :inverse-video nil)
-(set-face-attribute 'mode-line-inactive nil
-		    :foreground "#586e75"
-                    :background "#002b36"
-                    :box nil)
+(light)
 
 ;;; Wrap Text
 (global-visual-line-mode 1)
@@ -129,16 +68,15 @@
 ;;Highlight
 ;;FIXME
 ;;TODO
-(require 'fic-ext-mode)
-(defun fic-ext-mode-modes ()
-  (interactive)
-  (add-hook 'emacs-lisp-mode-hook 'fic-ext-mode)
-  (add-hook 'lisp-mode-hook 'fic-ext-mode)
-  (add-hook 'web-mode-hook 'fic-ext-mode)
-  (add-hook 'c-mode-common-hook 'fic-ext-mode)
-  (add-hook 'python-mode-hook 'fic-ext-mode))
-
-(fic-ext-mode-modes)
+;; (require 'fic-ext-mode)
+;; (defun fic-ext-mode-modes ()
+;;   (interactive)
+;;   (add-hook 'emacs-lisp-mode-hook 'fic-ext-mode)
+;;   (add-hook 'lisp-mode-hook 'fic-ext-mode)
+;;   (add-hook 'web-mode-hook 'fic-ext-mode)
+;;   (add-hook 'c-mode-common-hook 'fic-ext-mode)
+;;   (add-hook 'python-mode-hook 'fic-ext-mode))
+;;(fic-ext-mode-modes)
 
 ;;(require 'wiki-nav)
 ;;(global-wiki-nav-mode)
