@@ -35,3 +35,4 @@ offlineimap.*
 /var/
 /#init.el#
 /.#init.el
+/ChangeLog
