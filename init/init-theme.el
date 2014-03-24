@@ -53,3 +53,5 @@
                       :foreground "#93a1a1"
                       :background "#586e75"
                       :box nil))
+
+(provide 'init-theme)
