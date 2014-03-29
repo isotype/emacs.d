@@ -55,9 +55,6 @@
 ;;Comment out
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
-;;Search
-(define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
-
 ;;SMEX Keys
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "C-x x") 'smex)
