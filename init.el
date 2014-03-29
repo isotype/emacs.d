@@ -45,7 +45,7 @@
 ;;Appearance Setup
 (require 'init-theme)
 (require 'init-appearance)
-
+(require 'init-edit-utils)
 ;;No annoy emacs beep
 (setq ring-bell-function #'ignore)
 
@@ -109,16 +109,16 @@
 (projectile-global-mode)
 
 ;;Sauron events tracking
-(require 'sauron)
-(setq sauron-separate-frame nil
-      sauron-hide-mode-line t
-      sauron-sticky-frame t ;Sauron window appear on every (virtual) desktop
-      sauron-dbus-cookie t
-      sauron-max-line-length 120)
-(sauron-start)
+;; (require 'sauron)
+;; (setq sauron-separate-frame nil
+;;       sauron-hide-mode-line t
+;;       sauron-sticky-frame t ;Sauron window appear on every (virtual) desktop
+;;       sauron-dbus-cookie t
+;;       sauron-max-line-length 120)
+;; (sauron-start)
 
-(global-set-key (kbd "C-c s") 'sauron-toggle-hide-show)
-(global-set-key (kbd "C-c t") 'sauron-clear)
+;; (global-set-key (kbd "C-c s") 'sauron-toggle-hide-show)
+;; (global-set-key (kbd "C-c t") 'sauron-clear)
 
 ;;Load GTAGS for getting tags from source files
 (setq load-path (cons "/usr/local/Cellar/global/6.2.9/share/gtags/" load-path))
