@@ -3,12 +3,11 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 23-03-2014                                            ;;;
-;;; Last-Updated: 23-03-2014                                       ;;;
+;;; Last-Updated: 28-03-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: header_setup                                         ;;;
-;;; Version:                                                       ;;;
-;;; Description:                                                   ;;;
+;;; Description: Auto Make File Header                             ;;;
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -176,5 +175,4 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
 
 ;;; Modes
 (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
-(add-hook 'lisp-mode-hook 'auto-make-header)
 (add-hook 'c-mode-common-hook   'auto-make-header)
