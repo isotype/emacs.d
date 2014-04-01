@@ -37,3 +37,5 @@ offlineimap.*
 /.#init.el
 /ChangeLog
 /init/init-keys.el
+/init/init-org-page.el
+/from-git/
