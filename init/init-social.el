@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;;; Last-Updated: 24-03-2014                                       ;;;
+;;; Last-Updated: 01-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-social                                          ;;;
@@ -22,6 +22,9 @@
  twittering-use-icon-storage t ; store icons to allow quicker loading
  twittering-enable-unread-status-notifier t ; unread status in mode line
 )
+
+;; Twitter Bit.ly Link Shortening
+(setq twittering-tinyurl-service 'bit.ly)
 
 ;;; Spell Checking
 (add-hook 'twittering-edit-mode-hook
