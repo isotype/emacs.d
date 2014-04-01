@@ -36,3 +36,4 @@ offlineimap.*
 /#init.el#
 /.#init.el
 /ChangeLog
+/init/init-keys.el
