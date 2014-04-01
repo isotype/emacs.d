@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 23-03-2014                                            ;;;
-;;; Last-Updated: 29-03-2014                                       ;;;
+;;; Last-Updated: 01-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -39,6 +39,7 @@
  user-mail-address "anton@isoty.pe"
  user-full-name "Anton Strilchuk")
 
+(require 'init-keys) ; Keys and Passwords, do not include in public git
 (require 'init-frame-hooks)
 (require 'init-xterm)
 (require 'fold-dwim)
@@ -347,9 +348,13 @@
           (lambda ()
             (message "init completed in %.2fms"
                      (sanityinc/time-subtract-millis after-init-time before-init-time))))
+
+;;; Key Frequency Usage Statistics
+(require 'keyfreq)
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
-
 ;; Local Variables:
 ;; coding: utf-8
 ;; no-byte-compile: t
