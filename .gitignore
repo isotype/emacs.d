@@ -39,3 +39,6 @@ offlineimap.*
 /init/init-keys.el
 /init/init-org-page.el
 /from-git/
+/init/init-contacts.el
+/oauth2.plstore
+/url/
