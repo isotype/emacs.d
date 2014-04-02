@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 28-03-2014                                       ;;;
+;;; Last-Updated: 01-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-search                                          ;;;
@@ -39,7 +39,6 @@
   (isearch-search-and-update))
 
 (define-key isearch-mode-map "\C-\M-w" 'isearch-yank-symbol)
-
 
 ;; http://www.emacswiki.org/emacs/ZapToISearch
 (defun zap-to-isearch (rbeg rend)
@@ -80,5 +79,20 @@ This is useful when followed by an immediate kill."
   (goto-char isearch-other-end))
 
 (define-key isearch-mode-map [(control return)] 'isearch-exit-other-end)
+
+;;Keep a list of recently opened files
+(require 'recentf)
+(setq recentf-max-saved-items 200
+      recentf-max-menu-items 15)
+(recentf-mode +1)
+
+;; Search recent files
+(defun recentf-ido-find-file ()
+  "Find a recent file using ido."
+  (interactive)
+  (let ((file (ido-completing-read "Choose recent file: " (-map 'abbreviate-file-name recentf-list) nil t)))
+    (when file
+      (find-file file))))
+(global-set-key (kbd "C-c f") 'recentf-ido-find-file)
 
 (provide 'init-search)
