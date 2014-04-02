@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 29-03-2014                                       ;;;
+;;; Last-Updated: 01-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-edit-utils                                      ;;;
@@ -11,7 +11,6 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (require 'unfill)
 (require 'whole-line-or-region)
 
@@ -221,7 +220,7 @@
 (require 'guide-key)
 (setq guide-key/guide-key-sequence '("C-x"))
 (setq guide-key/recursive-key-sequence-flag t)
-(setq guide-key/idle-delay 0.5)
+(setq guide-key/idle-delay 1.0)
 (guide-key-mode 1)
 (diminish 'guide-key-mode)
 
