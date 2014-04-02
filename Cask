@@ -1,7 +1,7 @@
-(source org)
-(source marmalade)
-(source melpa)
 (source gnu)
+(source melpa)
+(source marmalade)
+(source org)
 
 (depends-on "ac-helm")
 (depends-on "ac-ispell")
@@ -53,6 +53,7 @@
 (depends-on "gitconfig-mode")
 (depends-on "github-browse-file")
 (depends-on "gitignore-mode")
+(depends-on "google-contacts")
 (depends-on "google-maps")
 (depends-on "guide-key")
 (depends-on "haml-mode")

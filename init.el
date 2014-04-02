@@ -46,8 +46,7 @@
 ;;Appearance Setup
 (require 'init-theme)
 (require 'init-appearance)
-(require 'init-edit-utils)
-;;No annoy emacs beep
+;; No annoy emacs beep
 (setq ring-bell-function #'ignore)
 
 ;;Customizations
@@ -56,12 +55,6 @@
 ;;System setups
 (set-language-environment 'utf-8)
 (prefer-coding-system 'utf-8)
-
-;;Keep a list of recently opened files
-(require 'recentf)
-(setq recentf-max-saved-items 200
-      recentf-max-menu-items 15)
-(recentf-mode +1)
 
 ;;Show current time
 (display-time-mode 1)
@@ -98,6 +91,10 @@
 ;;Search Modes
 (require 'init-search)
 (require 'init-ido)
+
+;; wgrep needed for init-edit-utils
+(require 'wgrep)
+(require 'init-edit-utils)
 
 ;;Drag Stuff is a minor mode for Emacs that makes
 ;;it possible to drag stuff (words, region, lines) around in Emacs
@@ -276,6 +273,7 @@
 
 ;;The Big Giant Org
 (load "org-custom")
+(require 'init-org-page)
 
 ;;Custom Keybindings
 (load "keybindings")
