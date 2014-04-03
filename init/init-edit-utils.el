@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 01-04-2014                                       ;;;
+;;; Last-Updated: 03-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-edit-utils                                      ;;;
@@ -196,6 +196,63 @@
 
 (global-set-key [remap backward-up-list] 'backward-up-sexp) ; C-M-u, C-M-up
 
+;;----------------------------------------------------------------------------
+;; Cut/copy the current line if no region is active
+;;----------------------------------------------------------------------------
+(whole-line-or-region-mode t)
+(diminish 'whole-line-or-region-mode)
+(make-variable-buffer-local 'whole-line-or-region-mode)
+
+(defun suspend-mode-during-cua-rect-selection (mode-name)
+  "Add an advice to suspend `MODE-NAME' while selecting a CUA rectangle."
+  (let ((flagvar (intern (format "%s-was-active-before-cua-rectangle" mode-name)))
+        (advice-name (intern (format "suspend-%s" mode-name))))
+    (eval-after-load 'cua-rect
+      `(progn
+         (defvar ,flagvar nil)
+         (make-variable-buffer-local ',flagvar)
+         (defadvice cua--activate-rectangle (after ,advice-name activate)
+           (setq ,flagvar (and (boundp ',mode-name) ,mode-name))
+           (when ,flagvar
+             (,mode-name 0)))
+         (defadvice cua--deactivate-rectangle (after ,advice-name activate)
+           (when ,flagvar
+             (,mode-name 1)))))))
+
+(suspend-mode-during-cua-rect-selection 'whole-line-or-region-mode)
+
+(defun sanityinc/open-line-with-reindent (n)
+  "A version of `open-line' which reindents the start and end positions.
+If there is a fill prefix and/or a `left-margin', insert them
+on the new line if the line would have been blank.
+With arg N, insert N newlines."
+  (interactive "*p")
+  (let* ((do-fill-prefix (and fill-prefix (bolp)))
+   (do-left-margin (and (bolp) (> (current-left-margin) 0)))
+   (loc (point-marker))
+   ;; Don't expand an abbrev before point.
+   (abbrev-mode nil))
+    (delete-horizontal-space t)
+    (newline n)
+    (indent-according-to-mode)
+    (when (eolp)
+      (delete-horizontal-space t))
+    (goto-char loc)
+    (while (> n 0)
+      (cond ((bolp)
+       (if do-left-margin (indent-to (current-left-margin)))
+       (if do-fill-prefix (insert-and-inherit fill-prefix))))
+      (forward-line 1)
+      (setq n (1- n)))
+    (goto-char loc)
+    (end-of-line)
+    (indent-according-to-mode)))
+
+(global-set-key (kbd "C-o") 'sanityinc/open-line-with-reindent)
+
+;;----------------------------------------------------------------------------
+;; Random line sorting
+;;----------------------------------------------------------------------------
 (defun sort-lines-random (beg end)
   "Sort lines in region randomly."
   (interactive "r")
