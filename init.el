@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 23-03-2014                                            ;;;
-;;; Last-Updated: 01-04-2014                                       ;;;
+;;; Last-Updated: 03-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -152,6 +152,10 @@
 (after-load "auto-complete"
       (ac-ispell-setup))
 
+;;; Paredit mode
+(require 'init-paredit)
+
+;;; Slime
 (add-hook 'slime-mode-hook 'set-up-slime-ac)
 (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
 (after-load "auto-complete"
