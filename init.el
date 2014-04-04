@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 23-03-2014                                            ;;;
-;;; Last-Updated: 03-04-2014                                       ;;;
+;;; Last-Updated: 04-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -269,6 +269,11 @@
 ;;LATEX
 (require 'init-latex)
 
+;;; Quick create blog post
+;; set posts directory
+(setq ype/posts-directory "~/Dropbox/ype/isotype/content/posts")
+(require 'init-blog-post)
+
 ;;Sprint.ly private stuff
 (load "sprintly-mode-setup")
 
@@ -277,7 +282,6 @@
 
 ;;The Big Giant Org
 (load "org-custom")
-(require 'init-org-page)
 
 ;;Custom Keybindings
 (load "keybindings")
