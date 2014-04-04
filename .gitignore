@@ -42,3 +42,4 @@ offlineimap.*
 /init/init-contacts.el
 /oauth2.plstore
 /url/
+/.bookmarks.el
