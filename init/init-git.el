@@ -65,9 +65,6 @@
   (after-load 'magit
     (add-hook 'magit-mode-hook (lambda () (local-unset-key [(meta h)])))))
 
-;; Convenient binding for vc-git-grep
-(global-set-key (kbd "H-z") 'vc-git-grep)
-
 ;; git-svn support
 (require 'magit-svn)
 (after-load 'magit-key-mode
