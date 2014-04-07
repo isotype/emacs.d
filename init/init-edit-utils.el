@@ -270,7 +270,8 @@ With arg N, insert N newlines."
   (require 'ag)
   (require 'wgrep-ag)
   (setq-default ag-highlight-search t)
-  (global-set-key (kbd "H-q") 'ag-project))
+  (global-set-key (kbd "H-q") 'ag-project)
+  (global-set-key (kbd "H-z") 'projectile-ag))
 
 (require 'highlight-escape-sequences)
 (hes-mode)
