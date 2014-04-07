@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 03-04-2014                                       ;;;
+;;; Last-Updated: 07-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-edit-utils                                      ;;;
@@ -89,6 +89,7 @@
 (winner-mode 1)
 
 ;;Highlight matching parens
+(setq show-paren-style 'expression)
 (show-paren-mode 1)
 
 ;;----------------------------------------------------------------------------
