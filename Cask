@@ -1,7 +1,7 @@
-(source gnu)
-(source melpa)
-(source marmalade)
 (source org)
+(source marmalade)
+(source melpa)
+(source gnu)
 
 (depends-on "ac-helm")
 (depends-on "ac-ispell")
@@ -25,6 +25,7 @@
 (depends-on "cl-lib")
 (depends-on "coffee-mode")
 (depends-on "color-theme-sanityinc-solarized")
+(depends-on "crontab-mode")
 (depends-on "csv-mode")
 (depends-on "csv-nav")
 (depends-on "dash-at-point")
