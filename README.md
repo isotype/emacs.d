@@ -33,4 +33,7 @@ random emacs package install), or you can leave me a comment as an
 
 **y<sub>pe</sub>**
 
+<<<<<<< HEAD:README.md
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/c95170380e20f0e0696a4bc7fab34e2b "githalytics.com")](http://githalytics.com/ype/emacs.d)
+=======
+>>>>>>> parent of 0e336cf... typo change:README.org
