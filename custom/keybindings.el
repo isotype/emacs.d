@@ -38,12 +38,10 @@
   (tabbar-switch-grouping-method '1))
 
 ;;Buffer Switch Remap
-(global-set-key (kbd "C-<right>") 'tabbar-forward-tab)
-(global-set-key (kbd "C-<left>") 'tabbar-backward-tab)
-(global-set-key (kbd "C-=") 'tabbar-forward-group)
-(global-set-key (kbd "C-+") 'tabbar-backward-group)
-(global-set-key (kbd "H-1") 'y_pe/tabbar-group-by-mode)
-(global-set-key (kbd "H-2") 'tabbar-switch-grouping-method)
+(global-set-key (kbd "H-[") 'tabbar-backward-tab)
+(global-set-key (kbd "H-]") 'tabbar-forward-tab)
+(global-set-key (kbd "H-{") 'tabbar-backward-group)
+(global-set-key (kbd "H-}") 'tabbar-forward-group)
 
 ;;Switch between two (or more) emacs windows
 ;;(global-set-key (kbd "C-s-<right>") 'other-frame)
@@ -61,11 +59,11 @@
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;;Yas Keys
-(define-key yas-minor-mode-map [(tab)] nil) ;;Turn off default tab complete
-(define-key yas-minor-mode-map (kbd "TAB") nil) ;;Set tab to yas
-(setq yas/trigger-key (kbd "C-'"))  ;;Set alternate yas key
-(add-hook 'yas/minor-mode-on-hook 
-	  (define-key yas-minor-mode-map yas/trigger-key 'yas-expand))
+;; (define-key yas-minor-mode-map [(tab)] nil) ;;Turn off default tab complete
+;; (define-key yas-minor-mode-map (kbd "TAB") nil) ;;Set tab to yas
+;; (setq yas/trigger-key (kbd "C-'"))  ;;Set alternate yas key
+;; (add-hook 'yas/minor-mode-on-hook
+;;           (define-key yas-minor-mode-map yas/trigger-key 'yas-expand))
 
 ;;Multiple Cursors
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
@@ -99,9 +97,9 @@
 (global-set-key (kbd "C-c c") 'ac-complete-with-helm)
 
 ;;Helm gtags lookup
-(global-set-key (kbd "C-c l") 'helm-gtags-select)
+(global-set-key (kbd "A-j l") 'helm-gtags-select)
 ;;Helm jump to definition
-(global-set-key (kbd "C-c j") 'helm-gtags-find-tag)
+(global-set-key (kbd "A-j j") 'helm-gtags-find-tag)
 
 ;;Flyspell
 (global-set-key (kbd "M-s p") 'ispell-region)
@@ -118,18 +116,6 @@
   (interactive)
   (find-file "/sudo::/etc/passwd"))
 (global-set-key (kbd "H-f") 'y_pe/sudo-find)
-
-;;Solarized light/dark switch
-(defun y_pe/solarize-light-switch ()
-  (interactive)
-  (load-theme solarized-light t))
-
-(defun y_pe/solarize-dark-switch ()
-  (interactive)
-  (load-theme solarized-dark t))
-
-(global-set-key (kbd "H-\-") 'y_pe/solarize-light-switch)
-(global-set-key (kbd "H-=") 'y_pe/solarize-dark-switch)
 
 ;;Reload Browser
 (global-set-key (kbd "C-x C-r") 'y_pe/reload-browser)

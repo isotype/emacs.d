@@ -73,7 +73,7 @@
 ;;ORGFILES
 (setq org-agenda-files
       '("~/Dropbox/ORGS/gtd.org"
-	"~/Dropbox/ORGS/clients/c_homeroom.org"
+        "~/Dropbox/ORGS/gcal.org"
 	"~/Dropbox/ORGS/school/s_main.org"
 	"~/Dropbox/ORGS/refile.org"))
 (setq org-alphabetical-lists t)
@@ -726,6 +726,13 @@
 	(candidates . (lambda ()
 			(all-completions ac-target ac-org-candidates)))))
 
+
+;;ORG GCAL
+(require 'org-gcal)
+(setq org-gcal-client-id "265827312321-r4td9e1i9uphkrb4r28g5c3g0dcbvf03.apps.googleusercontent.com"
+      org-gcal-client-secret "WBjRveYYlBjesQyqJxTB0pyv"
+      org-gcal-file-alist '(("anton@ilyfa.cc" .  "~/Dropbox/ORGS/gcal.org")))
+(run-at-time "30 min" 3600 'org-gcal-fetch)
 ;;TaskJuggler
 (setq org-export-taskjuggler-target-version 3.1)
 ;; :timezone: Europe/London
@@ -756,7 +763,7 @@
   (org-agenda-to-appt))
 ;; Rebuild the reminders everytime the agenda is displayed
 (add-hook 'org-finalize-agenda-hook 'y_pe/org-agenda-to-appt 'append)
-(run-at-time "24:01" 3600 'y_pe/org-agenda-to-appt) ;; update appt list hourly
+(run-at-time "24:01" nil 'y_pe/org-agenda-to-appt) ;; update appt list hourly
 
 ;; set up the call to terminal-notifier
 (defun my-appt-send-notification (title msg)

@@ -1,7 +1,6 @@
 ;;SHRINK MODELINE
 (defvar mode-line-cleaner-alist
   `((auto-complete-mode . " α")
-    (yas-minor-mode . " ¥")
     (paredit-mode . " Ʊ")
     (eldoc-mode . "")
     (abbrev-mode . "")
