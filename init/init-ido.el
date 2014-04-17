@@ -11,7 +11,7 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+(ype/xwindow-check)
 ;;IDO Search
 (require 'flx-ido)
 (ido-mode t)
@@ -32,10 +32,9 @@
 (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
 
 ;; Use ido everywhere
-(unless *is-x-toolkit*
-  (require 'ido-ubiquitous)
-  (ido-ubiquitous-mode 1)
-  (setq ido-ubiquitous-use-new-completing-read 'webjump))
+(require 'ido-ubiquitous)
+(ido-ubiquitous-mode 1)
+(setq ido-ubiquitous-use-new-completing-read 'webjump)
 
 (defun recentf-ido-find-file ()
   "Find a recent file using ido."
