@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 03-04-2014                                            ;;;
-;;; Last-Updated: 04-04-2014                                       ;;;
+;;; Last-Updated: 11-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-blog-post                                       ;;;
@@ -32,20 +32,22 @@ format:        %s
 isonum:        %s
 layout:        %s
 kind:          %s
+comments:      %s
 tags:          %s
 keywords:
 ---"
     (if (string= title "") (buffer-name) title)
     (if (string= subtitle "") (buffer-name) subtitle)
     (user-full-name)
-    (format-time-string (concat (format-time-string "%Y-%m-%d %T")
-                                   ((lambda (x) (concat (substring x 0 3) ":" (substring x 3 5)))
-                                    (format-time-string "%z"))))
+    (format-time-string "%Y-%m-%d")
     (format "Completed") ; status
     (format "org") ; format
     (format "%d" (random* 606)) ; isonum
     (format "post") ; layout
     (format "article") ; kind
+    (when
+        (y-or-n-p "Comments? ")
+      (format "true"))
     (if (string= tags "") "<TODO: insert your tags here>" tags))))
 
 (defun ype/new-post (&optional filename)
