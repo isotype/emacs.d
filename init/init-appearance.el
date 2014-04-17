@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;;; Last-Updated: 31-03-2014                                       ;;;
+;;; Last-Updated: 10-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-appearance                                      ;;;
@@ -12,9 +12,6 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;Default theme
-(light)
-
 ;;; Wrap Text
 (global-visual-line-mode 1)
 
