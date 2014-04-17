@@ -45,3 +45,4 @@ offlineimap.*
 /oauth2.plstore
 /url/
 /.bookmarks.el
+/org-gcal/
