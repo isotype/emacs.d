@@ -12,8 +12,6 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(set-frame-font "Fira Mono-18")
-
 ;;; Character sets
 (defcustom ype/force-default-font-for-symbols nil
   "When non-nil, force Emacs to use your default font for symbols."

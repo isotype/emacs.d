@@ -21,7 +21,7 @@
 
 ;; Test to check if we are using XQuartz, to set correct .emacs.d
 (when *is-x-toolkit*
-    (setq user-emacs-directory "/opt/xwindows/emacs24/share/.emacs.d/"))
+  (setq user-emacs-directory "/opt/xwindows/emacs24/share/.emacs.d/"))
 
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
 
