@@ -17,11 +17,12 @@
 
 (defconst *is-a-mac* (eq system-type 'darwin))
 (defconst *is-x-toolkit* (eq window-system 'x))
+(defconst *is-ns-toolkit* (eq window-system 'ns))
 
 ;; Test to check if we are using XQuartz, to set correct .emacs.d
 (when *is-x-toolkit*
     (setq-default user-emacs-directory "/opt/xwindows/emacs24/share/.emacs.d/"))
-(when *is-a-mac*
+(when *is-ns-toolkit*
   (setq-default user-emacs-directory "~/.emacs.d/"))
 
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
