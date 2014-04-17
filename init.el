@@ -20,11 +20,8 @@
 (defconst *is-ns-toolkit* (eq window-system 'ns))
 
 ;; Test to check if we are using XQuartz, to set correct .emacs.d
-(defun ype/xwindow-check ()
-  (interactive)
-  (when *is-x-toolkit*
-    (setq user-emacs-directory "/opt/xwindows/emacs24/share/.emacs.d/")))
-(ype/xwindow-check)
+(when *is-x-toolkit*
+    (setq user-emacs-directory "/opt/xwindows/emacs24/share/.emacs.d/"))
 
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
 
