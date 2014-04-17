@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 15-04-2014                                       ;;;
+;;; Last-Updated: 17-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-ido                                             ;;;
@@ -32,9 +32,10 @@
 (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
 
 ;; Use ido everywhere
-(require 'ido-ubiquitous)
-(ido-ubiquitous-mode 1)
-(setq ido-ubiquitous-use-new-completing-read 'webjump)
+(unless *is-x-toolkit*
+  (require 'ido-ubiquitous)
+  (ido-ubiquitous-mode 1)
+  (setq ido-ubiquitous-use-new-completing-read 'webjump))
 
 (defun recentf-ido-find-file ()
   "Find a recent file using ido."
