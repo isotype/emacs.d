@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 28-03-2014                                       ;;;
+;;; Last-Updated: 15-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-ido                                             ;;;
@@ -48,7 +48,8 @@
 (require 'init-ibuffer)
 
 ;;SMEX M-x IDO
-(require 'smex)
-(smex-initialize)
+(when (eval-when-compile (>= emacs-major-version 24))
+  (require 'smex)
+  (global-set-key [remap execute-extended-command] 'smex))
 
 (provide 'init-ido)
