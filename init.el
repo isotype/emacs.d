@@ -23,7 +23,7 @@
 (defun ype/xwindow-check ()
   (interactive)
   (when *is-x-toolkit*
-    (setq-default user-emacs-directory "/opt/xwindows/emacs24/share/.emacs.d/")))
+    (setq user-emacs-directory "/opt/xwindows/emacs24/share/.emacs.d/")))
 (ype/xwindow-check)
 
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
