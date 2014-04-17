@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;;; Last-Updated: 24-03-2014                                       ;;;
+;;; Last-Updated: 16-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-theme                                           ;;;
@@ -15,6 +15,9 @@
 (require 'powerline)
 (powerline-vim-theme)
 
+
+(setq solarized-termcolor 16
+      solarized-broken-srgb t)
 ;;; Color-theme
 (defun light ()
   (interactive)
@@ -54,4 +57,6 @@
                       :background "#586e75"
                       :box nil))
 
+
+(load-theme 'solarized-light t)
 (provide 'init-theme)
