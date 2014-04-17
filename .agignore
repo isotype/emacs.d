@@ -1,0 +1,6 @@
+Cask/
+.cask/
+/ac-comphist.dat
+backup/
+elpa/
+mthesaur.*
