@@ -1,4 +1,6 @@
 .DS_Store
+*.elc
+custom.el
 /.cask/24.3.50.1/bootstrap/archives/*
 backup/*
 auto-save-list/*
