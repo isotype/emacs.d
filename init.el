@@ -16,7 +16,7 @@
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
 
 (defconst *is-a-mac* (eq system-type 'darwin))
-(defconst *is-x-toolkit* (eq window-system "x"))
+(defconst *is-x-toolkit* (eq window-system 'x))
 
 ;; Test to check if we are using XQuartz, to set correct .emacs.d
 (when *is-x-toolkit*
