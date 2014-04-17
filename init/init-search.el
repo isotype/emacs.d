@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 01-04-2014                                       ;;;
+;;; Last-Updated: 15-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-search                                          ;;;
@@ -89,10 +89,13 @@ This is useful when followed by an immediate kill."
 ;; Search recent files
 (defun recentf-ido-find-file ()
   "Find a recent file using ido."
-  (interactive)
-  (let ((file (ido-completing-read "Choose recent file: " (-map 'abbreviate-file-name recentf-list) nil t)))
-    (when file
-      (find-file file))))
+  "Use ido to select a recently opened file from the `recentf-list'"
+   (interactive)
+   (if (and ido-use-virtual-buffers (fboundp 'ido-toggle-virtual-buffers))
+       (ido-switch-buffer)
+     (find-file (ido-completing-read "Open file: "
+                                     (mapcar 'abbreviate-file-name recentf-list)
+                                     nil t))))
 (global-set-key (kbd "C-c f") 'recentf-ido-find-file)
 
 (provide 'init-search)
