@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 07-04-2014                                       ;;;
+;;; Last-Updated: 15-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-edit-utils                                      ;;;
@@ -63,6 +63,9 @@
 
 (after-load 'subword
     (diminish 'subword-mode))
+
+(when (fboundp 'global-prettify-symbols-mode)
+  (global-prettify-symbols-mode))
 
 ;;Undo Tree
 ;;http://ergoemacs.org/emacs/emacs_best_redo_mode.html
