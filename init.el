@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 23-03-2014                                            ;;;
-;;; Last-Updated: 04-04-2014                                       ;;;
+;;; Last-Updated: 17-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -11,17 +11,26 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
-
-(require 'init-benchmarking) ;; Measure startup time
+(let ((minver 23))
+  (unless (>= emacs-major-version minver)
+    (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
 
 (defconst *is-a-mac* (eq system-type 'darwin))
+(defconst *is-x-toolkit* (eq window-system "x"))
 
+;; Test to check if we are using XQuartz, to set correct .emacs.d
+(when *is-x-toolkit*
+    (setq user-emacs-directory "/opt/xwindows/emacs24/share/.emacs.d/"))
+
+(add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
+
+;; Measure startup time
+(require 'init-benchmarking)
 ;; ---------------- ;;
 ;; Bootstrap Config ;;
 ;; ---------------- ;;
+(require 'init-compat)
 (require 'init-utils)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ----------------------------------------------------- ;;
 ;; Package Manager See ~Cask~ file for its configuration ;;
@@ -29,11 +38,12 @@
 ;; ----------------------------------------------------- ;;
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
-
 ;;Keeps ~Cask~ file in sync with the packages
 ;;that you install/uninstall via ~M-x list-packages~
 ;;https://github.com/rdallasgray/pallet
 (require 'pallet)
+
+(require 'init-exec-path)
 
 (setq
  user-mail-address "anton@isoty.pe"
@@ -45,16 +55,15 @@
 (require 'fold-dwim)
 ;;Appearance Setup
 (require 'init-theme)
+(require 'init-gui-frames)
 (require 'init-appearance)
+(require 'init-font)
+
 ;; No annoy emacs beep
 (setq ring-bell-function #'ignore)
 
 ;;Customizations
 (add-to-list 'load-path (expand-file-name "custom" user-emacs-directory))
-
-;;System setups
-(set-language-environment 'utf-8)
-(prefer-coding-system 'utf-8)
 
 ;;Show current time
 (display-time-mode 1)
@@ -74,27 +83,18 @@
 (setq root-dir (file-name-directory
                 (or (buffer-file-name) load-file-name)))
 
-;;Path
-(require 'exec-path-from-shell)
-(when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize))
-
-;;Global Line Numbers
-(global-linum-mode t)
-
 ;;Show keystrokes
 (setq echo-keystrokes 0.02)
-
-;;Don't show startup screen
-(setq inhibit-startup-screen t)
 
 ;;Search Modes
 (require 'init-search)
 (require 'init-ido)
+(require 'init-auto-complete)
 
 ;; wgrep needed for init-edit-utils
 (require 'wgrep)
 (require 'init-edit-utils)
+(require 'init-paredit)
 
 ;;Drag Stuff is a minor mode for Emacs that makes
 ;;it possible to drag stuff (words, region, lines) around in Emacs
@@ -106,76 +106,56 @@
 (require 'projectile)
 (projectile-global-mode)
 
-;;Sauron events tracking
-;; (require 'sauron)
-;; (setq sauron-separate-frame nil
-;;       sauron-hide-mode-line t
-;;       sauron-sticky-frame t ;Sauron window appear on every (virtual) desktop
-;;       sauron-dbus-cookie t
-;;       sauron-max-line-length 120)
-;; (sauron-start)
-
-;; (global-set-key (kbd "C-c s") 'sauron-toggle-hide-show)
-;; (global-set-key (kbd "C-c t") 'sauron-clear)
-
 ;;Load GTAGS for getting tags from source files
 (setq load-path (cons "/usr/local/Cellar/global/6.2.9/share/gtags/" load-path))
 (autoload 'gtags-mode "gtags" "" t)
 (add-hook 'c-mode-hook 'helm-gtags-mode)
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
 
-;;Auto Complete
-(require 'auto-complete)
-(when (require 'auto-complete-config nil 'noerror)
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
-  (setq ac-comphist-file  "~/.emacs.d/ac-comphist.dat")
-  (ac-config-default)
-  (define-key ac-completing-map (kbd "ESC") 'ac-stop)
-  (global-auto-complete-mode t)
-  (setq ac-delay 0.1
-	ac-auto-show-menu 0.3
-	ac-auto-start 1
-	ac-quick-help-delay 1.0
-	ac-quick-help-prefer-pos-tip t
-	ac-ignore-case nil
-	ac-candidate-menu-min 2
-	ac-use-quick-help t
-	ac-limit 10
-	ac-disable-faces nil)
-  (setq ac-sources-yasnippet t)
-  (ac-flyspell-workaround))
+;; ;;Auto Complete
+;; (require 'auto-complete)
+;; (when (require 'auto-complete-config nil 'noerror)
+;;   (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
+;;   (setq ac-comphist-file  "~/.emacs.d/ac-comphist.dat")
+;;   (ac-config-default)
+;;   (define-key ac-completing-map (kbd "ESC") 'ac-stop)
+;;   (global-auto-complete-mode t)
+;;   (setq ac-delay 0.1
+;; 	ac-auto-show-menu 0.3
+;; 	ac-auto-start 1
+;; 	ac-quick-help-delay 1.0
+;; 	ac-quick-help-prefer-pos-tip t
+;; 	ac-ignore-case nil
+;; 	ac-candidate-menu-min 2
+;; 	ac-use-quick-help t
+;; 	ac-limit 10
+;; 	ac-disable-faces nil)
+;;   (setq ac-sources-yasnippet t)
+;;   (ac-flyspell-workaround))
 
-;; Completion words longer than 4 characters
-(custom-set-variables
-  '(ac-ispell-requires 4))
+;; ;; Completion words longer than 4 characters
+;; (custom-set-variables
+;;   '(ac-ispell-requires 4))
 
-(after-load "auto-complete"
-      (ac-ispell-setup))
+;; (after-load "auto-complete"
+;;       (ac-ispell-setup))
 
-;;; Paredit mode
-(require 'init-paredit)
+;; (add-hook 'git-commit-mode-hook 'ac-ispell-ac-setup)
+;; (add-hook 'org-mode-hook 'ac-ispell-ac-setup)
+;; (add-hook 'mu4e-compose-mode-hook 'ac-ispell-ac-setup)
+;; (add-hook 'markdown-mode-hook 'ac-ispell-ac-setup)
 
-;;; Slime
-(add-hook 'slime-mode-hook 'set-up-slime-ac)
-(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-(after-load "auto-complete"
-  '(add-to-list 'ac-modes 'slime-repl-mode))
-
-(add-hook 'git-commit-mode-hook 'ac-ispell-ac-setup)
-(add-hook 'org-mode-hook 'ac-ispell-ac-setup)
-(add-hook 'mu4e-compose-mode-hook 'ac-ispell-ac-setup)
-(add-hook 'markdown-mode-hook 'ac-ispell-ac-setup)
-
-;;Yasnippet
-(require 'yasnippet)
-(yas/global-mode t)
+;; ;;Yasnippet
+;; (require 'yasnippet)
+;; (yas/global-mode t)
 
 ;;Key modifiers
-(setq ns-option-modifier 'meta)
-(setq ns-command-modifier 'super)
-(setq ns-right-command-modifier 'hyper)
-(setq ns-right-option-modifier 'alt)
-(setq ns-right-control-modifier 'nil)
+(unless *is-x-toolkit*
+  (setq ns-option-modifier 'meta)
+  (setq ns-command-modifier 'super)
+  (setq ns-right-command-modifier 'hyper)
+  (setq ns-right-option-modifier 'alt)
+  (setq ns-right-control-modifier 'nil))
 
 ;;Git
 (require 'init-git)
@@ -210,25 +190,17 @@
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
-;;SLIME
-(load (expand-file-name "/Users/anton/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "/usr/local/bin/sbcl")
-(require 'slime-autoloads)
-;; Replace "sbcl" with the path to your implementation
-;;(setq slime-lisp-implementations "sbcl")
-(slime-setup '(slime-fancy))
-;;AC-Slime
-(add-hook 'slime-mode-hook 'set-up-slime-ac)
-(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-(eval-after-load "auto-complete"
-  '(add-to-list 'ac-modes 'slime-repl-mode))
-(setq slime-threads-update-interval 0.5)
+;;Load init-javascript
+(require 'init-javascript)
+
+;;SBCL
+(require 'init-lisp)
+(require 'init-slime)
+(require 'init-clojure)
+(require 'init-common-lisp)
 
 (require 'terminal-notifier)
 (require 'itail)
-
-;;Load init-javascript
-(require 'init-javascript)
 
 ;;Rainbow Blocks
 (eval-after-load 'rainbow-blocks '(diminish 'rainbow-blocks-mode))
@@ -299,6 +271,9 @@
 (global-set-key [(meta q)] 'rebox-dwim)
 (global-set-key [(shift meta q)] 'rebox-cycle)
 
+
+(require 'init-nxml)
+(require 'init-css)
 ;;Web Mode
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
@@ -327,6 +302,19 @@
 (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
 (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
 
+;;IRC
+(require 'init-irc)
+
+;;----------------------------------------------------------------------------
+;; Byte compile every .el file into a .elc file in the
+;; given directory. Must go after all init-* require.
+;; Source: http://ubuntuforums.org/archive/index.php/t-183638.html
+;;----------------------------------------------------------------------------
+(defun lw:byte-compile-directory(directory)
+  (interactive
+   (list
+    (read-file-name "Lisp directory: "))))
+
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
 ;;----------------------------------------------------------------------------
@@ -334,31 +322,22 @@
 (unless (server-running-p)
   (server-start))
 
-;;Set/Refresh Font
-;;Font
-;;(setq default-frame-alist '(font . "Fira Mono-16"))
-(set-face-attribute 'default nil
-                    :family "Fira Mono"
-		    :height 145
-		    :weight 'bold)
-
 ;;----------------------------------------------------------------------------
-
+;; Open bookmark menu on start
+;;----------------------------------------------------------------------------
+(bookmark-bmenu-list)
+;;----------------------------------------------------------------------------
 ;; variables configured via the interactive 'customize' interface
 ;;----------------------------------------------------------------------------
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
 
+(require 'init-locales)
 (add-hook 'after-init-hook
           (lambda ()
             (message "init completed in %.2fms"
                      (sanityinc/time-subtract-millis after-init-time before-init-time))))
-
-;;; Key Frequency Usage Statistics
-(require 'keyfreq)
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
 ;; Local Variables:
