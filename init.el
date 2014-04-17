@@ -57,7 +57,8 @@
 (require 'init-theme)
 (require 'init-gui-frames)
 (require 'init-appearance)
-(require 'init-font)
+(unless *is-x-toolkit*
+  (require 'init-font))
 
 ;; No annoy emacs beep
 (setq ring-bell-function #'ignore)

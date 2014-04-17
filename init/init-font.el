@@ -12,9 +12,7 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(when *is-a-mac*
-  (set-frame-font "Fira Mono-18"))
+(set-frame-font "Fira Mono-18")
 
 ;;; Character sets
 (defcustom ype/force-default-font-for-symbols nil
