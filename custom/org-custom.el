@@ -5,7 +5,6 @@
 (require 'htmlize)
 (require 'org-location-google-maps)
 (require 'org-habit)
-(require 'org-protocol)
 (require 'ox-pandoc)
 
 ;;Give buffers in different major-modes
@@ -27,7 +26,6 @@
                           org-irc
                           org-mew
                           org-mhe
-                          org-protocol
                           org-vm
                           org-wl
                           org-w3m)))
@@ -39,6 +37,7 @@
    (dot . t)
    (plantuml . t)
    (emacs-lisp . t)
+   (clojure . t)
    (gnuplot . t)
    (haskell . nil)
    (latex . t)
@@ -52,8 +51,8 @@
    (sql . nil)
    (sqlite . t)))
 
-(setq org-plantuml-jar-path
-      (expand-file-name "/Users/antonstrilchuk/.emacs.d/plantuml.jar"))
+;; (setq org-plantuml-jar-path
+;;       (expand-file-name "/Users/anton/.emacs.d/plantuml.jar"))
 
 ;;Save all org buffers 1 minute before every hour
 (run-at-time "00:59" 3600 'org-save-all-org-buffers)
@@ -76,17 +75,18 @@
         "~/Dropbox/ORGS/gcal.org"
 	"~/Dropbox/ORGS/school/s_main.org"
 	"~/Dropbox/ORGS/refile.org"))
-(setq org-alphabetical-lists t)
-(setq org-startup-folded t)
-(setq org-startup-indented t)
-(setq org-odd-levels-only t)
-(setq org-hide-leading-stars nil)
-(setq org-pretty-entities t)
-(setq org-enforce-todo-dependencies t)
-(setq org-clone-delete-id t)
-(setq org-return-follows-link t)
-(setq org-cycle-separator-lines 0)
-(setq org-insert-heading-respect-content nil)
+(setq org-alphabetical-lists t
+      org-support-shift-select t
+      org-startup-folded t
+      org-startup-indented t
+      org-odd-levels-only t
+      org-hide-leading-stars nil
+      org-pretty-entities t
+      org-enforce-todo-dependencies t
+      org-clone-delete-id t
+      org-return-follows-link t
+      org-cycle-separator-lines 0
+      org-insert-heading-respect-content nil)
 
 ;;Use System Settings For File-Application Selection
 (setq org-file-apps (quote ((auto-mode . emacs)
@@ -120,8 +120,6 @@
 
 ;;Custom Defaults
 (setq org-upcoming-deadline '(:foreground "blue" :weight bold))
-;;fontify code in code blocks
-(setq org-src-fontify-natively t)
 
 ;;AGENDA
 ;;Show Today in Agenda
@@ -237,7 +235,7 @@
 (setq org-clock-auto-clock-resolution 'when-no-clock-is-running)
 ;; Include current clocking task in clock reports
 (setq org-clock-report-include-clocking-task t)
-(setq org-clock-sound "/Users/antonstrilchuk/Library/Sounds/Quack.aiff")
+(setq org-clock-sound "/Users/anton/Library/Sounds/Quack.aiff")
 (setq org-time-stamp-rounding-minutes '(1 1))
 (setq org-agenda-clock-consistency-checks
       '((:max-duration "4:00"
@@ -274,75 +272,6 @@
 (defun y_pe/org-archive-done-tasks ()
   (interactive)
   (org-map-entries 'org-archive-subtree "/DONE" 'file))
-
-;;LATEX
-(setq org-export-latex-listings t)
-
-;; Originally taken from Bruno Tavernier: http://thread.gmane.org/gmane.emacs.orgmode/31150/focus=31432
-;; but adapted to use latexmk 4.20 or higher.
-(defun y_pe/auto-tex-cmd ()
-  "When exporting from .org with latex, automatically run latex,
-     pdflatex, or xelatex as appropriate, using latexmk."
-  (let ((texcmd)))
-  ;; default command: oldstyle latex via dvi
-  (setq texcmd "latexmk -dvi -pdfps -quiet %f")
-  ;; pdflatex -> .pdf
-  (if (string-match "LATEX_CMD: pdflatex" (buffer-string))
-      (setq texcmd "pdflatex %f; bibtex %f; pdflatex %f"))
-  ;; xelatex -> .pdf
-  (if (string-match "LATEX_CMD: xelatex" (buffer-string))
-      (setq texcmd "latexmk -xelatex -pdf -bibtex -quiet %f"))
-  ;; LaTeX compilation command
-  (setq org-latex-to-pdf-process (list texcmd)))
-(add-hook 'org-export-latex-after-initial-vars-hook 'y_pe/auto-tex-cmd)
-
-;; Specify default packages to be included in every tex file, whether pdflatex or xelatex
-(setq org-export-latex-packages-alist
-      '(("" "graphicx" t)
-	("" "longtable" nil)
-	("" "float" nil)))
-
-(defun y_pe/auto-tex-parameters ()
-  "Automatically select the tex packages to include."
-  ;; default packages for ordinary latex or pdflatex export
-  (setq org-export-latex-default-packages-alist
-	'(("AUTO" "inputenc" t)
-	  ("T1"   "fontenc"   t)
-	  (""     "fixltx2e"  nil)
-	  (""     "wrapfig"   nil)
-	  (""     "soul"      t)
-	  (""     "textcomp"  t)
-	  (""     "marvosym"  t)
-	  (""     "wasysym"   t)
-	  (""     "latexsym"  t)
-	  (""     "amssymb"   t)
-	  (""     "hyperref"  nil)))
-
-  ;; Packages to include when xelatex is used
-  (if (string-match "LATEX_CMD: xelatex" (buffer-string))
-      (setq org-export-latex-default-packages-alist
-	    '(("" "fontspec" t)
-	      ("" "xunicode" t)
-	      ("" "url" t)
-	      ("" "rotating" t)
-	      ("UKenglish" "babel" t)
-	      ("babel" "csquotes" t)
-	      ("" "soul" t)
-	      ("xetex" "hyperref" nil)
-	      )))
-
-  (if (string-match "LATEX_CMD: xelatex" (buffer-string))
-      (setq org-export-latex-classes
-	    (cons '("article"
-		    "\\documentclass[a4paper,11pt,article,oneside]{memoir}"
-		    ("\\section{%s}" . "\\section*{%s}")
-		    ("\\subsection{%s}" . "\\subsection*{%s}")
-		    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-		    ("\\paragraph{%s}" . "\\paragraph*{%s}")
-		    ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-		  org-export-latex-classes))))
-
-(add-hook 'org-export-latex-after-initial-vars-hook 'y_pe/auto-tex-parameters)
 
 ;;iCalendar
 (setq org-icalendar-combined-agenda-file "~/Dropbox/ORGS/combi.ics")
@@ -732,7 +661,7 @@
 (setq org-gcal-client-id "265827312321-r4td9e1i9uphkrb4r28g5c3g0dcbvf03.apps.googleusercontent.com"
       org-gcal-client-secret "WBjRveYYlBjesQyqJxTB0pyv"
       org-gcal-file-alist '(("anton@ilyfa.cc" .  "~/Dropbox/ORGS/gcal.org")))
-(run-at-time "30 min" 3600 'org-gcal-fetch)
+;;(run-at-time "30 min" 3600 'org-gcal-fetch)
 ;;TaskJuggler
 (setq org-export-taskjuggler-target-version 3.1)
 ;; :timezone: Europe/London

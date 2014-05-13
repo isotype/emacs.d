@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 23-03-2014                                            ;;;
-;;; Last-Updated: 17-04-2014                                       ;;;
+;;; Last-Updated: 13-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -18,6 +18,9 @@
 (defconst *is-a-mac* (eq system-type 'darwin))
 (defconst *is-x-toolkit* (eq window-system 'x))
 (defconst *is-ns-toolkit* (eq window-system 'ns))
+
+;; Git Packages
+(defconst user-git-libraries (expand-file-name "from-git" user-emacs-directory))
 
 ;; Test to check if we are using XQuartz, to set correct .emacs.d
 (when *is-x-toolkit*
@@ -45,6 +48,13 @@
 (require 'pallet)
 
 (require 'init-exec-path)
+
+;;Speelin Chekr
+(require 'ispell)
+(eval-after-load "ispell"
+  (progn
+    (setq ispell-dictionary "british"
+          ispell-silently-savep t)))
 
 (setq
  user-mail-address "anton@isoty.pe"
@@ -105,8 +115,7 @@
 
 ;;Project management
 (require 'ack-and-a-half)
-(require 'projectile)
-(projectile-global-mode)
+(require 'init-proj-manage)
 
 ;;Load GTAGS for getting tags from source files
 (setq load-path (cons "/usr/local/Cellar/global/6.2.9/share/gtags/" load-path))
@@ -123,15 +132,15 @@
 ;;   (define-key ac-completing-map (kbd "ESC") 'ac-stop)
 ;;   (global-auto-complete-mode t)
 ;;   (setq ac-delay 0.1
-;; 	ac-auto-show-menu 0.3
-;; 	ac-auto-start 1
-;; 	ac-quick-help-delay 1.0
-;; 	ac-quick-help-prefer-pos-tip t
-;; 	ac-ignore-case nil
-;; 	ac-candidate-menu-min 2
-;; 	ac-use-quick-help t
-;; 	ac-limit 10
-;; 	ac-disable-faces nil)
+;;  ac-auto-show-menu 0.3
+;;  ac-auto-start 1
+;;  ac-quick-help-delay 1.0
+;;  ac-quick-help-prefer-pos-tip t
+;;  ac-ignore-case nil
+;;  ac-candidate-menu-min 2
+;;  ac-use-quick-help t
+;;  ac-limit 10
+;;  ac-disable-faces nil)
 ;;   (setq ac-sources-yasnippet t)
 ;;   (ac-flyspell-workaround))
 
@@ -201,6 +210,9 @@
 (require 'init-clojure)
 (require 'init-common-lisp)
 
+;;Literate Clojure
+(require 'init-literate-clojure)
+
 (require 'terminal-notifier)
 (require 'itail)
 
@@ -240,9 +252,6 @@
 ;;Markdown mode
 (require 'init-markdown)
 
-;;LATEX
-(require 'init-latex)
-
 ;;; Quick create blog post
 ;; set posts directory
 (setq ype/posts-directory "~/Dropbox/ype/isotype/content/posts")
@@ -257,6 +266,9 @@
 ;;The Big Giant Org
 (load "org-custom")
 
+;;LATEX
+(require 'init-latex)
+
 ;;Custom Keybindings
 (load "keybindings")
 
@@ -267,9 +279,11 @@
 ;; Suggested setting
 (global-set-key "\C-cw" 'wc-mode)
 
-;;Rebox2 Test
-(setq rebox-style-loop '(23 223 26))
+;; Rebox2 Test
+
+(add-to-list 'load-path (expand-file-name "from-git/rebox2/" user-emacs-directory))
 (require 'rebox2)
+(setq rebox-style-loop '(17 27 21))
 (global-set-key [(meta q)] 'rebox-dwim)
 (global-set-key [(shift meta q)] 'rebox-cycle)
 
@@ -286,16 +300,16 @@
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(setq web-mode-extra-auto-pairs 
+(setq web-mode-extra-auto-pairs
       '(("erb"  . (("open" "close")))
         ("php"  . (("open" "close")
                    ("open" "close")))
-	))
+        ))
 (defun web-mode-hook ()
   (add-hook 'local-write-file-hooks
             (lambda ()
-	      (delete-trailing-whitespace)
-	      nil)))
+              (delete-trailing-whitespace)
+              nil)))
 
 (add-hook 'web-mode-hook  'web-mode-hook)
 
@@ -306,6 +320,43 @@
 
 ;;IRC
 (require 'init-irc)
+
+;; Writing
+(require 'init-writing)
+
+;;plantuml
+(setq org-plantuml-jar-path (expand-file-name "plantuml.jar" user-emacs-directory))
+(setq plantuml-jar-path (expand-file-name "plantuml.jar" user-emacs-directory))
+(require 'iimage)
+(autoload 'iimage-mode "iimage" "Support Inline image minor mode." t)
+(autoload 'turn-on-iimage-mode "iimage" "Turn on Inline image minor mode." t)
+(add-to-list 'iimage-mode-image-regex-alist '("@startuml\s+\\(.+\\)" . 1))
+
+;; Rendering plantuml
+(defun plantuml-render-buffer ()
+  (interactive)
+  (message "PLANTUML Start rendering")
+  (shell-command (concat "java -jar ~/.emacs.d/plantuml.jar "
+                         buffer-file-name))
+  (message (concat "PLANTUML Rendered:  " (buffer-name))))
+
+;; Image reloading
+(defun reload-image-at-point ()
+  (interactive)
+  (message "reloading image at point in the current buffer...")
+  (image-refresh (get-text-property (point) 'display)))
+
+;; Image resizing and reloading
+(defun resize-image-at-point ()
+  (interactive)
+  (message "resizing image at point in the current buffer123...")
+  (let* ((image-spec (get-text-property (point) 'display))
+         (file (cadr (member :file image-spec))))
+    (message (concat "resizing image..." file))
+    (shell-command (format "convert -resize %d %s %s "
+                           (* (window-width (selected-window)) (frame-char-width))
+                           file file))
+    (reload-image-at-point)))
 
 ;;----------------------------------------------------------------------------
 ;; Byte compile every .el file into a .elc file in the

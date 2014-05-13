@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 03-04-2014                                            ;;;
-;;; Last-Updated: 12-04-2014                                       ;;;
+;;; Last-Updated: 22-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-paredit                                         ;;;
@@ -63,5 +63,13 @@
 (require 'paredit-everywhere)
 (add-hook 'prog-mode-hook 'paredit-everywhere-mode)
 (add-hook 'css-mode-hook 'paredit-everywhere-mode)
+
+;;,-==================-
+;;| Custom Keybindings
+;;`-==================-
+(global-set-key (kbd "s-\]") 'paredit-forward-slurp-sexp)
+(global-set-key (kbd "s-\[") 'paredit-backward-slurp-sexp)
+(global-set-key (kbd "M-\]") 'paredit-forward-barf-sexp)
+(global-set-key (kbd "M-\[") 'paredit-backward-barf-sexp)
 
 (provide 'init-paredit)

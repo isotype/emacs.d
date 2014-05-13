@@ -95,6 +95,8 @@
 
 ;;Helm
 (global-set-key (kbd "C-c c") 'ac-complete-with-helm)
+;;Helm projectile
+(global-set-key (kbd "C-c h") 'helm-projectile)
 
 ;;Helm gtags lookup
 (global-set-key (kbd "A-j l") 'helm-gtags-select)
@@ -122,3 +124,13 @@
 
 ;;Webjump
 (global-set-key (kbd "s-j") 'webjump)
+
+
+(defun paste-giant-comment-line ()
+  (interactive)
+  (comment-dwim nil)
+  (insert "-----------------------------------------------------------------------------")
+  (newline-and-indent))
+;; Paste giant comment line
+;; -----------------------------------------------------------------------------
+(global-set-key (kbd "H-;") 'paste-giant-comment-line)

@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 17-04-2014                                       ;;;
+;;; Last-Updated: 13-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-edit-utils                                      ;;;
@@ -275,6 +275,9 @@ With arg N, insert N newlines."
   (setq-default ag-highlight-search t)
   (global-set-key (kbd "H-q") 'ag-project)
   (global-set-key (kbd "H-z") 'projectile-ag))
+
+(global-set-key (kbd "H-+") 'enlarge-window)
+(global-set-key (kbd "H-_") 'shrink-window)
 
 (require 'highlight-escape-sequences)
 (hes-mode)
