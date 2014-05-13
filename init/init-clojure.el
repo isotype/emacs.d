@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;;; Last-Updated: 12-04-2014                                       ;;;
+;;; Last-Updated: 23-04-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-clojure                                         ;;;
@@ -70,8 +70,6 @@
 (after-load 'clojure-mode
   (add-hook 'clojure-mode-hook 'sanityinc/lisp-setup)
   (add-hook 'clojure-mode-hook 'subword-mode))
-
-
 
 ;; Use clojure-mode for clojurescript, since clojurescript-mode
 ;; pulls in Slime
