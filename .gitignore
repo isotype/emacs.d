@@ -46,3 +46,8 @@ offlineimap.*
 /url/
 /.bookmarks.el
 /org-gcal/
+/custom.el.before_ecb_2.40
+/custom.el.before_ecb_2.40__1
+/custom.el.before_ecb_2.40__2
+/custom.el.before_ecb_2.40__3
+/init/init-proj-manage.el
