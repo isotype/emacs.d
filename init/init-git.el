@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 07-04-2014                                            ;;;
-;;; Last-Updated: 07-04-2014                                       ;;;
+;;; Last-Updated: 13-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-git                                             ;;;
@@ -95,7 +95,13 @@
 (global-set-key (kbd "H-p") #'git-messenger:popup-message)
 
 ;; github
-(require 'yagist)
+(after-load
+  (require 'gist) ; for gist-list
+  (require 'yagist) ; for yagist-region-or-buffer...
+  (global-set-key (kbd "C-M-s-<f1>") 'yagist-region-or-buffer-private)
+  (global-set-key (kbd "C-M-s-<f2>") 'yagist-region-or-buffer)
+  (global-set-key (kbd "C-M-s-z") 'gist-list))
+
 (require 'github-browse-file)
 (require 'bug-reference-github)
 (add-hook 'prog-mode-hook 'bug-reference-prog-mode)
