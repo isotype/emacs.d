@@ -99,6 +99,7 @@
 (depends-on "itail")
 (depends-on "js-comint")
 (depends-on "json-mode")
+(depends-on "kanban")
 (depends-on "keyfreq")
 (depends-on "latest-clojure-libraries")
 (depends-on "less-css-mode")
