@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 23-03-2014                                            ;;;
-;;; Last-Updated: 13-05-2014                                       ;;;
+;;; Last-Updated: 17-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -247,7 +247,6 @@
 ;;MU4E
 (add-to-list 'load-path "/usr/local/Cellar/mu/HEAD/share/emacs/site-lisp/mu4e")
 (load "mu4e-custom")
-(add-to-list 'ac-modes 'mu4e-compose-mode)
 
 ;;Markdown mode
 (require 'init-markdown)
@@ -265,6 +264,9 @@
 
 ;;The Big Giant Org
 (load "org-custom")
+
+;; Org Custom Macros
+(require 'init-org-macros)
 
 ;;LATEX
 (require 'init-latex)
@@ -379,6 +381,10 @@
 ;; Open bookmark menu on start
 ;;----------------------------------------------------------------------------
 (bookmark-bmenu-list)
+
+
+;; Paradox
+(setq paradox-github-token "dfce0c589e45c983e5030a7fc50ff0257da5303f")
 ;;----------------------------------------------------------------------------
 ;; variables configured via the interactive 'customize' interface
 ;;----------------------------------------------------------------------------
