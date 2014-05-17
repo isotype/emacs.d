@@ -19,37 +19,59 @@
 
 (setq mu4e-maildir-shortcuts
       '( ("/INBOX"               . ?i)
-	 ("/starred"   . ?!)
-	 ("/drafts" . ?d)
-	 ("/sent"   . ?s)
-	 ("/trash"       . ?t)
-	 ("/archive"    . ?a)))
+         ("/starred"   . ?!)
+         ("/drafts" . ?d)
+         ("/sent"   . ?s)
+         ("/trash"       . ?t)
+         ("/archive"    . ?a)))
 ;; allow for updating mail using 'U' in the main view:
 ;; I have this running in the background anyway
 (setq mu4e-get-mail-command "offlineimap -q") ;;offlineimap -q
 ;; Use fancy chars
 (setq mu4e-use-fancy-chars t)
 
+;; See http://www.emacswiki.org/emacs/GnusGmail for more details
 (require 'smtpmail-async)
-(setq
- send-mail-function 'async-smtpmail-send-it
- message-send-mail-function 'async-smtpmail-send-it)
+(setq message-send-mail-function 'async-smtpmail-send-it
+      ;; message-send-mail-function 'smtpmail-send-it
+      smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+      smtpmail-auth-credentials '(("smtp.gmail.com" 587 "anton@ilyfa.cc" nil))
+      smtpmail-default-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587
+      smtpmail-debug-info t
+      smtpmail-local-domain "ilyfa.cc"
+      sendmail-coding-system 'utf-8)
+
+;; set encoding system
+(defun async-smtpmail-send-it ()
+  (let ((to (message-field-value "To")))
+    (message "Delivering message to %s..." to)
+    (async-start
+     `(lambda ()
+        (require 'smtpmail)
+        (with-temp-buffer
+          (let ((coding-system-for-read 'utf-8)
+                (coding-system-for-write 'utf-8))
+            (insert ,(buffer-substring-no-properties (point-min) (point-max)))
+            ;; Pass in the variable environment for smtpmail
+            ,(async-inject-variables "\\`\\(smtpmail\\|\\(user-\\)?mail\\)-")
+            (smtpmail-send-it))))
+     `(lambda (&optional ignore)
+        (message "Delivering message to %s...done" ,to)))))
 
 ;; sending mail
-(setq message-send-mail-function 'message-send-mail-with-sendmail
-      sendmail-program "/usr/local/bin/msmtp")
+;; (setq message-send-mail-function 'message-send-mail-with-sendmail
+;;       sendmail-program "/usr/local/bin/msmtp")
 
 (setq message-signature nil)
-
-(setq message-sendmail-extra-arguments '("-a" "ilyfa"))
 
 (setq org-mu4e-convert-to-html t)
 
 (require 'w3m)
 (setq mu4e-confirm-quit nil
       mu4e-headers-date-format "%d/%b/%Y %H:%M" ; date format
-      mu4e-html2text-command "w3m -dump -T text/html"
-      )
+      mu4e-html2text-command "w3m -dump -T text/html")
 (setq mu4e-html-renderer 'w3m)
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
@@ -69,7 +91,7 @@
   "View the body of the message in a web browser."
   (interactive)
   (let ((html (mu4e-msg-field (mu4e-message-at-point t) :body-html))
-	(tmpfile (format "%s/%d.html" temporary-file-directory (random))))
+        (tmpfile (format "%s/%d.html" temporary-file-directory (random))))
     (unless html (error "No html part for this message"))
     (with-temp-file tmpfile
       (insert
@@ -80,7 +102,7 @@
     (browse-url (concat "file://" tmpfile))))
 
 (add-to-list 'mu4e-view-actions
-	     '("View in browser" . mu4e-msgv-action-view-in-browser) t)
+             '("View in browser" . mu4e-msgv-action-view-in-browser) t)
 
 (require 'gnus-dired)
 ;; make the `gnus-dired-mail-buffers' function also work on
@@ -90,18 +112,18 @@
   (let (buffers)
     (save-current-buffer
       (dolist (buffer (buffer-list t))
-	(set-buffer buffer)
-	(when (and (derived-mode-p 'message-mode)
-		   (null message-sent-message-via))
-	  (push (buffer-name buffer) buffers))))
+        (set-buffer buffer)
+        (when (and (derived-mode-p 'message-mode)
+                   (null message-sent-message-via))
+          (push (buffer-name buffer) buffers))))
     (nreverse buffers)))
 
 (setq gnus-dired-mail-mode 'mu4e-user-agent)
 (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 (setq mu4e-update-interval 300) ;; update every 5 minutes
-(add-hook 'mu4e-index-updated-hook 
-	  '(lambda () 
-	     (tn-notify "Mail has been updated, next update in 3 minutes" "MU4E" "New/Updated Mail")))
+(add-hook 'mu4e-index-updated-hook
+          '(lambda ()
+             (tn-notify "Mail has been updated, next update in 3 minutes" "MU4E" "New/Updated Mail")))
 
 ;;MU4E Maildirs Extentions
 ;; (setq mu4e-maildirs-extension-insert-before-str "\n  Bookmarks")
@@ -112,12 +134,12 @@
 (global-set-key (kbd "H-c") 'mu4e)
 
 (add-hook 'mu4e-compose-mode-hook
-	  (defun y_pe/do-compose-stuff ()
-	    "My settings for message composition."
-	    (set-fill-column 72)
-	    (flyspell-mode)))
+          (defun y_pe/do-compose-stuff ()
+            "My settings for message composition."
+            (set-fill-column 72)
+            (flyspell-mode)))
 
 (add-hook 'mu4e-compose-mode-hook
-	  (defun y_pe/add-bcc ()
-	    "Add a Bcc: header."
-	    (save-excursion (message-add-header "Bcc: anton@ilyfa.cc\n"))))
+          (defun y_pe/add-bcc ()
+            "Add a Bcc: header."
+            (save-excursion (message-add-header "Bcc: anton@ilyfa.cc\n"))))
