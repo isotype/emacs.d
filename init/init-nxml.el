@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 10-04-2014                                            ;;;
-;;; Last-Updated: 10-04-2014                                       ;;;
+;;; Last-Updated: 20-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-nxml                                            ;;;
@@ -46,8 +46,6 @@ indentation rules."
 (add-hook 'nxml-mode-hook (lambda () (tidy-build-menu nxml-mode-map)))
 (add-hook 'html-mode-hook (lambda () (tidy-build-menu html-mode-map)))
 
-
 (add-auto-mode 'html-mode "\\.(jsp|tmpl)\\'")
-
 
 (provide 'init-nxml)
