@@ -172,6 +172,7 @@
 (depends-on "undo-tree")
 (depends-on "unfill")
 (depends-on "virtualenv")
+(depends-on "wakatime-mode")
 (depends-on "wc-mode")
 (depends-on "web-server")
 (depends-on "wgrep")

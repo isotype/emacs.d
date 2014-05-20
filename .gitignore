@@ -51,3 +51,5 @@ offlineimap.*
 /custom.el.before_ecb_2.40__2
 /custom.el.before_ecb_2.40__3
 /init/init-proj-manage.el
+/init/init-paradox-github.el
+/init/init-wakatime.el
