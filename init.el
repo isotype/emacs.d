@@ -3,8 +3,6 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 23-03-2014                                            ;;;
-;;; Last-Updated: 17-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
 ;;; Description: Emacs Init                                        ;;;
@@ -49,12 +47,22 @@
 
 (require 'init-exec-path)
 
-;;Speelin Chekr
-(require 'ispell)
-(eval-after-load "ispell"
-  (progn
-    (setq ispell-dictionary "british"
-          ispell-silently-savep t)))
+;;Key modifiers
+(unless *is-x-toolkit*
+  (setq ns-option-modifier 'meta)
+  (setq ns-command-modifier 'super)
+  (setq ns-right-command-modifier 'hyper)
+  (setq ns-right-option-modifier 'alt)
+  (setq ns-right-control-modifier 'nil))
+
+;;Buffer Backups (files in ~/.emacs.d/backup)
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t  ; Automatically delete excess backups
+      kept-new-versions 20   ; how many of the newest versions to keep
+      kept-old-versions 5    ; and how many of the old
+      )
 
 (setq
  user-mail-address "anton@isoty.pe"
@@ -123,79 +131,17 @@
 (add-hook 'c-mode-hook 'helm-gtags-mode)
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
 
-;; ;;Auto Complete
-;; (require 'auto-complete)
-;; (when (require 'auto-complete-config nil 'noerror)
-;;   (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
-;;   (setq ac-comphist-file  "~/.emacs.d/ac-comphist.dat")
-;;   (ac-config-default)
-;;   (define-key ac-completing-map (kbd "ESC") 'ac-stop)
-;;   (global-auto-complete-mode t)
-;;   (setq ac-delay 0.1
-;;  ac-auto-show-menu 0.3
-;;  ac-auto-start 1
-;;  ac-quick-help-delay 1.0
-;;  ac-quick-help-prefer-pos-tip t
-;;  ac-ignore-case nil
-;;  ac-candidate-menu-min 2
-;;  ac-use-quick-help t
-;;  ac-limit 10
-;;  ac-disable-faces nil)
-;;   (setq ac-sources-yasnippet t)
-;;   (ac-flyspell-workaround))
-
-;; ;; Completion words longer than 4 characters
-;; (custom-set-variables
-;;   '(ac-ispell-requires 4))
-
-;; (after-load "auto-complete"
-;;       (ac-ispell-setup))
-
-;; (add-hook 'git-commit-mode-hook 'ac-ispell-ac-setup)
-;; (add-hook 'org-mode-hook 'ac-ispell-ac-setup)
-;; (add-hook 'mu4e-compose-mode-hook 'ac-ispell-ac-setup)
-;; (add-hook 'markdown-mode-hook 'ac-ispell-ac-setup)
-
-;; ;;Yasnippet
-;; (require 'yasnippet)
-;; (yas/global-mode t)
-
-;;Key modifiers
-(unless *is-x-toolkit*
-  (setq ns-option-modifier 'meta)
-  (setq ns-command-modifier 'super)
-  (setq ns-right-command-modifier 'hyper)
-  (setq ns-right-option-modifier 'alt)
-  (setq ns-right-control-modifier 'nil))
-
 ;;Git
 (require 'init-git)
+
+;; Paradox Package Rankings from GitHub
+(require 'init-paradox-github)
 
 ;;Dash
 (require 'init-dash)
 
 ;;Social Networking
 (require 'init-social)
-
-;;Rainbow Delimiter
-(require 'rainbow-delimiters)
-(global-rainbow-delimiters-mode t)
-
-;;Rainbow CSS
-(rainbow-mode t)
-
-;;Multiple Cursors
-(require 'multiple-cursors)
-(multiple-cursors-mode t)
-
-;;Buffer Backups (files in ~/.emacs.d/backup)
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-      backup-by-copying t    ; Don't delink hardlinks
-      version-control t      ; Use version numbers on backups
-      delete-old-versions t  ; Automatically delete excess backups
-      kept-new-versions 20   ; how many of the newest versions to keep
-      kept-old-versions 5    ; and how many of the old
-      )
 
 ;;Flyspell spell-mode
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
@@ -274,91 +220,14 @@
 ;;Custom Keybindings
 (load "keybindings")
 
-;;New packages(Added: Jan 17)
-;;Word Count Mode
-;;https://github.com/bnbeckwith/wc-mode
-(require 'wc-mode)
-;; Suggested setting
-(global-set-key "\C-cw" 'wc-mode)
-
 ;; Rebox2 Test
-
 (add-to-list 'load-path (expand-file-name "from-git/rebox2/" user-emacs-directory))
-(require 'rebox2)
-(setq rebox-style-loop '(17 27 21))
-(global-set-key [(meta q)] 'rebox-dwim)
-(global-set-key [(shift meta q)] 'rebox-cycle)
-
-
-(require 'init-nxml)
-(require 'init-css)
-;;Web Mode
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(setq web-mode-extra-auto-pairs
-      '(("erb"  . (("open" "close")))
-        ("php"  . (("open" "close")
-                   ("open" "close")))
-        ))
-(defun web-mode-hook ()
-  (add-hook 'local-write-file-hooks
-            (lambda ()
-              (delete-trailing-whitespace)
-              nil)))
-
-(add-hook 'web-mode-hook  'web-mode-hook)
-
-;;Emmet
-(require 'emmet-mode)
-(add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
-(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
 
 ;;IRC
 (require 'init-irc)
-
 ;; Writing
 (require 'init-writing)
-
-;;plantuml
-(setq org-plantuml-jar-path (expand-file-name "plantuml.jar" user-emacs-directory))
-(setq plantuml-jar-path (expand-file-name "plantuml.jar" user-emacs-directory))
-(require 'iimage)
-(autoload 'iimage-mode "iimage" "Support Inline image minor mode." t)
-(autoload 'turn-on-iimage-mode "iimage" "Turn on Inline image minor mode." t)
-(add-to-list 'iimage-mode-image-regex-alist '("@startuml\s+\\(.+\\)" . 1))
-
-;; Rendering plantuml
-(defun plantuml-render-buffer ()
-  (interactive)
-  (message "PLANTUML Start rendering")
-  (shell-command (concat "java -jar ~/.emacs.d/plantuml.jar "
-                         buffer-file-name))
-  (message (concat "PLANTUML Rendered:  " (buffer-name))))
-
-;; Image reloading
-(defun reload-image-at-point ()
-  (interactive)
-  (message "reloading image at point in the current buffer...")
-  (image-refresh (get-text-property (point) 'display)))
-
-;; Image resizing and reloading
-(defun resize-image-at-point ()
-  (interactive)
-  (message "resizing image at point in the current buffer123...")
-  (let* ((image-spec (get-text-property (point) 'display))
-         (file (cadr (member :file image-spec))))
-    (message (concat "resizing image..." file))
-    (shell-command (format "convert -resize %d %s %s "
-                           (* (window-width (selected-window)) (frame-char-width))
-                           file file))
-    (reload-image-at-point)))
+(require 'init-web)
 
 ;;----------------------------------------------------------------------------
 ;; Byte compile every .el file into a .elc file in the
@@ -369,7 +238,6 @@
   (interactive
    (list
     (read-file-name "Lisp directory: "))))
-
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
 ;;----------------------------------------------------------------------------
@@ -382,9 +250,7 @@
 ;;----------------------------------------------------------------------------
 (bookmark-bmenu-list)
 
-
-;; Paradox
-(setq paradox-github-token "dfce0c589e45c983e5030a7fc50ff0257da5303f")
+(require 'init-wakatime)
 ;;----------------------------------------------------------------------------
 ;; variables configured via the interactive 'customize' interface
 ;;----------------------------------------------------------------------------
