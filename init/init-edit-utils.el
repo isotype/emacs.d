@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 13-05-2014                                       ;;;
+;;; Last-Updated: 20-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-edit-utils                                      ;;;
@@ -79,6 +79,13 @@
   (add-hook hook 'highlight-symbol-nav-mode))
 (eval-after-load 'highlight-symbol
   '(diminish 'highlight-symbol-mode))
+
+;;Rainbow Delimiter
+(require 'rainbow-delimiters)
+(global-rainbow-delimiters-mode t)
+
+;;Rainbow HEX
+(rainbow-mode t)
 
 (autoload 'zap-up-to-char "misc" "Kill up to, but not including ARGth occurrence of CHAR.")
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
@@ -288,5 +295,29 @@ With arg N, insert N newlines."
 (setq guide-key/idle-delay 1.0)
 (guide-key-mode 1)
 (diminish 'guide-key-mode)
+
+(require 'rebox2)
+(setq rebox-style-loop '(17 27 21))
+(global-set-key [(meta q)] 'rebox-dwim)
+(global-set-key [(shift meta q)] 'rebox-cycle)
+
+;;Word Count Mode
+;;https://github.com/bnbeckwith/wc-mode
+(require 'wc-mode)
+;; Suggested setting
+(global-set-key "\C-cw" 'wc-mode)
+
+;;; Multiple Cursors
+;; Mark a bunch of stuff
+(require 'multiple-cursors)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-+") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+;; From active region to multiple cursors:
+(global-set-key (kbd "C-c c r") 'set-rectangular-region-anchor)
+(global-set-key (kbd "C-c c c") 'mc/edit-lines)
+(global-set-key (kbd "C-c c e") 'mc/edit-ends-of-lines)
+(global-set-key (kbd "C-c c a") 'mc/edit-beginnings-of-lines)
 
 (provide 'init-edit-utils)
