@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 15-04-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-search                                          ;;;
@@ -14,7 +14,7 @@
 
 ;;; Anzu
 ;; Show number of matches while searching
-(require 'anzu)
+(require-package 'anzu)
 (global-anzu-mode t)
 (diminish 'anzu-mode)
 (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
@@ -81,7 +81,7 @@ This is useful when followed by an immediate kill."
 (define-key isearch-mode-map [(control return)] 'isearch-exit-other-end)
 
 ;;Keep a list of recently opened files
-(require 'recentf)
+(require-package 'recentf)
 (setq recentf-max-saved-items 200
       recentf-max-menu-items 15)
 (recentf-mode +1)

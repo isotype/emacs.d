@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 17-05-2014                                            ;;;
-;;; Last-Updated: 20-05-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-org-mode                                        ;;;
@@ -18,7 +18,7 @@
 ;;plantuml
 (setq org-plantuml-jar-path (expand-file-name "plantuml.jar" user-emacs-directory))
 (setq plantuml-jar-path (expand-file-name "plantuml.jar" user-emacs-directory))
-(require 'iimage)
+(require-package 'iimage)
 (autoload 'iimage-mode "iimage" "Support Inline image minor mode." t)
 (autoload 'turn-on-iimage-mode "iimage" "Turn on Inline image minor mode." t)
 (add-to-list 'iimage-mode-image-regex-alist '("@startuml\s+\\(.+\\)" . 1))

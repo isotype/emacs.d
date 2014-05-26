@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 10-04-2014                                            ;;;
-;;; Last-Updated: 10-04-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-slime                                           ;;;
@@ -12,15 +12,15 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'slime)
+(require-package 'slime)
 ;; package.el compiles the contrib subdir, but the compilation order
 ;; causes problems, so we remove the .elc files there. See
 ;; http://lists.common-lisp.net/pipermail/slime-devel/2012-February/018470.html
 (mapc #'delete-file
       (file-expand-wildcards (concat user-emacs-directory ".cask/24*/elpa/slime-2*/contrib/*.elc")))
 
-(require 'ac-slime)
-(require 'hippie-expand-slime)
+(require-package 'ac-slime)
+(require-package 'hippie-expand-slime)
 
 ;;; Lisp buffers
 (defun sanityinc/slime-setup ()

@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 20-05-2014                                            ;;;
-;;; Last-Updated: 20-05-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-web                                             ;;;
@@ -15,7 +15,7 @@
 (require 'init-nxml)
 (require 'init-css)
 ;;Web Mode
-(require 'web-mode)
+(require-package 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
@@ -38,7 +38,7 @@
 (add-hook 'web-mode-hook  'web-mode-hook)
 
 ;;Emmet
-(require 'emmet-mode)
+(require-package 'emmet-mode)
 (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
 (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
 

@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 08-04-2014                                            ;;;
-;;; Last-Updated: 22-04-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-font                                            ;;;
@@ -25,7 +25,7 @@
 (add-hook 'after-init-hook 'ype/maybe-use-default-font-for-symbols)
 
 ;;; Changing font sizes
-(require 'cl)
+(require-package 'cl)
 (defun ype/font-name-replace-size (font-name new-size)
   (let ((parts (split-string font-name "-")))
     (setcar (nthcdr 7 parts) (format "%d" new-size))

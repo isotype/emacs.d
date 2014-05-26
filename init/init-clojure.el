@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;;; Last-Updated: 23-04-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-clojure                                         ;;;
@@ -11,13 +11,13 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'clojure-mode)
-(require 'clojure-test-mode)
-(require 'cljsbuild-mode)
-(require 'elein)
-(require 'cider)
-;;(require 'slamhound)
-(require 'ac-nrepl)
+(require-package 'clojure-mode)
+(require-package 'clojure-test-mode)
+(require-package 'cljsbuild-mode)
+(require-package 'elein)
+(require-package 'cider)
+;;(require-package 'slamhound)
+(require-package 'ac-nrepl)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -1,50 +1,17 @@
-;;; init-utils.el --- 
-;; 
-;; Filename: init-utils.el
-;; Description:
-;; Original Author: Steve Purcell
-;; Author: y_pe
-;; Created: Sun Feb 16 21:29:39 2014 (+0000)
-;; Package-Requires: ()
-;; Last-Updated: Sun Feb 16 21:32:06 2014 (+0000)
-;;           By: anton
-;;     Update #: 1
-;; URL: isoty.pe
-;; Doc URL: https://github.com/purcell/emacs.d/blob/master/lisp/init-utils.el
-;; Keywords: 
-;; Compatibility: 
-;; 
+;;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-  ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;;; Commentary: 
-;; 
-;; 
-;; 
+;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
+;;; URL: http://isoty.pe                                           ;;;
+;;; Created: 25-05-2014                                            ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;;;                                                                ;;;
+;;; Filename: init-utils                                           ;;;
+;;; Version:                                                       ;;;
+;;; Description:                                                   ;;;
+;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;;; Change Log:
-;; 
-;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;; This program is free software; you can redistribute it and/or
-;; modify it under the terms of the GNU General Public License as
-;; published by the Free Software Foundation; either version 3, or
-;; (at your option) any later version.
-;; 
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-;; General Public License for more details.
-;; 
-;; You should have received a copy of the GNU General Public License
-;; along with this program; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth
-;; Floor, Boston, MA 02110-1301, USA.
-;; 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;;; Code:
 (defmacro after-load (feature &rest body)
   "After FEATURE is loaded, evaluate BODY."
   (declare (indent defun))

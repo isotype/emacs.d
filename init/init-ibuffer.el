@@ -1,8 +1,8 @@
-(require 'fullframe)
+(require-package 'fullframe)
 (after-load 'ibuffer
  (fullframe ibuffer ibuffer-quit))
 
-(require 'ibuffer-vc)
+(require-package 'ibuffer-vc)
 
 (defun ibuffer-set-up-preferred-filters ()
   (ibuffer-vc-set-filter-groups-by-vc-root)
@@ -10,8 +10,6 @@
     (ibuffer-do-sort-by-filename/process)))
 
 (add-hook 'ibuffer-hook 'ibuffer-set-up-preferred-filters)
-
-
 
 (after-load 'ibuffer
   ;; Use human readable Size column instead of original one
@@ -22,11 +20,10 @@
      ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
      (t (format "%8d" (buffer-size))))))
 
-
 ;; Explicitly require ibuffer-vc to get its column definitions, which
 ;; can't be autoloaded
 (after-load 'ibuffer
-  (require 'ibuffer-vc))
+  (require-package 'ibuffer-vc))
 
 ;; Modify the default ibuffer-formats (toggle with `)
 (setq ibuffer-formats

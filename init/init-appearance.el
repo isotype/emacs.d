@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;;; Last-Updated: 10-04-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-appearance                                      ;;;
@@ -27,11 +27,11 @@
 ;;; Remove scrollbar
 (scroll-bar-mode -1)
 
-(require 'pretty-mode)
+(require-package 'pretty-mode)
 (global-pretty-mode t)
 
 ;;Make things look pretty
-(require 'pretty-symbols)
+(require-package 'pretty-symbols)
 
 ;;Less Flickery Display
 (setq redisplay-dont-pause t)
@@ -57,7 +57,7 @@
   (pretty-symbols-mode -1))
 
 ;;Page break line mode
-(require 'page-break-lines)
+(require-package 'page-break-lines)
 (global-page-break-lines-mode)
 "Examples Line below ^L (C-q C-l)"
 
@@ -65,7 +65,7 @@
 ;;Highlight
 ;;FIXME
 ;;TODO
-;; (require 'fic-ext-mode)
+;; (require-package 'fic-ext-mode)
 ;; (defun fic-ext-mode-modes ()
 ;;   (interactive)
 ;;   (add-hook 'emacs-lisp-mode-hook 'fic-ext-mode)
@@ -75,7 +75,7 @@
 ;;   (add-hook 'python-mode-hook 'fic-ext-mode))
 ;;(fic-ext-mode-modes)
 
-;;(require 'wiki-nav)
+;;(require-package 'wiki-nav)
 ;;(global-wiki-nav-mode)
 
 (provide 'init-appearance)

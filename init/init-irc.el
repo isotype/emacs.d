@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 15-04-2014                                            ;;;
-;;; Last-Updated: 15-04-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-irc                                             ;;;
@@ -12,7 +12,7 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'erc-terminal-notifier)
+(require-package 'erc-terminal-notifier)
 
 ;; modules..
 (setq erc-modules '(autojoin
@@ -38,7 +38,7 @@
 
 
 ;; add some color to nicks
-(require 'erc-hl-nicks)
+(require-package 'erc-hl-nicks)
 (add-hook 'erc-mode-hook 'erc-hl-nicks-mode)
 
 ;; wrap lines to buffer when typing

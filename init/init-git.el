@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 07-04-2014                                            ;;;
-;;; Last-Updated: 20-05-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-git                                             ;;;
@@ -11,15 +11,14 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'magit)
-(require 'git-gutter-fringe)
-(require 'magit-blame)
-(require 'git-commit-mode)
-(require 'git-rebase-mode)
-(require 'gitignore-mode)
-(require 'gitconfig-mode)
-(require 'git-messenger)
-(require 'gh)
+(require-package 'magit)
+(require-package 'git-gutter-fringe)
+(require-package 'git-commit-mode)
+(require-package 'git-rebase-mode)
+(require-package 'gitignore-mode)
+(require-package 'gitconfig-mode)
+(require-package 'git-messenger)
+(require-package 'gh)
 
 (setq-default
  magit-save-some-buffers nil
@@ -30,18 +29,15 @@
 ;; Hint: customize `magit-repo-dirs' so that you can use H-s to
 ;; quickly open magit on any one of your projects.
 ;;Magit
-(after-load 'magit
-  (global-set-key (kbd "H-s") 'magit-status))
-(after-load 'magit
-  (global-set-key (kbd "H-l") 'magit-log))
+(global-set-key (kbd "H-s") 'magit-status)
+(global-set-key (kbd "H-l") 'magit-log)
 
 (after-load 'magit
   (define-key magit-status-mode-map (kbd "C-M-<up>") 'magit-goto-parent-section))
 
-(after-load 'magit
-  (global-set-key (kbd "H-b") 'magit-blame-mode))
+(global-set-key (kbd "H-b") 'magit-blame-mode)
 
-(require 'fullframe)
+(require-package 'fullframe)
 (after-load 'magit
   (fullframe magit-status magit-mode-quit-window))
 
@@ -55,7 +51,7 @@
 
 ;; Use the fringe version of git-gutter
 (after-load 'git-gutter
-  (require 'git-gutter-fringe)
+  (require-package 'git-gutter-fringe)
   (setq git-gutter:lighter " GG")
   (global-git-gutter-mode +1)
   (set-face-foreground 'git-gutter-fr:added "#B4C342")
@@ -67,9 +63,9 @@
     (add-hook 'magit-mode-hook (lambda () (local-unset-key [(meta h)])))))
 
 ;; git-svn support
-(require 'magit-svn)
+(require-package 'magit-svn)
 (after-load 'magit-key-mode
-  (require 'magit-svn))
+  (require-package 'magit-svn))
 
 (after-load 'compile
   (dolist (defn (list '(git-svn-updated "^\t[A-Z]\t\\(.*\\)$" 1 nil nil 0 1)
@@ -92,19 +88,23 @@
     (compile (concat "git svn "
                      (ido-completing-read "git-svn command: " git-svn--available-commands nil t)))))
 
-(require 'git-messenger)
+(require-package 'git-messenger)
 (global-set-key (kbd "H-p") #'git-messenger:popup-message)
 
 ;; github
-(require 'gist) ; for gist-list
-(require 'yagist) ; for yagist-region-or-buffer...
-(global-set-key (kbd "C-M-s-<f1>") 'yagist-region-or-buffer-private)
-(global-set-key (kbd "C-M-s-<f2>") 'yagist-region-or-buffer)
-(global-set-key (kbd "C-M-s-z") 'gist-list)
+(require-package 'gist) ; for gist-list
+(require-package 'yagist) ; for yagist-region-or-buffer...
+(global-set-key (kbd "H-1") 'yagist-region-or-buffer-private)
+(global-set-key (kbd "H-2") 'yagist-region-or-buffer)
+(global-set-key (kbd "H-\`") 'gist-list)
 
-(require 'github-browse-file)
-(require 'bug-reference-github)
+(require-package 'github-browse-file)
+(require-package 'bug-reference-github)
 (add-hook 'prog-mode-hook 'bug-reference-prog-mode)
+
+;; Org-Sync Github
+(mapc 'load
+      '("os" "os-github"))
 
 (provide 'init-git)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

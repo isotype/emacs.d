@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-04-2014                                            ;;;
-;;; Last-Updated: 07-05-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-latex                                           ;;;
@@ -12,9 +12,9 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'tex-site) ; AUCTeX
-(require 'flymake)
-(require 'auto-complete-auctex)
+(require-package 'auctex)
+(require-package 'flymake)
+(require-package 'auto-complete-auctex)
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
@@ -49,8 +49,9 @@
 (require 'ob-latex)
 (require 'ox-latex)
 (require 'ox-html)
-(require 'org-mac-link)
 
+;; Org Mac Link
+(require-package 'org-mac-link)
 (define-key org-mode-map (kbd "C-'") 'org-mac-grab-link)
 
 (setq org-export-with-sub-superscripts '{})

@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 20-05-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-edit-utils                                      ;;;
@@ -11,8 +11,8 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'unfill)
-(require 'whole-line-or-region)
+(require-package 'unfill)
+(require-package 'whole-line-or-region)
 
 (when (fboundp 'electric-pair-mode)
   (setq-default electric-pair-mode 1))
@@ -54,7 +54,7 @@
   (add-hook hook
             (lambda () (setq show-trailing-whitespace nil))))
 
-(require 'whitespace-cleanup-mode)
+(require-package 'whitespace-cleanup-mode)
 (global-whitespace-cleanup-mode t)
 
 (transient-mark-mode t)
@@ -69,11 +69,11 @@
 
 ;;Undo Tree
 ;;http://ergoemacs.org/emacs/emacs_best_redo_mode.html
-(require 'undo-tree)
+(require-package 'undo-tree)
 (global-undo-tree-mode 1)
 (diminish 'undo-tree-mode)
 
-(require 'highlight-symbol)
+(require-package 'highlight-symbol)
 (dolist (hook '(prog-mode-hook html-mode-hook))
   (add-hook hook 'highlight-symbol-mode)
   (add-hook hook 'highlight-symbol-nav-mode))
@@ -81,11 +81,16 @@
   '(diminish 'highlight-symbol-mode))
 
 ;;Rainbow Delimiter
-(require 'rainbow-delimiters)
+(require-package 'rainbow-delimiters)
 (global-rainbow-delimiters-mode t)
 
-;;Rainbow HEX
-(rainbow-mode t)
+;;Rainbow Blocks
+(require-package 'rainbow-blocks)
+(eval-after-load 'rainbow-blocks
+  '(diminish 'rainbow-blocks-mode))
+(add-hook 'lisp-mode-hook 'rainbow-blocks-mode)
+(add-hook 'emacs-lisp-mode-hook 'rainbow-blocks-mode)
+(global-set-key (kbd "C-c C-d") 'rainbow-blocks-mode)
 
 (autoload 'zap-up-to-char "misc" "Kill up to, but not including ARGth occurrence of CHAR.")
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
@@ -105,7 +110,7 @@
 ;;----------------------------------------------------------------------------
 ;; Expand region
 ;;----------------------------------------------------------------------------
-(require 'expand-region)
+(require-package 'expand-region)
 (global-set-key (kbd "C-\-") 'er/expand-region)
 
 (cua-selection-mode t)
@@ -114,7 +119,7 @@
 ;; C-c SPC => ace-jump-word-mode
 ;; C-u C-c SPC => ace-jump-char-mode
 ;; C-u C-u C-c SPC => ace-jump-line-mode
-(require 'ace-jump-mode)
+(require-package 'ace-jump-mode)
 (global-set-key (kbd "C-\\") 'ace-jump-mode)
 (global-set-key (kbd "C-~") 'ace-jump-word-mode)
 (global-set-key (kbd "C-`") 'ace-jump-line-mode)
@@ -146,7 +151,7 @@
 ;; it will use those keybindings. For this reason, you might prefer to
 ;; use M-S-up and M-S-down, which will work even in lisp modes.
 ;;----------------------------------------------------------------------------
-(require 'move-text)
+(require-package 'move-text)
 (global-set-key [M-up] 'move-text-up)
 (global-set-key [M-down] 'move-text-down)
 (global-set-key [M-S-up] 'move-text-up)
@@ -165,7 +170,7 @@
 ;; Fill column indicator
 ;;----------------------------------------------------------------------------
 (when (eval-when-compile (> emacs-major-version 23))
-  (require 'fill-column-indicator)
+  (require-package 'fill-column-indicator)
   (defun sanityinc/prog-mode-fci-settings ()
     (turn-on-fci-mode)
     (when show-trailing-whitespace
@@ -277,8 +282,8 @@ With arg N, insert N newlines."
                    (lambda (s1 s2) (eq (random 2) 0)))))))
 
 (when (executable-find "ag")
-  (require 'ag)
-  (require 'wgrep-ag)
+  (require-package 'ag)
+  (require-package 'wgrep-ag)
   (setq-default ag-highlight-search t)
   (global-set-key (kbd "H-q") 'ag-project)
   (global-set-key (kbd "H-z") 'projectile-ag))
@@ -286,38 +291,77 @@ With arg N, insert N newlines."
 (global-set-key (kbd "H-+") 'enlarge-window)
 (global-set-key (kbd "H-_") 'shrink-window)
 
-(require 'highlight-escape-sequences)
+(require-package 'highlight-escape-sequences)
 (hes-mode)
 
-(require 'guide-key)
+(require-package 'guide-key)
 (setq guide-key/guide-key-sequence '("C-x"))
 (setq guide-key/recursive-key-sequence-flag t)
 (setq guide-key/idle-delay 1.0)
 (guide-key-mode 1)
 (diminish 'guide-key-mode)
 
-(require 'rebox2)
+(require-package 'rebox2)
 (setq rebox-style-loop '(17 27 21))
 (global-set-key [(meta q)] 'rebox-dwim)
 (global-set-key [(shift meta q)] 'rebox-cycle)
 
-;;Word Count Mode
-;;https://github.com/bnbeckwith/wc-mode
-(require 'wc-mode)
+;;,--------------------------------------
+;;| Word Count Mode
+;;| https://github.com/bnbeckwith/wc-mode
+;;`--------------------------------------
+(require-package 'wc-mode)
 ;; Suggested setting
 (global-set-key "\C-cw" 'wc-mode)
 
-;;; Multiple Cursors
-;; Mark a bunch of stuff
-(require 'multiple-cursors)
+;;,-------------------------------------------
+;;| Multiple Cursors
+;;| Mark a bunch of stuff just like in sublime
+;;`-------------------------------------------
+(require-package 'multiple-cursors)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-+") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
 ;; From active region to multiple cursors:
 (global-set-key (kbd "C-c c r") 'set-rectangular-region-anchor)
 (global-set-key (kbd "C-c c c") 'mc/edit-lines)
 (global-set-key (kbd "C-c c e") 'mc/edit-ends-of-lines)
 (global-set-key (kbd "C-c c a") 'mc/edit-beginnings-of-lines)
+
+;;,-----------------------------------------------------------------
+;;|  Drag Stuff
+;;| it possible to drag stuff (words, region, lines) around in Emacs
+;;`-----------------------------------------------------------------
+(require-package 'drag-stuff)
+(drag-stuff-mode t)
+
+;; No annoy emacs beep
+(setq ring-bell-function #'ignore)
+
+;;Show current time
+(display-time-mode 1)
+(setq display-time-day-and-date t)
+(setq display-time-use-mail-icon t)
+
+;;Delete to trash
+(setq delete-by-moving-to-trash t)
+
+;;Y for yes N for no
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;;Confirm Emacs Quit
+(set-variable 'confirm-kill-emacs 'yes-or-no-p)
+
+;;Root directory
+(setq root-dir (file-name-directory
+                (or (buffer-file-name) load-file-name)))
+
+;;Load GTAGS for getting tags from source files
+(setq load-path (cons "/usr/local/Cellar/global/6.2.9/share/gtags/" load-path))
+(autoload 'gtags-mode "gtags" "" t)
+(add-hook 'c-mode-hook 'helm-gtags-mode)
+(add-hook 'c++-mode-hook 'helm-gtags-mode)
 
 (provide 'init-edit-utils)

@@ -1,5 +1,5 @@
-(require 'markdown-mode)
-(require 'pandoc-mode)
+(require-package 'markdown-mode)
+(require-package 'pandoc-mode)
 
 (setq auto-mode-alist
       (cons '("\\.\\(md\\|markdown\\)\\'" . markdown-mode) auto-mode-alist))

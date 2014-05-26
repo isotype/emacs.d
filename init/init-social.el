@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;;; Last-Updated: 01-04-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-social                                          ;;;
@@ -15,7 +15,7 @@
 ;;; TWITTER
 ;; Configurations for twittering-mode
 ;; Package from MELPA
-(require 'twittering-mode)
+(require-package 'twittering-mode)
 (setq
  twittering-use-master-password t ; write to ~/.twittering-mode.gpg
  twittering-icon-mode t

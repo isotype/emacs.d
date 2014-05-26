@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 17-04-2014                                            ;;;
-;;; Last-Updated: 17-04-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-docker                                          ;;;
@@ -22,5 +22,5 @@
 ;; If you don't, you'll be prompted for an image name each ;;
 ;; time you build.                                         ;;
 ;; ------------------------------------------------------- ;;
-(require 'dockerfile-mode)
+(require-package 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))

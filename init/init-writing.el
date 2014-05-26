@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 03-05-2014                                            ;;;
-;;; Last-Updated: 20-05-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-writing                                         ;;;
@@ -12,15 +12,15 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;Speelin Chekr
-(require 'ispell)
-(eval-after-load "ispell"
+;;Speelin Chek
+(require-package 'ispell)
+(after-load "ispell"
   (progn
     (setq ispell-dictionary "british"
           ispell-silently-savep t)))
 
 (add-to-list 'load-path (expand-file-name "writegood-mode" user-git-libraries))
-(require 'writegood-mode)
+(require-package 'writegood-mode)
 ;; Writegood mode
 (global-set-key "\C-cg" 'writegood-mode)
 

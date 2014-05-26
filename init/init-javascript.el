@@ -1,60 +1,23 @@
-;; -------------------------------------------------------------------------------------- ;;
-;; ; init-javascript.el ---                                                               ;;
-;;                                                                                        ;;
-;;  Filename: init-javascript.el                                                          ;;
-;;  Description:                                                                          ;;
-;;  Author: Steve Purcell                                                                 ;;
-;;  Maintainer: y_pe                                                                      ;;
-;;  Created: Wed Feb 26 13:59:38 2014 (+0000)                                             ;;
-;;  Version: 0.1                                                                          ;;
-;;  Package-Requires: (json-mode, js2-mode, ac-js2, coffee-mode, js-comint, skewer-mode)  ;;
-;;  Last-Updated: Wed Feb 26 14:08:19 2014 (+0000)
-;;            By: anton
-;;      Update #: 1                                                                       ;;
-;;  URL: isoty.pe                                                                         ;;
-;;  Original URL: https://github.com/purcell/emacs.d/blob/master/lisp/init-javascript.el  ;;
-;;  Keywords: Emacs, Init                                                                 ;;
-;;  Tested on: Emacs 24.3.50.1                                                            ;;
-;;                                                                                        ;;
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                   ;;
-;;                                                                                        ;;
-;; ; Commentary:                                                                          ;;
-;;   This is a slightly modified version of @purcell init-javascript                      ;;
-;;   emacs setup.                                                                         ;;
-;;                                                                                        ;;
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                   ;;
-;;                                                                                        ;;
-;; ; Change Log:                                                                          ;;
-;;   - Made compatible with Cask package management model                                 ;;
-;;                                                                                        ;;
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                   ;;
-;;                                                                                        ;;
-;;  This program is free software; you can redistribute it and/or                         ;;
-;;  modify it under the terms of the GNU General Public License as                        ;;
-;;  published by the Free Software Foundation; either version 3, or                       ;;
-;;  (at your option) any later version.                                                   ;;
-;;                                                                                        ;;
-;;  This program is distributed in the hope that it will be useful,                       ;;
-;;  but WITHOUT ANY WARRANTY; without even the implied warranty of                        ;;
-;;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU                     ;;
-;;  General Public License for more details.                                              ;;
-;;                                                                                        ;;
-;;  You should have received a copy of the GNU General Public License                     ;;
-;;  along with this program; see the file COPYING.  If not, write to                      ;;
-;;  the Free Software Foundation, Inc., 51 Franklin Street, Fifth                         ;;
-;;  Floor, Boston, MA 02110-1301, USA.                                                    ;;
-;;                                                                                        ;;
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                   ;;
-;;                                                                                        ;;
-;; ; Code:                                                                                ;;
-;; -------------------------------------------------------------------------------------- ;;
-
-(require 'json-mode)
+;;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-  ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
+;;; URL: http://isoty.pe                                           ;;;
+;;; Created: 25-05-2014                                            ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;;;                                                                ;;;
+;;; Filename: init-javascript                                      ;;;
+;;; Version:                                                       ;;;
+;;; Description:                                                   ;;;
+;;;                                                                ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require-package 'json-mode)
 (when (>= emacs-major-version 24)
-  (require 'js2-mode)
-  (require 'ac-js2)
-  (require 'coffee-mode))
-(require 'js-comint)
+  (require-package 'js2-mode)
+  (require-package 'ac-js2)
+  (require-package 'coffee-mode))
+(require-package 'js-comint)
 
 (after-load 'js2-mode
   (define-key js2-mode-map (kbd "TAB") 'indent-for-tab-command))
@@ -99,14 +62,13 @@
 
 ;; Javascript nests {} and () a lot, so I find this helpful
 
-(require 'rainbow-delimiters)
+(require-package 'rainbow-delimiters)
 (dolist (hook '(js2-mode-hook js-mode-hook json-mode-hook))
   (add-hook hook 'rainbow-delimiters-mode))
 
 
 
 ;;; Coffeescript
-
 (after-load 'coffee-mode
   (setq coffee-js-mode preferred-javascript-mode
         coffee-tab-width preferred-javascript-indent-level))
@@ -139,7 +101,7 @@
 ;; ---------------------------------------------------------------------------
 
 (when (and (>= emacs-major-version 24) (featurep 'js2-mode))
-  (require 'skewer-mode)
+  (require-package 'skewer-mode)
   (after-load 'skewer-mode
     (add-hook 'skewer-mode-hook
               (lambda () (inferior-js-keys-mode -1)))))

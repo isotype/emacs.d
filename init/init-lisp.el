@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 10-04-2014                                            ;;;
-;;; Last-Updated: 17-04-2014                                       ;;;
+;;; Last-Updated: 25-05-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-lisp                                            ;;;
@@ -12,11 +12,12 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'elisp-slime-nav)
+
+(require-package 'elisp-slime-nav)
 (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
   (add-hook hook 'elisp-slime-nav-mode))
 
-(require 'lively)
+(require-package 'lively)
 
 (setq-default initial-scratch-message
               (concat ";; Happy hacking " (or user-login-name "") "!\n\n"))
@@ -37,7 +38,7 @@
 (after-load 'lisp-mode
   (define-key emacs-lisp-mode-map (kbd "C-x C-e") 'sanityinc/eval-last-sexp-or-region))
 
-(require 'ipretty)
+(require-package 'ipretty)
 (ipretty-mode 1)
 
 
@@ -77,20 +78,33 @@
 ;; Highlight current sexp
 ;; ----------------------------------------------------------------------------
 
-(require 'hl-sexp)
-
+(require-package 'hl-sexp)
 ;; Prevent flickery behaviour due to hl-sexp-mode unhighlighting before each command
 (after-load 'hl-sexp
   (defadvice hl-sexp-mode (after unflicker (&optional turn-on) activate)
     (when turn-on
       (remove-hook 'pre-command-hook #'hl-sexp-unhighlight))))
 
+;;; Support byte-compilation in a sub-process, as
+;;; required by highlight-cl
+
+(defun sanityinc/byte-compile-file-batch (filename)
+  "Byte-compile FILENAME in batch mode, ie. a clean sub-process."
+  (interactive "fFile to byte-compile in batch mode: ")
+  (let ((emacs (car command-line-args)))
+    (compile
+     (concat
+      emacs " "
+      (mapconcat
+       'shell-quote-argument
+       (list "-Q" "-batch" "-f" "batch-byte-compile" filename)
+       " ")))))
 
 ;; ----------------------------------------------------------------------------
 ;; Enable desired features for all lisp modes
 ;; ----------------------------------------------------------------------------
-(require 'rainbow-delimiters)
-(require 'redshank)
+(require-package 'rainbow-delimiters)
+(require-package 'redshank)
 (after-load 'redshank
   (diminish 'redshank-mode))
 
@@ -101,6 +115,9 @@
   (enable-paredit-mode)
   (turn-on-eldoc-mode)
   (redshank-mode))
+
+(after-load 'eldoc-mode
+  (diminish 'eldoc-mode))
 
 (defun sanityinc/emacs-lisp-setup ()
   "Enable features useful when working with elisp."
@@ -132,20 +149,27 @@
 
 (add-hook 'after-save-hook #'sanityinc/maybe-check-parens)
 
-(require 'eldoc-eval)
-(require 'eldoc-eval)
+(require-package 'eldoc-eval)
 
 (add-to-list 'auto-mode-alist '("\\.emacs-project\\'" . emacs-lisp-mode))
 (add-to-list 'auto-mode-alist '("archive-contents\\'" . emacs-lisp-mode))
 
-(require 'cl-lib-highlight)
+(require-package 'cl-lib-highlight)
 (after-load 'lisp-mode
   (cl-lib-highlight-initialize))
 
 ;; ----------------------------------------------------------------------------
+;; Automatic byte compilation
+;; ----------------------------------------------------------------------------
+
+(require-package 'auto-compile)
+(auto-compile-on-save-mode 1)
+(auto-compile-on-load-mode 1)
+
+;; ----------------------------------------------------------------------------
 ;; Other Stuff
 ;; ----------------------------------------------------------------------------
-(require 'macrostep)
+(require-package 'macrostep)
 
 (after-load 'lisp-mode
   (define-key emacs-lisp-mode-map (kbd "C-c e") 'macrostep-expand))
