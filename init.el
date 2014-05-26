@@ -9,6 +9,7 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (let ((minver 23))
   (unless (>= emacs-major-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
@@ -25,9 +26,11 @@
   (setq user-emacs-directory "/opt/xwindows/emacs24/share/.emacs.d/"))
 
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "org-sync" user-git-libraries))
 
 ;; Measure startup time
 (require 'init-benchmarking)
+
 ;; ---------------- ;;
 ;; Bootstrap Config ;;
 ;; ---------------- ;;
@@ -38,22 +41,23 @@
 ;; Package Manager See ~Cask~ file for its configuration ;;
 ;; https://github.com/cask/cask                          ;;
 ;; ----------------------------------------------------- ;;
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
+;; (require 'cask "~/.cask/cask.el")
+;; (cask-initialize)
 ;;Keeps ~Cask~ file in sync with the packages
 ;;that you install/uninstall via ~M-x list-packages~
 ;;https://github.com/rdallasgray/pallet
-(require 'pallet)
 
+;;(require 'pallet)
+(require 'init-site-lisp)
+(require 'init-elpa)
 (require 'init-exec-path)
 
-;;Key modifiers
-(unless *is-x-toolkit*
-  (setq ns-option-modifier 'meta)
-  (setq ns-command-modifier 'super)
-  (setq ns-right-command-modifier 'hyper)
-  (setq ns-right-option-modifier 'alt)
-  (setq ns-right-control-modifier 'nil))
+;; wgrep needed for init-edit-utils
+(require-package 'wgrep)
+(require-package 'project-local-variables)
+(require-package 'diminish)
+(require-package 'scratch)
+(require-package 'mwe-log-commands)
 
 ;;Buffer Backups (files in ~/.emacs.d/backup)
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
@@ -65,13 +69,13 @@
       )
 
 (setq
- user-mail-address "anton@isoty.pe"
+ user-mail-address "ype@env.sh"
  user-full-name "Anton Strilchuk")
 
 (require 'init-keys) ; Keys and Passwords, do not include in public git
 (require 'init-frame-hooks)
 (require 'init-xterm)
-(require 'fold-dwim)
+(require-package 'fold-dwim)
 ;;Appearance Setup
 (require 'init-theme)
 (require 'init-gui-frames)
@@ -79,57 +83,20 @@
 (unless *is-x-toolkit*
   (require 'init-font))
 
-;; No annoy emacs beep
-(setq ring-bell-function #'ignore)
-
 ;;Customizations
 (add-to-list 'load-path (expand-file-name "custom" user-emacs-directory))
-
-;;Show current time
-(display-time-mode 1)
-(setq display-time-day-and-date t)
-(setq display-time-use-mail-icon t)
-
-;;Delete to trash
-(setq delete-by-moving-to-trash t)
-
-;;Y for yes N for no
-(defalias 'yes-or-no-p 'y-or-n-p)
-
-;;Confirm Emacs Quit
-(set-variable 'confirm-kill-emacs 'yes-or-no-p)
-
-;;Root directory
-(setq root-dir (file-name-directory
-                (or (buffer-file-name) load-file-name)))
-
-;;Show keystrokes
-(setq echo-keystrokes 0.02)
 
 ;;Search Modes
 (require 'init-search)
 (require 'init-ido)
 (require 'init-auto-complete)
 
-;; wgrep needed for init-edit-utils
-(require 'wgrep)
 (require 'init-edit-utils)
 (require 'init-paredit)
 
-;;Drag Stuff is a minor mode for Emacs that makes
-;;it possible to drag stuff (words, region, lines) around in Emacs
-(require 'drag-stuff)
-(drag-stuff-mode t)
-
 ;;Project management
-(require 'ack-and-a-half)
+(require-package 'ack-and-a-half)
 (require 'init-proj-manage)
-
-;;Load GTAGS for getting tags from source files
-(setq load-path (cons "/usr/local/Cellar/global/6.2.9/share/gtags/" load-path))
-(autoload 'gtags-mode "gtags" "" t)
-(add-hook 'c-mode-hook 'helm-gtags-mode)
-(add-hook 'c++-mode-hook 'helm-gtags-mode)
 
 ;;Git
 (require 'init-git)
@@ -142,10 +109,6 @@
 
 ;;Social Networking
 (require 'init-social)
-
-;;Flyspell spell-mode
-(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-(setq exec-path (append exec-path '("/usr/local/bin")))
 
 ;;Load init-javascript
 (require 'init-javascript)
@@ -160,56 +123,50 @@
 (require 'init-literate-clojure)
 
 (require 'terminal-notifier)
-(require 'itail)
-
-;;Rainbow Blocks
-(eval-after-load 'rainbow-blocks '(diminish 'rainbow-blocks-mode))
-(add-hook 'lisp-mode-hook 'rainbow-blocks-mode)
-(add-hook 'emacs-lisp-mode-hook 'rainbow-blocks-mode)
-(global-set-key (kbd "C-c C-d") 'rainbow-blocks-mode)
+(require-package 'itail)
 
 ;;Custom Functions
-(load "defuns")
+(require 'init-random-defuns)
 
 ;;Emacs Terminal
-(load "multi-term-setup")
+;;(load "multi-term-setup")
 
 ;;TMUX
-(load "tmux_setup")
+;;(load "tmux_setup")
 
 ;;W3M
 ;;(load "y_pe-w3m")
 
 ;;Tabs
 ;; Currently Disabled due to display lag issues
-(load "tabbar-custom")
+(require 'init-tabbar)
 
 ;;Auto Header
-(load "header_setup")
+(require 'init-headers)
 
 ;;Clean up modeline
-(load "clean-modeline")
+;;(load "clean-modeline")
 
 ;;MU4E
 (add-to-list 'load-path "/usr/local/Cellar/mu/HEAD/share/emacs/site-lisp/mu4e")
-(load "mu4e-custom")
+(add-to-list 'load-path (expand-file-name "emacs-async" user-git-libraries))
+(require 'init-mu4e)
 
 ;;Markdown mode
 (require 'init-markdown)
 
-;;; Quick create blog post
-;; set posts directory
-(setq ype/posts-directory "~/Dropbox/ype/isotype/content/posts")
-(require 'init-blog-post)
-
 ;;Sprint.ly private stuff
-(load "sprintly-mode-setup")
+;;(load "sprintly-mode-setup")
 
 ;;Ruby Setup
-(load "erb-setup")
+;;(load "erb-setup")
 
 ;;The Big Giant Org
-(load "org-custom")
+(require 'init-org)
+;;; Quick create blog post
+;; set posts directory
+;; (setq ype/posts-directory "~/Dropbox/ype/isotype/content/posts")
+;; (require 'init-blog-post)
 
 ;; Org Custom Macros
 (require 'init-org-macros)
@@ -218,17 +175,20 @@
 (require 'init-latex)
 
 ;;Custom Keybindings
-(load "keybindings")
-
-;; Rebox2 Test
-(add-to-list 'load-path (expand-file-name "from-git/rebox2/" user-emacs-directory))
+(require 'init-keybindings)
 
 ;;IRC
 (require 'init-irc)
 ;; Writing
+(require 'init-deft)
 (require 'init-writing)
 (require 'init-web)
 
+(require-package 'gnuplot)
+
+(when *is-a-mac*
+  (require-package 'osx-location))
+(require-package 'regex-tool)
 ;;----------------------------------------------------------------------------
 ;; Byte compile every .el file into a .elc file in the
 ;; given directory. Must go after all init-* require.
