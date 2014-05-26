@@ -1,5 +1,6 @@
 .DS_Store
 *.elc
+custom/*
 custom.el
 /.cask/24.3.50.1/bootstrap/archives/*
 backup/*
@@ -53,3 +54,17 @@ offlineimap.*
 /init/init-proj-manage.el
 /init/init-paradox-github.el
 /init/init-wakatime.el
+/.smex-items
+/os-issues.org
+/plantuml.jar
+/wakatime/
+/y_pe-emacs-packages/
+/custom/y_pe-w3m.el
+/custom/defuns.el
+/custom/erb-setup.el
+/custom/header_setup.el
+/custom/keybindings.el
+/custom/mu4e-custom.el
+/custom/multi-term-setup.el
+/custom/org-custom.el
+/custom/tabbar-custom.el
