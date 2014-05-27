@@ -1,16 +1,3 @@
-;;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-  ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
-;;; URL: http://isoty.pe                                           ;;;
-;;; Created: 23-03-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
-;;;                                                                ;;;
-;;; Filename: header_setup                                         ;;;
-;;; Description: Auto Make File Header                             ;;;
-;;;                                                                ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require-package 'header2)
 
 (setq
@@ -91,10 +78,10 @@
   (setq return-to (+ 2 (point)))
   (custom/insert-aligned))
 
-(defun y_pe/url-str ()
+(defun ype/url-str ()
   (concat "URL: " header-url-str))
 (defun header-url ()
-  (custom/insert-aligned (y_pe/url-str)))
+  (custom/insert-aligned (ype/url-str)))
 
 (defun header-version ()
   (custom/insert-aligned "Version: "))
@@ -165,12 +152,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
       (insert (custom/aligned-str header-prefix-string
                                   "  Update #:" " " (format "%s" (1+ num)))))))
 
-(after-load 'header2
-  (register-file-header-action "Last-Updated[ \t]*: " 'update-last-modified-date)
-  (register-file-header-action "  By[ \t]*: " 'update-last-modifier)
-  (register-file-header-action "  Update #[ \t]*: " 'update-write-count)
-  (add-hook 'write-file-hooks 'auto-update-file-header)
-  (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
-  (add-hook 'c-mode-common-hook   'auto-make-header))
+;;(register-file-header-action "Last-Updated[ \t]*: " 'update-last-modified-date)
+;;(register-file-header-action "  By[ \t]*: " 'update-last-modifier)
+;;(register-file-header-action "  Update #[ \t]*: " 'update-write-count)
+;;(add-hook 'write-file-hooks 'auto-update-file-header)
+;;(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
+;;(add-hook 'c-mode-common-hook   'auto-make-header)
 
 (provide 'init-headers)
