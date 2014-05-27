@@ -122,7 +122,6 @@
 ;;Literate Clojure
 (require 'init-literate-clojure)
 
-(require 'terminal-notifier)
 (require-package 'itail)
 
 ;;Custom Functions
@@ -183,6 +182,9 @@
 (require 'init-deft)
 (require 'init-writing)
 (require 'init-web)
+
+;;Bulk Diminish-Modes
+(require 'init-diminish)
 
 (require-package 'gnuplot)
 
