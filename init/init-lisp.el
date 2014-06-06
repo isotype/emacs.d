@@ -116,14 +116,15 @@
   (turn-on-eldoc-mode)
   (redshank-mode))
 
-(after-load 'eldoc-mode
-  (diminish 'eldoc-mode))
+(after-load 'eldoc
+  (diminish 'eldoc-mode " ⎓"))
 
 (defun sanityinc/emacs-lisp-setup ()
   "Enable features useful when working with elisp."
   (elisp-slime-nav-mode t)
   (set-up-hippie-expand-for-elisp)
-  (ac-emacs-lisp-mode-setup))
+  (ac-emacs-lisp-mode-setup)
+  (diminish 'elisp-slime-nav-mode " ⍄"))
 
 (defconst sanityinc/elispy-modes
   '(emacs-lisp-mode ielm-mode)

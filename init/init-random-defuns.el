@@ -128,9 +128,7 @@ source: http://stackoverflow.com/questions/6762686/prevent-emacs-from-asking-mod
          (str   (replace-regexp-in-string
                  "\\` ?\\| ?$" " "
                  (apply 'concat (remove-if-not 'stringp str)))))
-    (concat pre str
-            (custom/fill-str ?\s total pre str pre)
-            pre)))
+    (concat pre str (custom/fill-str ?\s total pre str pre) pre)))
 
 (defun custom/file-name ()
   (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))

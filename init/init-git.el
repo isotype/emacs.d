@@ -51,7 +51,7 @@
 
 ;; Use the fringe version of git-gutter
 (after-load 'git-gutter
-  (require-package 'git-gutter-fringe)
+  (require 'git-gutter-fringe)
   (setq git-gutter:lighter " GG")
   (global-git-gutter-mode +1)
   (set-face-foreground 'git-gutter-fr:added "#B4C342")

@@ -98,4 +98,6 @@ This is useful when followed by an immediate kill."
                                      nil t))))
 (global-set-key (kbd "C-c f") 'recentf-ido-find-file)
 
+(diminish 'isearch-mode)
+
 (provide 'init-search)

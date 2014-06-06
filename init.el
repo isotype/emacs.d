@@ -28,6 +28,7 @@
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "org-sync" user-git-libraries))
 
+
 ;; Measure startup time
 (require 'init-benchmarking)
 
@@ -149,6 +150,8 @@
 ;;MU4E
 (add-to-list 'load-path "/usr/local/Cellar/mu/HEAD/share/emacs/site-lisp/mu4e")
 (add-to-list 'load-path (expand-file-name "emacs-async" user-git-libraries))
+(add-to-list 'load-path (expand-file-name "terminal-notifier" user-git-libraries))
+(require 'terminal-notifier)
 (require 'init-mu4e)
 
 ;;Markdown mode
@@ -183,9 +186,6 @@
 (require 'init-writing)
 (require 'init-web)
 
-;;Bulk Diminish-Modes
-(require 'init-diminish)
-
 (require-package 'gnuplot)
 
 (when *is-a-mac*
@@ -213,12 +213,16 @@
 (bookmark-bmenu-list)
 
 (require 'init-wakatime)
+(require 'init-rsi)
 ;;----------------------------------------------------------------------------
 ;; variables configured via the interactive 'customize' interface
 ;;----------------------------------------------------------------------------
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
+
+;;Cleans up mode line clutter
+(require 'init-mode-line-declutter)
 
 (require 'init-locales)
 (add-hook 'after-init-hook

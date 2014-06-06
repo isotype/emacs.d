@@ -1,4 +1,6 @@
 (require-package 'header2)
+(require 'fold-dwim)
+(require 'header2)
 
 (setq
  header-date-format	"%d-%m-%Y"
@@ -20,6 +22,7 @@
                     header-version
                     header-description
                     header-lib-requires
+                    header-pkg-requires
                     header-end-line
                     ;;TODO header-license
                     header-end-line
@@ -35,7 +38,7 @@
           (`conf-colon-mode  "##")
           (`conf-space-mode  "##")
           (`conf-unix-mode   "##")
-          (`emacs-lisp-mode  ";;;")
+          (`emacs-lisp-mode  ";;")
           (`erlang-mode      "%%")
           (`gitconfig-mode   "###")
           (`gitignore-mode   "##")
@@ -72,6 +75,17 @@
 
 (defun header-file-name ()
   (custom/insert-aligned "Filename: " (custom/file-name)))
+
+(defun ype/find-req-pkg ()
+  (with-temp-buffer
+    (goto-char (point-min))
+    (while
+        (re-search-forward "\\(\\(\\Srequire.+'\\)\\(\\b.+\\b\\)\\)" nil t)
+      (match-string-no-properties 0)
+      )))
+
+(defun header-pkg-requires ()
+  (custom/insert-aligned "Package Requires: (" (ype/find-req-pkg) ")"))
 
 (defun header-description ()
   (custom/insert-aligned "Description:")
@@ -123,7 +137,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
 
 (defun header-license ()
   "Insert license"
-   (custom/insert-aligned (split-string header-license)))
+  (custom/insert-aligned (split-string header-license)))
 
 ;;; Update header
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -152,11 +166,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
       (insert (custom/aligned-str header-prefix-string
                                   "  Update #:" " " (format "%s" (1+ num)))))))
 
-;;(register-file-header-action "Last-Updated[ \t]*: " 'update-last-modified-date)
-;;(register-file-header-action "  By[ \t]*: " 'update-last-modifier)
-;;(register-file-header-action "  Update #[ \t]*: " 'update-write-count)
-;;(add-hook 'write-file-hooks 'auto-update-file-header)
-;;(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
-;;(add-hook 'c-mode-common-hook   'auto-make-header)
+(register-file-header-action "Last-Updated[ \t]*: " 'update-last-modified-date)
+(register-file-header-action "  By[ \t]*: " 'update-last-modifier)
+(register-file-header-action "  Update #[ \t]*: " 'update-write-count)
+(add-hook 'write-file-hooks 'auto-update-file-header)
+(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
+(add-hook 'c-mode-common-hook   'auto-make-header)
 
 (provide 'init-headers)

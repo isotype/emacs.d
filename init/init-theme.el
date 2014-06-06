@@ -59,4 +59,5 @@
 
 
 (load-theme 'solarized-light t)
+
 (provide 'init-theme)

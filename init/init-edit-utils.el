@@ -1,15 +1,16 @@
-;;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-  ;;;
+;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
-;;; URL: http://isoty.pe                                           ;;;
-;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
-;;;                                                                ;;;
-;;; Filename: init-edit-utils                                      ;;;
-;;; Description: Tools to simplify life in emacs                   ;;;
-;;;                                                                ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Author: Anton Strilchuk <ype@env.sh>                             ;;
+;; URL: http://ype.env.sh                                           ;;
+;; Created: 02-06-2014                                              ;;
+;; Last-Updated: 02-06-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;;                                                                  ;;
+;; Filename: init-edit-utils                                        ;;
+;; Version:                                                         ;;
+;; Description: Tools to simplify life in emacs                     ;;
+;;                                                                  ;;
+;; Package Requires: ()                                             ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require-package 'unfill)
 (require-package 'whole-line-or-region)
@@ -56,6 +57,7 @@
 
 (require-package 'whitespace-cleanup-mode)
 (global-whitespace-cleanup-mode t)
+(diminish 'whitespace-cleanup-mode " ⌴")
 
 (transient-mark-mode t)
 
@@ -340,11 +342,6 @@ With arg N, insert N newlines."
 ;; No annoy emacs beep
 (setq ring-bell-function #'ignore)
 
-;;Show current time
-(display-time-mode 1)
-(setq display-time-day-and-date t)
-(setq display-time-use-mail-icon t)
-
 ;;Delete to trash
 (setq delete-by-moving-to-trash t)
 
@@ -363,5 +360,12 @@ With arg N, insert N newlines."
 (autoload 'gtags-mode "gtags" "" t)
 (add-hook 'c-mode-hook 'helm-gtags-mode)
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
+
+;;Reveal Stuff in OSX Finder
+(require-package 'reveal-in-finder)
+
+(defun s2m (mins)
+  "Quick convert seconds to minutes"
+  (* mins 60))
 
 (provide 'init-edit-utils)

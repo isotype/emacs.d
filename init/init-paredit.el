@@ -22,7 +22,7 @@
 (add-hook 'paredit-mode-hook 'maybe-map-paredit-newline)
 
 (after-load 'paredit
-  (diminish 'paredit-mode " Par")
+  (diminish 'paredit-mode " ⑊")
   (dolist (binding (list (kbd "C-<left>") (kbd "C-<right>")
                          (kbd "C-M-<left>") (kbd "C-M-<right>")))
     (define-key paredit-mode-map binding nil))

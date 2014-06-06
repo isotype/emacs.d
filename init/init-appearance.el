@@ -14,6 +14,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Wrap Text
 (global-visual-line-mode 1)
+(diminish 'visual-line-mode " ⏎")
 
 ;;; Highlight Cursor Line
 (global-hl-line-mode 1)
@@ -59,6 +60,7 @@
 ;;Page break line mode
 (require-package 'page-break-lines)
 (global-page-break-lines-mode)
+(diminish 'page-break-lines-mode " -")
 "Examples Line below ^L (C-q C-l)"
 
 
