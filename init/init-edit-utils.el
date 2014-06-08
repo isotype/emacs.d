@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 02-06-2014                                              ;;
-;; Last-Updated: 02-06-2014                                         ;;
+;; Last-Updated: 06-06-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
@@ -367,5 +367,6 @@ With arg N, insert N newlines."
 (defun s2m (mins)
   "Quick convert seconds to minutes"
   (* mins 60))
+
 
 (provide 'init-edit-utils)

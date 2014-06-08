@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 07-04-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 07-06-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-git                                             ;;;
 ;;; Description: Git Setup                                         ;;;
@@ -105,6 +105,13 @@
 ;; Org-Sync Github
 (mapc 'load
       '("os" "os-github"))
+
+;; Git Clone the easy way
+(defun git-clone (user repo directory)
+  (interactive "sUser: \nsRepo: \nDTo: ")
+  (async-shell-command
+   (concat "git clone git@github.com:" user "/" repo ".git " directory repo))
+  (message "%s/%s To: %s" user repo directory))
 
 (provide 'init-git)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

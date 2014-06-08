@@ -17,7 +17,7 @@
       type-break-interval (s2m 20)
       type-break-good-rest-interval (s2m 5)
       type-break-keystroke-threshold '(1 . 8000)
-      type-break-time-warning-intervals '(300 600 900)
+      type-break-time-warning-intervals '((s2m 5) (s2m 10) (s2m 15))
       type-break-demo-functions '(type-break-demo-boring)
       type-break-mode-line-message-mode t
       type-break-terse-messages t)

@@ -117,6 +117,9 @@
 ;;SBCL
 (require 'init-lisp)
 (require 'init-slime)
+
+;; 4CLJ
+(add-to-list 'load-path (expand-file-name "4clj-el" user-git-libraries))
 (require 'init-clojure)
 (require 'init-common-lisp)
 
@@ -229,6 +232,8 @@
           (lambda ()
             (message "init completed in %.2fms"
                      (sanityinc/time-subtract-millis after-init-time before-init-time))))
+
+(toggle-debug-on-error t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
 ;; Local Variables:

@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 07-06-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-clojure                                         ;;;
 ;;; Description: Clojure config                                    ;;;
@@ -75,5 +75,7 @@
 ;; pulls in Slime
 (add-auto-mode 'clojure-mode "\\.cljs\\'")
 
+;; Learning
+(require 'four-clj)
 
 (provide 'init-clojure)
