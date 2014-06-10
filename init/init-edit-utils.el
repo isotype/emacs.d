@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 02-06-2014                                              ;;
-;; Last-Updated: 06-06-2014                                         ;;
+;; Last-Updated: 10-06-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
@@ -368,5 +368,21 @@ With arg N, insert N newlines."
   "Quick convert seconds to minutes"
   (* mins 60))
 
+
+;;,-------------------------------------------------------------------
+;;| Hide Boring Buffers
+;;|
+;;| Buffers that are ephemeral and generally uninteresting to the user
+;;| have names starting with a space, so that the list-buffers and
+;;| buffer-menu commands don't mention them (but if such a buffer
+;;| visits a file, it is mentioned). A name starting with space also
+;;| initially disables recording undo information
+;;`-------------------------------------------------------------------
+
+(defun hide-boring-buffer ()
+  "Rename the current buffer to begin with a space"
+  (interactive)
+  (unless (string-match-p "^ " (buffer-name))
+    (rename-buffer (concat " " (buffer-name)))))
 
 (provide 'init-edit-utils)
