@@ -1,0 +1,39 @@
+[submodule "submodules/emacs-async"]
+	path = submodules/emacs-async
+	url = git://github.com/jwiegley/emacs-async.git
+[submodule "submodules/emacs-github"]
+	path = submodules/emacs-github
+	url = git://github.com/kiwanami/emacs-github.git
+[submodule "submodules/org-ghi"]
+	path = submodules/org-ghi
+	url = git://github.com/punchagan/org-ghi.git
+[submodule "submodules/org-sync"]
+	path = submodules/org-sync
+	url = git://github.com/emacsmirror/org-sync.git
+[submodule "submodules/rebox2"]
+	path = submodules/rebox2
+	url = git://github.com/lewang/rebox2.git
+[submodule "submodules/screencast-mode"]
+	path = submodules/screencast-mode
+	url = git://github.com/esbena/screencast-mode.git
+[submodule "submodules/spray"]
+	path = submodules/spray
+	url = git://github.com/zk-phi/spray.git
+[submodule "submodules/terminal-notifier"]
+	path = submodules/terminal-notifier
+	url = git://github.com/alloy/terminal-notifier.git
+[submodule "submodules/writegood-mode"]
+	path = submodules/writegood-mode
+	url = git://github.com/bnbeckwith/writegood-mode.git
+[submodule "submodules/4clj-el"]
+	path = submodules/4clj-el
+	url = git://github.com/dcluna/4clj-el.git
+[submodule "submodules/org-link-minor-mode"]
+	path = submodules/org-link-minor-mode
+	url = git://github.com/seanohalpin/org-link-minor-mode.git
+[submodule "submodules/org-page"]
+	path = submodules/org-page
+	url = git://github.com/kelvinh/org-page.git
+[submodule "submodules/emacs-request"]
+	path = submodules/emacs-request
+	url = git://github.com/tkf/emacs-request.git
