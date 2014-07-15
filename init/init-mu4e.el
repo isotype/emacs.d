@@ -1,102 +1,134 @@
-;;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-  ;;;
+;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
-;;; URL: http://isoty.pe                                           ;;;
-;;; Created: 25-05-2014                                            ;;;
-;; Last-Updated: 06-06-2014                                         ;;
+;; Author: Anton Strilchuk <ype@env.sh>                             ;;
+;; URL: http://ype.env.sh                                           ;;
+;; Created: 11-06-2014                                              ;;
+;; Last-Updated: 15-07-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
-;;;                                                                ;;;
-;;; Filename: init-mu4e                                            ;;;
-;;; Version:                                                       ;;;
-;;; Description:                                                   ;;;
-;;;                                                                ;;;
+;;                                                                  ;;
+;; Filename: init-mu4e                                              ;;
+;; Version:                                                         ;;
+;; Description:                                                     ;;
+;;                                                                  ;;
+;; Package Requires: ()                                             ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-to-list 'load-path "/usr/local/Cellar/mu/HEAD/share/emacs/site-lisp/mu4e")
+(require-package 'offlineimap)
 (require 'mu4e)
 (require 'org-mu4e)
+(require 'ype-network-manager)
+(require-package 'w3m)
+
+;; Needs Emacs Async Package from Github
+;; for smtpmail-async
+(require-git-package 'jwiegley/emacs-async)
+
 ;;(require-package 'mu4e-maildirs-extension)
 ;;(mu4e-maildirs-extension)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; defaults
-(setq mu4e-maildir "~/.mail/anton-ilyfa.cc")
-(setq mu4e-drafts-folder "/drafts")
-(setq mu4e-sent-folder   "/sent")
-(setq mu4e-trash-folder  "/trash")
 
-;; don't save message to Sent Messages, Gmail/IMAP takes care of this
-(setq mu4e-sent-messages-behavior 'delete)
 
-;; setup some handy shortcuts
-;; you can quickly switch to your Inbox -- press ``ji''
-;; then, when you want archive some messages, move them to
-;; the 'All Mail' folder by pressing ``ma''.
+;;,--------------------------
+;;| DEFAULTS
+;;| General settings for MU4E
+;;`--------------------------
 
+(setq mail-user-agent 'mu4e-user-agent                           ; mu4e as default mail agent
+      mu4e-maildir "~/.mail/anton-ilyfa.cc"                      ; set mu4e mail directory
+      mu4e-drafts-folder "/drafts"                               ; set drafts folder
+      mu4e-sent-folder   "/sent"                                 ; set sent folder
+      mu4e-trash-folder  "/trash"                                ; set trash folder
+      mu4e-attachment-dir "~/Documents/email-attachments"        ; put attachements in download dir
+      mu4e-confirm-quit nil                                        ; don't ask me to quit
+      message-kill-buffer-on-exit t                              ; don't keep message buffers around
+      mu4e-headers-skip-duplicates t                             ; skip duplicate email, great for gmail
+      mu4e-headers-date-format "%A at %H:%M"                     ; date format
+      mu4e-headers-leave-behavior 'apply                         ; apply all marks at quit
+      mu4e-html2text-command "html2text -utf8 -width 72"            ; html to text
+      mu4e-compose-dont-reply-to-self t                          ; don't reply to myself
+      mail-signature nil                                           ; kill default signature
+      mu4e-compose-signature nil                                   ; signature
+      org-mu4e-convert-to-html t                                 ; automatic convert org-mode => html
+      mu4e-sent-messages-behavior 'delete                        ; don't delete messages
+      mu4e-compose-complete-only-personal t                      ; only personal messages get in the address book
+      mu4e-use-fancy-chars t                                     ; use fancy characters
+      mu4e-get-mail-command "offlineimap -q"                     ; fetch email with offlineimap
+      mu4e-html-renderer 'w3m                                    ; use w3m to render html in mail
+      mu4e-view-show-images t                                    ; auto show images
+      mu4e-view-image-max-width 450                              ; set max image width
+      )
+
+;; my email addresses
+(setq mu4e-user-mail-address-list
+      (list "antonstrilchuk@gmail.com" "anton@ilyfa.cc" "anton@ilyfa.com"
+            "anton@isoty.pe" "anton@env.sh" "anton@homeroom.org.uk" "ype@env.sh"))
+
+;; 1) messages to me@foo.com should be replied with From:me@foo.com
+;; 2) messages to me@bar.com should be replied with From:me@bar.com
+;; 3) all other mail should use From: ype@env.sh
+(add-hook 'mu4e-compose-pre-hook
+          (defun my-set-from-address ()
+            "Set the From address based on the To address of the original."
+            (let ((msg mu4e-compose-parent-message))
+              (if msg
+                  (setq user-mail-address
+                        (cond
+                         ((mu4e-message-contact-field-matches msg :to "antonstrilchuk@gmail.com")
+                          "antonstrilchuk@gmail.com")
+                         ((mu4e-message-contact-field-matches msg :to "anton@ilyfa.cc")
+                          "anton@ilyfa.cc")
+                         ((mu4e-message-contact-field-matches msg :to "anton@ilyfa.com")
+                          "anton@ilyfa.com")
+                         ((mu4e-message-contact-field-matches msg :to "anton@isoty.pe")
+                          "anton@isoty.pe")
+                         ((mu4e-message-contact-field-matches msg :to "anton@env.sh")
+                          "anton@env.sh")
+                         ((mu4e-message-contact-field-matches msg :to "anton@homeroom.org.uk")
+                          "anton@homeroom.org.uk")
+                         ((mu4e-message-contact-field-matches msg :to "ype@env.sh")
+                          "ype@env.sh")
+                         (t "ype@env.sh")))))))
+
+;; reply attribution line
+(setq message-citation-line-format "On %A \[%d/%m/%y\]\n%N wrote:")
+(setq message-citation-line-function 'message-insert-formatted-citation-line)
+
+;;,--------------------------------------------------------
+;;| SHORTCUTS
+;;| you can quickly switch to your Inbox -- press ``ji''
+;;| then, when you want archive some messages, move them to
+;;| the 'All Mail' folder by pressing ``ma''.
+;;`--------------------------------------------------------
 (setq mu4e-maildir-shortcuts
-      '( ("/INBOX"               . ?i)
-         ("/starred"   . ?!)
-         ("/drafts" . ?d)
-         ("/sent"   . ?s)
-         ("/trash"       . ?t)
-         ("/archive"    . ?a)))
-;; allow for updating mail using 'U' in the main view:
-;; I have this running in the background anyway
-(setq mu4e-get-mail-command "offlineimap -q") ;;offlineimap -q
-;; Use fancy chars
-(setq mu4e-use-fancy-chars t)
+      '( ("/INBOX"    . ?i)
+         ("/starred"  . ?!)
+         ("/drafts"   . ?d)
+         ("/sent"     . ?s)
+         ("/trash"    . ?t)
+         ("/archive"  . ?a)))
 
 ;; See http://www.emacswiki.org/emacs/GnusGmail for more details
 (require 'smtpmail-async)
 (setq message-send-mail-function 'async-smtpmail-send-it
       ;; message-send-mail-function 'smtpmail-send-it
-      smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-      smtpmail-auth-credentials '(("smtp.gmail.com" 587 "anton@ilyfa.cc" nil))
-      smtpmail-default-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-starttls-credentials '(("smtp.mandrillapp.com" 587 nil nil))
+      smtpmail-auth-credentials '(("smtp.mandrillapp.com" 587 "anton@ilyfa.cc" nil))
+      smtpmail-default-smtp-server "smtp.mandrillapp.com"
+      smtpmail-smtp-server "smtp.mandrillapp.com"
       smtpmail-smtp-service 587
       smtpmail-debug-info t
       smtpmail-local-domain "ilyfa.cc"
       sendmail-coding-system 'UTF-8
-      smtpmail-queue-mail nil
+      smtpmail-queue-mail t
       smtpmail-queue-dir "/Users/anton/.mail/queue/cur")
 
-;; set encoding system
-;; (defun async-smtpmail-send-it ()
-;;   (let ((to (message-field-value "To")))
-;;     (message "Delivering message to %s..." to)
-;;     (async-start
-;;      `(lambda ()
-;;         (require-package 'smtpmail)
-;;         (with-temp-buffer
-;;           (let ((coding-system-for-read 'utf-8)
-;;                 (coding-system-for-write 'utf-8))
-;;             (insert ,(buffer-substring-no-properties (point-min) (point-max)))
-;;             ;; Pass in the variable environment for smtpmail
-;;             ,(async-inject-variables "\\`\\(smtpmail\\|\\(user-\\)?mail\\)-")
-;;             (smtpmail-send-it))))
-;;      `(lambda (&optional ignore)
-;;         (message "Delivering message to %s...done" ,to)))))
-
-;; sending mail
-;; (setq message-send-mail-function 'message-send-mail-with-sendmail
-;;       sendmail-program "/usr/local/bin/msmtp")
-
-(setq message-signature nil)
-
-(setq org-mu4e-convert-to-html t)
-
-(require-package 'w3m)
-(setq mu4e-confirm-quit nil
-      mu4e-headers-date-format "%d/%b/%Y %H:%M" ; date format
-      mu4e-html2text-command "w3m -dump -T text/html")
-(setq mu4e-html-renderer 'w3m)
-;; don't keep message buffers around
-(setq message-kill-buffer-on-exit t)
-
-;; show images
-;; Try to display images in mu4e
-(setq
- mu4e-view-show-images t
- mu4e-view-image-max-width 800)
+;; headers in the overview
+(setq mu4e-headers-fields
+      '((:flags         .   6)
+        (:from          .  16)
+        (:date          .  24)
+        (:subject       .  nil)
+        ))
 
 ;; use imagemagick, if available
 (when (fboundp 'imagemagick-register-types)
@@ -136,7 +168,6 @@
 
 (setq gnus-dired-mail-mode 'mu4e-user-agent)
 (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
-(setq mu4e-update-interval 300) ;; update every 5 minutes
 (add-hook 'mu4e-index-updated-hook
           '(lambda ()
              (tn-notify "Mail has been updated, next update in 3 minutes" "MU4E" "New/Updated Mail")))
@@ -150,14 +181,72 @@
 (global-set-key (kbd "H-c") 'mu4e)
 
 (add-hook 'mu4e-compose-mode-hook
-          (defun y_pe/do-compose-stuff ()
+          (defun ype/do-compose-stuff ()
             "My settings for message composition."
             (set-fill-column 72)
             (flyspell-mode)))
 
 (add-hook 'mu4e-compose-mode-hook
-          (defun y_pe/add-bcc ()
-            "Add a Bcc: header."
-            (save-excursion (message-add-header "Bcc: anton@ilyfa.cc\n"))))
+          (defun ype/add-mandrill-tags ()
+            "Add Mandrill tags to header."
+            (save-excursion (message-add-header
+                             (concat "X-MC-BccAddress: antonstrilchuk@gmail.com\n"
+                                     "X-MC-Tags: mu4e\n")))))
+
+
+;;,------------------------------
+;;| External MAILTO Links Handler
+;;`------------------------------
+(defun ype/mu4e-mailto (to subject &optional body)
+  "Handler for external @mailto: links in mu4e"
+  (progn
+    (mu4e-compose-new)
+    (message-goto-to)
+    (insert
+     (url-unhex-string (format "%s" to)))
+    (message-goto-subject)
+    (insert
+     (url-unhex-string (format "%s" subject)))
+    (message-goto-body)
+    (insert
+     (url-unhex-string (format "\n%s\n" body)))))
+
+
+;;,------------------------------
+;;| Queue Connection Check & Send
+;;`------------------------------
+
+;; TODO: Need alternative connection check to dbus
+
+;; (defun ype:on-connect()
+;;   (message "Connected: Flushing Mail Queue")
+;;   (offlineimap)
+;;   (smtpmail-send-queued-mail)
+;;   (setq smtpmail-queue-mail nil))
+
+;; (defun ype:on-disconnect()
+;;   (message "Disconnected: Queuing Mail")
+;;   (condition-case ex
+;;       (offlineimap-kill 9)
+;;     ('error (message (format "Ignoring exception: %s" ex))))
+;;   (setq smtpmail-queue-mail t))
+
+;; (add-to-list 'nm-connected-hook 'ype:on-connect)
+;; (add-to-list 'nm-disconnected-hook 'ype:on-disconnect)
+
+;; (nm-enable)
+
+
+;;,---------
+;;| Contacts
+;;`---------
+;; Google Contacts
+(require 'org-contacts)
+
+(setq mu4e-org-contacts-file "~/.org-contacts.org")
+(add-to-list 'mu4e-headers-actions
+  '("org-contact-add" . mu4e-action-add-org-contact) t)
+(add-to-list 'mu4e-view-actions
+  '("org-contact-add" . mu4e-action-add-org-contact) t)
 
 (provide 'init-mu4e)
