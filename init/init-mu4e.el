@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 11-06-2014                                              ;;
-;; Last-Updated: 15-07-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 25-07-2014                                         ;;
+;;   By: Anton Strilchuk <anton@ilyfa.cc>                           ;;
 ;;                                                                  ;;
 ;; Filename: init-mu4e                                              ;;
 ;; Version:                                                         ;;
@@ -17,12 +17,13 @@
 (require-package 'offlineimap)
 (require 'mu4e)
 (require 'org-mu4e)
-(require 'ype-network-manager)
-(require-package 'w3m)
-
 ;; Needs Emacs Async Package from Github
 ;; for smtpmail-async
 (require-git-package 'jwiegley/emacs-async)
+
+;; Not Working Yet
+;; (require 'ype-network-manager)
+(require-package 'w3m)
 
 ;;(require-package 'mu4e-maildirs-extension)
 ;;(mu4e-maildirs-extension)
@@ -44,7 +45,7 @@
       mu4e-headers-skip-duplicates t                             ; skip duplicate email, great for gmail
       mu4e-headers-date-format "%A at %H:%M"                     ; date format
       mu4e-headers-leave-behavior 'apply                         ; apply all marks at quit
-      mu4e-html2text-command "html2text -utf8 -width 72"            ; html to text
+      mu4e-html2text-command "w3m -dump -T text/html -cols 72"   ; html to text
       mu4e-compose-dont-reply-to-self t                          ; don't reply to myself
       mail-signature nil                                           ; kill default signature
       mu4e-compose-signature nil                                   ; signature
@@ -116,11 +117,13 @@
       smtpmail-default-smtp-server "smtp.mandrillapp.com"
       smtpmail-smtp-server "smtp.mandrillapp.com"
       smtpmail-smtp-service 587
-      smtpmail-debug-info t
+      smtpmail-debug-info nil
       smtpmail-local-domain "ilyfa.cc"
       sendmail-coding-system 'UTF-8
       smtpmail-queue-mail t
       smtpmail-queue-dir "/Users/anton/.mail/queue/cur")
+
+(global-set-key (kbd "H-x H-s") 'smtpmail-send-queued-mail)
 
 ;; headers in the overview
 (setq mu4e-headers-fields
@@ -191,7 +194,8 @@
             "Add Mandrill tags to header."
             (save-excursion (message-add-header
                              (concat "X-MC-BccAddress: antonstrilchuk@gmail.com\n"
-                                     "X-MC-Tags: mu4e\n")))))
+                                     "X-MC-Tags: mu4e\n"
+                                     "X-MC-SendAt: \n")))))
 
 
 ;;,------------------------------
@@ -217,6 +221,8 @@
 ;;`------------------------------
 
 ;; TODO: Need alternative connection check to dbus
+
+(setq mu4e-update-interval (m2s 3))
 
 ;; (defun ype:on-connect()
 ;;   (message "Connected: Flushing Mail Queue")
@@ -247,6 +253,27 @@
 (add-to-list 'mu4e-headers-actions
   '("org-contact-add" . mu4e-action-add-org-contact) t)
 (add-to-list 'mu4e-view-actions
-  '("org-contact-add" . mu4e-action-add-org-contact) t)
+             '("org-contact-add" . mu4e-action-add-org-contact) t)
+
+
+;;,---------------------------
+;;| Send Mail At Specific Time
+;;`---------------------------
+
+(defun ype:send-it-later (date time)
+  "
+/=========================================================================`
+| Insert SMTP-Header for Mandrill X-MC-SendAt, scheduled message delivery |
+|                                                                         |
+| Example: X-MC-SendAt: 2014-07-24 10:34:00+01:00                         |
+| Usage: M-x ype:send-it-later                                            |
+| Requires: insert-manual-day-and-time from ype:init-helpers.el           |
+`=========================================================================/
+"
+  (interactive "sDeliver on [Date]: \nsDeliver at [24hr]: ")
+  (insert "X-MC-SendAt: ")
+  (insert-manual-day-and-time date time))
+
+
 
 (provide 'init-mu4e)
