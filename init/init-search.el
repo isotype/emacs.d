@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 30-06-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-search                                          ;;;
 ;;; Description: Search Modes                                      ;;;
@@ -14,11 +14,12 @@
 
 ;;; Anzu
 ;; Show number of matches while searching
-(require-package 'anzu)
-(global-anzu-mode t)
-(diminish 'anzu-mode)
-(global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
-(global-set-key [remap query-replace] 'anzu-query-replace)
+(when (>= emacs-major-version 24)
+  (require-package 'anzu)
+  (global-anzu-mode t)
+  (diminish 'anzu-mode)
+  (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
+  (global-set-key [remap query-replace] 'anzu-query-replace))
 
 ;; Activate occur inside isearch
 (define-key isearch-mode-map (kbd "C-o") 'isearch-occur)

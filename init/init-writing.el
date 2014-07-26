@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 03-05-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 10-06-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-writing                                         ;;;
 ;;; Version:                                                       ;;;
@@ -19,11 +19,9 @@
     (setq ispell-dictionary "british"
           ispell-silently-savep t)))
 
-(add-to-list 'load-path (expand-file-name "writegood-mode" user-git-libraries))
-(require-package 'writegood-mode)
+(require-git-package 'bnbeckwith/writegood-mode)
 ;; Writegood mode
 (global-set-key "\C-cg" 'writegood-mode)
-
 (global-set-key (kbd "C-c q") 'refill-mode)
 
 (provide 'init-writing)

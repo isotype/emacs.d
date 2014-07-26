@@ -1,14 +1,21 @@
-;;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-  ;;;
+;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
-;;; URL: http://isoty.pe                                           ;;;
-;;; Created: 23-03-2014                                            ;;;
-;;;                                                                ;;;
-;;; Filename: init                                                 ;;;
-;;; Description: Emacs Init                                        ;;;
-;;;                                                                ;;;
+;; Author: Anton Strilchuk <ype@env.sh>                             ;;
+;; URL: http://ype.env.sh                                           ;;
+;; Created: 16-06-2014                                              ;;
+;; Last-Updated: 26-07-2014                                         ;;
+;;  Update #: 15                                                    ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;;                                                                  ;;
+;; Filename: init                                                   ;;
+;; Version:                                                         ;;
+;; Description:                                                     ;;
+;;                                                                  ;;
+;; Package Requires: ()                                             ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; Code:
 
 (let ((minver 23))
   (unless (>= emacs-major-version minver)
@@ -18,16 +25,12 @@
 (defconst *is-x-toolkit* (eq window-system 'x))
 (defconst *is-ns-toolkit* (eq window-system 'ns))
 
-;; Git Packages
-(defconst user-git-libraries (expand-file-name "from-git" user-emacs-directory))
-
 ;; Test to check if we are using XQuartz, to set correct .emacs.d
 (when *is-x-toolkit*
   (setq user-emacs-directory "/opt/xwindows/emacs24/share/.emacs.d/"))
 
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "org-sync" user-git-libraries))
-
+(add-to-list 'load-path (expand-file-name "init-tools" user-emacs-directory))
 
 ;; Measure startup time
 (require 'init-benchmarking)
@@ -37,31 +40,24 @@
 ;; ---------------- ;;
 (require 'init-compat)
 (require 'init-utils)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ----------------------------------------------------- ;;
-;; Package Manager See ~Cask~ file for its configuration ;;
-;; https://github.com/cask/cask                          ;;
-;; ----------------------------------------------------- ;;
-;; (require 'cask "~/.cask/cask.el")
-;; (cask-initialize)
-;;Keeps ~Cask~ file in sync with the packages
-;;that you install/uninstall via ~M-x list-packages~
-;;https://github.com/rdallasgray/pallet
-
-;;(require 'pallet)
 (require 'init-site-lisp)
 (require 'init-elpa)
+(require 'init-git-packages)
 (require 'init-exec-path)
 
 ;; wgrep needed for init-edit-utils
+(require-git-package 'emacsmirror/org-sync)
 (require-package 'wgrep)
 (require-package 'project-local-variables)
 (require-package 'diminish)
 (require-package 'scratch)
 (require-package 'mwe-log-commands)
+(require-package 'itail)
 
+(setq temporary-file-directory (expand-file-name "backup" user-emacs-directory))
 ;;Buffer Backups (files in ~/.emacs.d/backup)
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+(setq backup-directory-alist `((".*" . ,temporary-file-directory))
+      auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
       backup-by-copying t    ; Don't delink hardlinks
       version-control t      ; Use version numbers on backups
       delete-old-versions t  ; Automatically delete excess backups
@@ -69,9 +65,8 @@
       kept-old-versions 5    ; and how many of the old
       )
 
-(setq
- user-mail-address "ype@env.sh"
- user-full-name "Anton Strilchuk")
+(setq user-mail-address "ype@env.sh"
+      user-full-name "Anton Strilchuk")
 
 (require 'init-keys) ; Keys and Passwords, do not include in public git
 (require 'init-frame-hooks)
@@ -91,9 +86,11 @@
 (require 'init-search)
 (require 'init-ido)
 (require 'init-auto-complete)
-
+(require 'init-windows)
 (require 'init-edit-utils)
+(require 'init-helpers)
 (require 'init-paredit)
+(require 'init-flycheck)
 
 ;;Project management
 (require-package 'ack-and-a-half)
@@ -108,6 +105,9 @@
 ;;Dash
 (require 'init-dash)
 
+;; Finances
+(require 'init-ledger)
+
 ;;Social Networking
 (require 'init-social)
 
@@ -119,26 +119,17 @@
 (require 'init-slime)
 
 ;; 4CLJ
-(add-to-list 'load-path (expand-file-name "4clj-el" user-git-libraries))
 (require 'init-clojure)
 (require 'init-common-lisp)
 
 ;;Literate Clojure
 (require 'init-literate-clojure)
 
-(require-package 'itail)
-
 ;;Custom Functions
 (require 'init-random-defuns)
 
-;;Emacs Terminal
-;;(load "multi-term-setup")
-
-;;TMUX
-;;(load "tmux_setup")
-
-;;W3M
-;;(load "y_pe-w3m")
+;;Jump to Page
+(require 'init-webjump)
 
 ;;Tabs
 ;; Currently Disabled due to display lag issues
@@ -150,21 +141,11 @@
 ;;Clean up modeline
 ;;(load "clean-modeline")
 
-;;MU4E
-(add-to-list 'load-path "/usr/local/Cellar/mu/HEAD/share/emacs/site-lisp/mu4e")
-(add-to-list 'load-path (expand-file-name "emacs-async" user-git-libraries))
-(add-to-list 'load-path (expand-file-name "terminal-notifier" user-git-libraries))
+(require-git-package 'emacsmirror/terminal-notifier)
 (require 'terminal-notifier)
-(require 'init-mu4e)
 
 ;;Markdown mode
 (require 'init-markdown)
-
-;;Sprint.ly private stuff
-;;(load "sprintly-mode-setup")
-
-;;Ruby Setup
-;;(load "erb-setup")
 
 ;;The Big Giant Org
 (require 'init-org)
@@ -182,18 +163,51 @@
 ;;Custom Keybindings
 (require 'init-keybindings)
 
+;;MU4E
+(require 'init-contacts)
+(require 'init-mu4e)
+
 ;;IRC
 (require 'init-irc)
+
+
+;;,---------------------
+;;| MISC
+;;| miscellaneous stuff
+;;`---------------------
+
 ;; Writing
 (require 'init-deft)
 (require 'init-writing)
+
+;; Web
 (require 'init-web)
 
-(require-package 'gnuplot)
+;; Time Tracking
+(require 'init-wakatime)
 
+;; Health
+(require 'init-rsi)
+
+;; News and Reading
+(require 'init-feeds)
+(require 'init-spritz)
+
+;; Slack
+(require 'init-slack)
+
+;;,--------------------------------------------------
+;;| MISC: OSX Printing
+;;| From: http://www.emacswiki.org/emacs/MacPrintMode
+;;`--------------------------------------------------
+(add-to-list 'load-path (expand-file-name "misc" user-emacs-directory))
+(require 'mac-print-mode)
+
+(require-package 'gnuplot)
 (when *is-a-mac*
   (require-package 'osx-location))
 (require-package 'regex-tool)
+
 ;;----------------------------------------------------------------------------
 ;; Byte compile every .el file into a .elc file in the
 ;; given directory. Must go after all init-* require.
@@ -215,8 +229,6 @@
 ;;----------------------------------------------------------------------------
 (bookmark-bmenu-list)
 
-(require 'init-wakatime)
-(require 'init-rsi)
 ;;----------------------------------------------------------------------------
 ;; variables configured via the interactive 'customize' interface
 ;;----------------------------------------------------------------------------
@@ -234,6 +246,12 @@
                      (sanityinc/time-subtract-millis after-init-time before-init-time))))
 
 (toggle-debug-on-error t)
+
+;; Clock in default task (Daily Dose)
+;; Jump: [[file:init/init-org.el::%3B%3B|%20DEFAULT%20TASK%20IDs][Default task ID function]]
+;;(ype/clock-in-default-task-as-default)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
 ;; Local Variables:

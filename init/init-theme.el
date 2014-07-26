@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 26-07-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-theme                                           ;;;
 ;;; Description: Setup for: Color-theme, Powerline, and tabbars    ;;;
@@ -14,6 +14,7 @@
 ;;;Powerline
 (require-package 'powerline)
 (powerline-vim-theme)
+(color-theme-initialize)
 
 (require-package 'color-theme-solarized)
 (setq solarized-termcolor 256

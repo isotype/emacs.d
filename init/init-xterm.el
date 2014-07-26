@@ -3,12 +3,12 @@
 ;; Filename: init-xterm.el
 ;; Description: modification of Steve Purcell's emacs.d/init-xterm.el
 ;; Created by: Steve Purcell
-;; Author: y_pe
+;; Author: ype
 ;; Created: Mon Feb 17 16:51:09 2014 (+0000)
 ;; Package-Requires: ()
-;; Last-Updated: Mon Feb 17 16:53:02 2014 (+0000)
-;;           By: anton
-;;     Update #: 1
+;; Last-Updated: 11-06-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;;  Update #: 2                                                     ;;
 ;; URL: isoty.pe
 ;; Doc URL: https://github.com/purcell/emacs.d/blob/master/lisp/init-xterm.el
 ;; Keywords: Emacs, xterm, init, lisp
