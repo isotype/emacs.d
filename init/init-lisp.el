@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 10-04-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 12-06-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-lisp                                            ;;;
 ;;; Version:                                                       ;;;
@@ -36,7 +36,7 @@
 (global-set-key (kbd "M-:") 'pp-eval-expression)
 
 (after-load 'lisp-mode
-  (define-key emacs-lisp-mode-map (kbd "C-x C-e") 'sanityinc/eval-last-sexp-or-region))
+  (define-key emacs-lisp-mode-map (kbd "H-\\") 'sanityinc/eval-last-sexp-or-region))
 
 (require-package 'ipretty)
 (ipretty-mode 1)

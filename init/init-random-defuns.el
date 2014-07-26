@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 25-05-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 12-07-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: defuns                                               ;;;
 ;;; Version:                                                       ;;;
@@ -12,7 +12,7 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun y_pe/get-to-work ()
+(defun ype/get-to-work ()
   "Depends on: sudo gem install work 
 this function blocks internet traffic to specific 
 time wasting sites"
@@ -22,7 +22,7 @@ time wasting sites"
 	   (shell-quote-argument
 	    (read-passwd "Password: ")) " | sudo -S work start")))
 
-(defun y_pe/fuck-work ()
+(defun ype/fuck-work ()
   "Depends on: sudo gem install work
 this function unblocks internet traffic to specific
 time wasting sites"
@@ -33,13 +33,13 @@ time wasting sites"
 	    (read-passwd "Password: ")) " | sudo -S work stop")))
 
 ;;Reload browser
-(defun y_pe/reload-browser ()
+(defun ype/reload-browser ()
   (interactive)
   (shell-command
    (concat
     "chromix with http://localhost:5000/ reload")))
 
-(defun y_pe/kill-global-wrap ()
+(defun ype/kill-global-wrap ()
   "Depends on: nothing
 This function quickly switches visual-line-mode and auto-fill-mode off"
   (interactive)
@@ -47,14 +47,14 @@ This function quickly switches visual-line-mode and auto-fill-mode off"
   (auto-fill-mode 0))
 
 ;;Quick switch text wrap on
-(defun y_pe/global-wrap ()
+(defun ype/global-wrap ()
     "Depends on: nothing
 This function quickly switches visual-line-mode and auto-fill-mode on"
   (interactive)
   (visual-line-mode 0)
   (auto-fill-mode 0))
 
-(defun y_pe/save-buffers-kill-emacs (&optional arg)
+(defun ype/save-buffers-kill-emacs (&optional arg)
   "Offer to save each buffer(once only), then kill this Emacs process.
 With prefix ARG, silently save all file-visiting buffers, then kill.
 source: http://stackoverflow.com/questions/6762686/prevent-emacs-from-asking-modified-buffers-exist-exit-anyway"
@@ -78,6 +78,19 @@ source: http://stackoverflow.com/questions/6762686/prevent-emacs-from-asking-mod
 	   ;;(funcall confirm-kill-emacs "Really exit Emacs? "))
        (kill-emacs)))
 
+(defun camelCase-to_underscores (start end)
+  "Convert any string matching something like aBc to a_bc"
+  (interactive "r")
+  (save-restriction
+    (narrow-to-region start end)
+    (goto-char 1)
+    (let ((case-fold-search nil))
+      (while (search-forward-regexp "\\([a-z]\\)\\([A-Z]\\)\\([a-z]\\)" nil t)
+        (replace-match (concat (match-string 1)
+                               "_"
+                               (downcase (match-string 2))
+                               (match-string 3))
+                       t nil)))))
 
 ;; ;;ERC TERMINAL NOTIFIER
 ;; (defvar erc-terminal-notifier-command nil "The path to terminal-notifier.")
@@ -103,34 +116,5 @@ source: http://stackoverflow.com/questions/6762686/prevent-emacs-from-asking-mod
 
 ;; (if (eq system-type 'darwin)
 ;;     (add-hook 'erc-text-matched-hook 'erc-terminal-notifier-text-matched))
-
-
-;;String Manipulation
-(setq custom/fill-length 70)
-
-(defun custom/length (&rest rest)
-  "Summed length of all the strings/lists in `rest'."
-  (apply '+ (mapcar 'length rest)))
-
-(defun custom/fill-str (delim &optional total &rest str)
-  (let* ((total-len (or total
-                        custom/fill-length))
-         (str-len (or (apply 'custom/length str)
-                      0))
-         (rem-length (- total-len str-len)))
-    (if (> rem-length 0)
-        (make-string rem-length delim)
-      "")))
-
-(defun custom/aligned-str (pre &rest str &optional total)
-  (let* ((l (car (last str)))
-         (total (unless (stringp l) l))
-         (str   (replace-regexp-in-string
-                 "\\` ?\\| ?$" " "
-                 (apply 'concat (remove-if-not 'stringp str)))))
-    (concat pre str (custom/fill-str ?\s total pre str pre) pre)))
-
-(defun custom/file-name ()
-  (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))
 
 (provide 'init-random-defuns)

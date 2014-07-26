@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;; Last-Updated: 07-06-2014                                         ;;
+;; Last-Updated: 14-06-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-clojure                                         ;;;
@@ -11,6 +11,7 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (require-package 'clojure-mode)
 (require-package 'clojure-test-mode)
 (require-package 'cljsbuild-mode)
@@ -18,6 +19,7 @@
 (require-package 'cider)
 ;;(require-package 'slamhound)
 (require-package 'ac-nrepl)
+(require-package 'latest-clojure-libraries)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -76,6 +78,8 @@
 (add-auto-mode 'clojure-mode "\\.cljs\\'")
 
 ;; Learning
-(require 'four-clj)
+(require-git-package 'four-clj)
 
 (provide 'init-clojure)
+
+;;; init-clojure.el ends here)

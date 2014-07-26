@@ -1,38 +1,79 @@
+;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-    ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Author: Anton Strilchuk <ype@env.sh>                             ;;
+;; URL: http://ype.env.sh                                           ;;
+;; Created: 16-06-2014                                              ;;
+;; Last-Updated: 16-06-2014                                         ;;
+;;  Update #: 1                                                     ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;;                                                                  ;;
+;; Filename: init-headers                                           ;;
+;; Version:                                                         ;;
+;; Description: Do not byte-compile this file                       ;;
+;;                                                                  ;;
+;; Package Requires: ()                                             ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require-package 'header2)
 (require 'fold-dwim)
 (require 'header2)
 
-(setq
- header-date-format	"%d-%m-%Y"
- header-max 5000
- header-copyright-notice nil
- header-url-str "http://ype.env.sh"
- make-header-hook '(
-                    custom/header-prefix-string
-                    header-mode-line
-                    header-end-line
-                    header-author
-                    header-url
-                    header-copyright
-                    header-creation-date
-                    header-modification-date
-                    header-modification-author
-                    header-blank
-                    header-file-name
-                    header-version
-                    header-description
-                    header-lib-requires
-                    header-pkg-requires
-                    header-end-line
-                    ;;TODO header-license
-                    header-end-line
-                    ))
+(setq ype/fill-length 70)
+
+(defun ype/length (&rest rest)
+  "Summed length of all the strings/lists in rest."
+  (apply '+ (mapcar 'length rest)))
+
+(defun ype/fill-str (delim &optional total &rest str)
+  (let* ((total-len (or total ype/fill-length))
+         (str-len (or (apply 'ype/length str) 0))
+         (rem-length (- total-len str-len)))
+    (if (> rem-length 0)
+        (make-string rem-length delim)
+      "")))
+
+(defun ype/aligned-str (pre &rest str &optional total)
+  (let* ((l (car (last str)))
+         (total (unless (stringp l) l))
+         (str
+          (replace-regexp-in-string "\\` ?\\| ?$" " "
+                                    (apply 'concat (remove-if-not 'stringp str)))))
+    (concat pre str (ype/fill-str ?\s total pre str pre) pre)))
+
+(defun ype/file-name ()
+  (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))
+
+(setq header-date-format "%d-%m-%Y"
+      header-max 5000
+      header-copyright-notice nil
+      header-url-str "http://ype.env.sh"
+      make-header-hook '(
+                         ype/header-prefix-string
+                         ype/header-mode-line
+                         ype/header-end-line
+                         ype/header-author
+                         ype/header-url
+                         header-copyright
+                         ype/header-creation-date
+                         ype/header-modification-date
+                         ype/header-update-count
+                         ype/header-modification-author
+                         ype/header-blank
+                         ype/header-file-name
+                         ype/header-version
+                         ype/header-description
+                         header-lib-requires
+                         ype/header-pkg-requires
+                         ype/header-end-line
+                         ;;TODO header-license
+                         ype/header-end-line
+                         ))
 ;;; From: https://github.com/ahilsend/dotfiles/blob/master/.emacs.d/rc/rc-header2.el
-(defun custom/header-prefix-string ()
+(defun ype/header-prefix-string ()
   (setq header-prefix-string
         (pcase  major-mode
           (`c-mode           "///")
-          (`arduino-mode		 "///")
+          (`arduino-mode     "///")
           (`c++-mode         "///")
           (`conf-mode        "##")
           (`conf-colon-mode  "##")
@@ -49,32 +90,32 @@
           (`sh-mode          "##")
           (_                 header-prefix-string))))
 
-(defun custom/insert-aligned (&rest str)
-  (insert (apply 'custom/aligned-str header-prefix-string str) "\n"))
+(defun ype/insert-aligned (&rest str)
+  (insert (apply 'ype/aligned-str header-prefix-string str) "\n"))
 
-(defun header-mode-line ()
-  (custom/insert-aligned "-*- mode: " (true-mode-name)
-                         "; tab-width: 2; indent-tabs-mode:nil; -*-"))
+(defun ype/header-mode-line ()
+  (ype/insert-aligned "-*- mode: " (true-mode-name)
+                      "; tab-width: 2; indent-tabs-mode:nil; -*-"))
 
-(defun custom/user-str ()
+(defun ype/user-str ()
   (concat user-full-name " <" user-mail-address ">"))
 
-(defun header-author ()
-  (custom/insert-aligned "Author: " (custom/user-str)))
+(defun ype/header-author ()
+  (ype/insert-aligned "Author: " (ype/user-str)))
 
-(defun header-creation-date ()
-  (custom/insert-aligned "Created: " (header-date-string)))
+(defun ype/header-creation-date ()
+  (ype/insert-aligned "Created: " (header-date-string)))
 
-(defun header-modification-date ()
-  (custom/insert-aligned "Last-Updated:"))
+(defun ype/header-modification-date ()
+  (ype/insert-aligned "Last-Updated:"))
 
-(defsubst header-modification-author ()
-  (custom/insert-aligned "  By:" " "))
-(defsubst header-update-count ()
-  (custom/insert-aligned "  Update #:" " 0"))
+(defsubst ype/header-modification-author ()
+  (ype/insert-aligned "  By:" " "))
+(defsubst ype/header-update-count ()
+  (ype/insert-aligned "  Update #:" " 0"))
 
-(defun header-file-name ()
-  (custom/insert-aligned "Filename: " (custom/file-name)))
+(defun ype/header-file-name ()
+  (ype/insert-aligned "Filename: " (ype/file-name)))
 
 (defun ype/find-req-pkg ()
   (with-temp-buffer
@@ -84,27 +125,27 @@
       (match-string-no-properties 0)
       )))
 
-(defun header-pkg-requires ()
-  (custom/insert-aligned "Package Requires: (" (ype/find-req-pkg) ")"))
+(defun ype/header-pkg-requires ()
+  (ype/insert-aligned "Package Requires: (" (ype/find-req-pkg) ")"))
 
-(defun header-description ()
-  (custom/insert-aligned "Description:")
+(defun ype/header-description ()
+  (ype/insert-aligned "Description:")
   (setq return-to (+ 2 (point)))
-  (custom/insert-aligned))
+  (ype/insert-aligned))
 
 (defun ype/url-str ()
   (concat "URL: " header-url-str))
-(defun header-url ()
-  (custom/insert-aligned (ype/url-str)))
+(defun ype/header-url ()
+  (ype/insert-aligned (ype/url-str)))
 
-(defun header-version ()
-  (custom/insert-aligned "Version: "))
+(defun ype/header-version ()
+  (ype/insert-aligned "Version: "))
 
-(defun header-blank ()
-  (custom/insert-aligned))
+(defun ype/header-blank ()
+  (ype/insert-aligned))
 
-(defun header-end-line ()
-  (insert (custom/fill-str (nth 0 (string-to-list header-prefix-string))) "\n"))
+(defun ype/header-end-line ()
+  (insert (ype/fill-str (nth 0 (string-to-list header-prefix-string))) "\n"))
 
 ;;;FIXME custom header license
 (setq header-license
@@ -135,9 +176,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
 
 \[license]: http://www.opensource.org/licenses/ncsa")
 
-(defun header-license ()
+(defun ype/header-license ()
   "Insert license"
-  (custom/insert-aligned (split-string header-license)))
+  (ype/insert-aligned (split-string header-license)))
 
 ;;; Update header
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -145,15 +186,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
   (fold-dwim-show)
   (move-beginning-of-line nil)
   (delete-and-forget-line)
-  (custom/header-prefix-string)
-  (insert (custom/aligned-str header-prefix-string " Last-Updated:" " "
-                              (header-date-string))))
+  (ype/header-prefix-string)
+  (insert (ype/aligned-str header-prefix-string " Last-Updated:" " "
+                           (header-date-string))))
 
 (defun update-last-modifier ()
   (move-beginning-of-line nil)
   (delete-and-forget-line)
-  (custom/header-prefix-string)
-  (insert (custom/aligned-str header-prefix-string "   By:" " " (custom/user-str))))
+  (ype/header-prefix-string)
+  (insert (ype/aligned-str header-prefix-string "   By:" " " (ype/user-str))))
 
 (defun update-write-count ()
   (let* ((str  (delete-and-forget-line))
@@ -162,9 +203,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
     (when (numberp num)
       (move-beginning-of-line nil)
       (delete-and-forget-line)
-      (custom/header-prefix-string)
-      (insert (custom/aligned-str header-prefix-string
-                                  "  Update #:" " " (format "%s" (1+ num)))))))
+      (ype/header-prefix-string)
+      (insert (ype/aligned-str header-prefix-string
+                               "  Update #:" " " (format "%s" (1+ num)))))))
 
 (register-file-header-action "Last-Updated[ \t]*: " 'update-last-modified-date)
 (register-file-header-action "  By[ \t]*: " 'update-last-modifier)

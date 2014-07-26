@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 17-04-2014                                            ;;;
-;;; Last-Updated: 17-04-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 30-06-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-gui-frames                                      ;;;
 ;;; Version:                                                       ;;;
@@ -65,5 +65,14 @@
       '((:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name))
                  "%b"))))
+
+;;,-----------------------------------------------------------------
+;;| Non-zero values for `line-spacing' can mess up ansi-term and co,
+;;| so we zero it explicitly in those cases.
+;;`-----------------------------------------------------------------
+(add-hook 'term-mode-hook
+          (lambda ()
+            (set (make-local-variable 'line-spacing)
+                 0)))
 
 (provide 'init-gui-frames)

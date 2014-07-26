@@ -1,5 +1,5 @@
-;; Block use of arrow keys
-;; (global-unset-key (kbd "<left>"))
+;; Block Use Of Arrow Keys
+;; (Global-unset-key (kbd "<left>"))
 ;; (global-unset-key (kbd "<right>"))
 ;; (global-unset-key (kbd "<up>"))
 ;; (global-unset-key (kbd "<down>"))
@@ -14,11 +14,21 @@
 
 ;;Key modifiers
 (unless *is-x-toolkit*
-  (setq ns-option-modifier 'meta)
-  (setq ns-command-modifier 'super)
+  (setq mac-command-modifier 'meta)
+  (setq ns-option-modifier 'super)
   (setq ns-right-command-modifier 'hyper)
   (setq ns-right-option-modifier 'alt)
-  (setq ns-right-control-modifier 'nil))
+  (setq ns-right-control-modifier 'nil)
+  (setq default-input-method "MacOSX")
+  ;; Make mouse wheel / trackpad scrolling less jerky
+  (setq mouse-wheel-scroll-amount '(1
+                                    ((shift) . 5)
+                                    ((control))))
+  (global-set-key (kbd "M-`") 'ns-next-frame)
+  (global-set-key (kbd "M-h") 'ns-do-hide-emacs)
+  (after-load 'nxml-mode
+    (define-key nxml-mode-map (kbd "M-h") nil))
+  (global-set-key (kbd "M-ˍ") 'ns-do-hide-others))
 
 (global-set-key (kbd "M-SPC") 'set-mark-command)
 
@@ -29,16 +39,16 @@
 (set-register ?c (cons 'file "~/.emacs.d/Cask"))
 
 ;;Quick switch text wrap off
-(global-set-key (kbd "H-w") 'y_pe/kill-global-wrap)
+(global-set-key (kbd "H-w") 'ype/kill-global-wrap)
 
 ;;Quick switch text wrap on
-(global-set-key (kbd "H-W") 'y_pe/global-wrap)
+(global-set-key (kbd "H-W") 'ype/global-wrap)
 
 ;;Window move
 (windmove-default-keybindings 'super)
 
 ;;Switch tabbar to show by major-mode
-(defun y_pe/tabbar-group-by-mode ()
+(defun ype/tabbar-group-by-mode ()
   (interactive)
   (tabbar-switch-grouping-method '1))
 
@@ -86,11 +96,11 @@
 (define-key global-map (kbd "A-f") 'org-refile)
 (define-key global-map (kbd "A-F") 'org-refile-goto-last-stored)
 (define-key global-map (kbd "A-r") 'org-capture)
-(define-key global-map (kbd "A-p") 'y_pe/phone-call)
-(define-key global-map (kbd "A-d") 'y_pe/clock-in-default-task-as-default)
-(define-key global-map (kbd "A-e") 'y_pe/clock-in-default-email)
-(define-key global-map (kbd "A-c") 'y_pe/clock-in-default-elisp)
-(define-key global-map (kbd "A-s") 'y_pe/clock-in-default-school)
+(define-key global-map (kbd "A-p") 'ype/phone-call)
+(define-key global-map (kbd "A-d") 'ype/clock-in-default-task-as-default)
+(define-key global-map (kbd "A-e") 'ype/clock-in-default-email)
+(define-key global-map (kbd "A-c") 'ype/clock-in-default-elisp)
+(define-key global-map (kbd "A-s") 'ype/clock-in-default-school)
 (define-key global-map (kbd "A-t") 'org-clock-select-task)
 (define-key global-map (kbd "H-e") 'org-set-effort)
 
@@ -116,31 +126,18 @@
 (global-set-key (kbd "M-s M-s") 'ispell-word)
 
 ;;Run shit in iterm tmux
-(global-set-key (kbd "H-d") 'y_pe/lldb-tmux-send)
-(global-set-key (kbd "H-r") 'y_pe/lldb-tmux-run)
-(global-set-key (kbd "H-t") 'y_pe/tmux-any-send)
-(global-set-key (kbd "H-x") 'y_pe/xcodebuild)
+;; (global-set-key (kbd "H-d") 'ype/lldb-tmux-send)
+;; (global-set-key (kbd "H-r") 'ype/lldb-tmux-run)
+;; (global-set-key (kbd "H-t") 'ype/tmux-any-send)
+;; (global-set-key (kbd "H-x") 'ype/xcodebuild)
 
 ;;Sudo Search
-(defun y_pe/sudo-find()
+(defun ype/sudo-find()
   (interactive)
   (find-file "/sudo::/etc/passwd"))
-(global-set-key (kbd "H-f") 'y_pe/sudo-find)
+(global-set-key (kbd "H-f") 'ype/sudo-find)
 
-;;Reload Browser
-(global-set-key (kbd "C-x C-r") 'y_pe/reload-browser)
-
-;;Webjump
-(global-set-key (kbd "s-j") 'webjump)
-
-
-(defun paste-giant-comment-line ()
-  (interactive)
-  (comment-dwim nil)
-  (insert "-----------------------------------------------------------------------------")
-  (newline-and-indent))
-;; Paste giant comment line
-;; -----------------------------------------------------------------------------
-(global-set-key (kbd "H-;") 'paste-giant-comment-line)
+;;Reload Browser, Requires Chromix
+(global-set-key (kbd "C-x C-r") 'ype/reload-browser)
 
 (provide 'init-keybindings)
