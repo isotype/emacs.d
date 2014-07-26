@@ -4,7 +4,7 @@
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
 ;; Last-Updated: 26-07-2014                                         ;;
-;;  Update #: 16                                                    ;;
+;;  Update #: 17                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
@@ -446,18 +446,19 @@ With arg N, insert N newlines."
     ad-do-it))
 
 
-(define-prefix-command 'endless/toggle-map)
+(define-prefix-command 'endless:toggle-map)
 ;; The manual recommends C-c for user keys, but I like using C-x for
 ;; global keys and using C-c for mode-specific keys.
-(define-key ctl-x-map "t" 'endless/toggle-map)
-(define-key endless/toggle-map "l" 'linum-mode)
-(define-key endless/toggle-map "r" 'linum-relative-toggle)
-(define-key endless/toggle-map "e" 'toggle-debug-on-error)
-(define-key endless/toggle-map "f" 'auto-fill-mode)
-(define-key endless/toggle-map "c" 'toggle-truncate-lines)
-(define-key endless/toggle-map "q" 'toggle-debug-on-quit)
-(define-key endless/toggle-map "d" 'read-only-mode)
-(define-key endless/toggle-map "t" 'endless/toggle-theme)
+(define-key ctl-x-map "t" 'endless:toggle-map)
+(define-key endless:toggle-map "l" 'linum-mode)
+(define-key endless:toggle-map "r" 'linum-relative-toggle)
+(define-key endless:toggle-map "e" 'toggle-debug-on-error)
+(define-key endless:toggle-map "f" 'auto-fill-mode)
+(define-key endless:toggle-map "c" 'toggle-truncate-lines)
+(define-key endless:toggle-map "q" 'toggle-debug-on-quit)
+(define-key endless:toggle-map "d" 'read-only-mode)
+(define-key endless:toggle-map "g" 'git-gutter-mode)
+(define-key endless:toggle-map "t" 'endless/toggle-theme)
 
 
 
