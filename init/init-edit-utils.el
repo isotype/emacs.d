@@ -2,15 +2,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
-;; Created: 02-06-2014                                              ;;
-;; Last-Updated: 10-06-2014                                         ;;
+;; Created: 16-06-2014                                              ;;
+;; Last-Updated: 26-07-2014                                         ;;
+;;  Update #: 16                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
 ;; Version:                                                         ;;
-;; Description: Tools to simplify life in emacs                     ;;
+;; Description:                                                     ;;
 ;;                                                                  ;;
 ;; Package Requires: ()                                             ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require-package 'unfill)
 (require-package 'whole-line-or-region)
@@ -18,24 +20,23 @@
 (when (fboundp 'electric-pair-mode)
   (setq-default electric-pair-mode 1))
 
-(setq-default
- blink-cursor-delay 0
- blink-cursor-interval 0.4
- bookmark-default-file (expand-file-name ".bookmarks.el" user-emacs-directory)
- buffers-menu-max-size 30
- case-fold-search t
- compilation-scroll-output t
- grep-highlight-matches t
- grep-scroll-output t
- indent-tabs-mode nil
- mouse-yank-at-point t
- save-interprogram-paste-before-kill t
- scroll-preserve-screen-position 'always
- set-mark-command-repeat-pop t
- show-trailing-whitespace t
- tooltip-delay 1.5
- truncate-lines nil
- truncate-partial-width-windows nil)
+(setq-default blink-cursor-delay 0
+              blink-cursor-interval 0.4
+              bookmark-default-file (expand-file-name ".bookmarks.el" user-emacs-directory)
+              buffers-menu-max-size 30
+              case-fold-search t
+              compilation-scroll-output t
+              grep-highlight-matches t
+              grep-scroll-output t
+              indent-tabs-mode nil
+              mouse-yank-at-point t
+              save-interprogram-paste-before-kill t
+              scroll-preserve-screen-position 'always
+              set-mark-command-repeat-pop t
+              show-trailing-whitespace t
+              tooltip-delay 1.5
+              truncate-lines nil
+              truncate-partial-width-windows nil)
 
 (when *is-a-mac*
   (setq-default locate-command "mdfind"))
@@ -62,6 +63,13 @@
 (transient-mark-mode t)
 
 (global-set-key (kbd "RET") 'newline-and-indent)
+(defun sanityinc/newline-at-end-of-line ()
+  "Move to end of line, enter a newline, and reindent."
+  (interactive)
+  (move-end-of-line 1)
+  (newline-and-indent))
+
+(global-set-key (kbd "S-<return>") 'sanityinc/newline-at-end-of-line)
 
 (after-load 'subword
     (diminish 'subword-mode))
@@ -88,11 +96,11 @@
 
 ;;Rainbow Blocks
 (require-package 'rainbow-blocks)
-(eval-after-load 'rainbow-blocks
+(after-load 'rainbow-blocks
   '(diminish 'rainbow-blocks-mode))
 (add-hook 'lisp-mode-hook 'rainbow-blocks-mode)
 (add-hook 'emacs-lisp-mode-hook 'rainbow-blocks-mode)
-(global-set-key (kbd "C-c C-d") 'rainbow-blocks-mode)
+(global-set-key (kbd "H-d") 'rainbow-blocks-mode)
 
 (autoload 'zap-up-to-char "misc" "Kill up to, but not including ARGth occurrence of CHAR.")
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
@@ -100,10 +108,6 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-defun 'disabled nil)
-
-;;; Winner Mode
-;;Undo frame changes
-(winner-mode 1)
 
 ;;Highlight matching parens
 (setq show-paren-style 'expression)
@@ -153,11 +157,11 @@
 ;; it will use those keybindings. For this reason, you might prefer to
 ;; use M-S-up and M-S-down, which will work even in lisp modes.
 ;;----------------------------------------------------------------------------
-(require-package 'move-text)
-(global-set-key [M-up] 'move-text-up)
-(global-set-key [M-down] 'move-text-down)
-(global-set-key [M-S-up] 'move-text-up)
-(global-set-key [M-S-down] 'move-text-down)
+(require-package 'move-dup)
+(global-set-key [M-up] 'md/move-lines-up)
+(global-set-key [M-down] 'md/move-lines-down)
+(global-set-key [M-S-up] 'md/move-lines-up)
+(global-set-key [M-S-down] 'md/move-lines-down)
 
 (defun kill-back-to-indentation ()
   "Kill from point back to the first non-whitespace character on the line."
@@ -306,7 +310,7 @@ With arg N, insert N newlines."
 (require-package 'rebox2)
 (setq rebox-style-loop '(17 27 21))
 (global-set-key [(meta q)] 'rebox-dwim)
-(global-set-key [(shift meta q)] 'rebox-cycle)
+(global-set-key [(hyper r)] 'rebox-cycle)
 
 ;;,--------------------------------------
 ;;| Word Count Mode
@@ -364,10 +368,21 @@ With arg N, insert N newlines."
 ;;Reveal Stuff in OSX Finder
 (require-package 'reveal-in-finder)
 
-(defun s2m (mins)
-  "Quick convert seconds to minutes"
+;;,-----------------------
+;;| Quick Conversion tools
+;;`-----------------------
+
+;; Seconds to Minutes
+(defun m2s (mins)
+  "Quick convert minutes to seconds"
   (* mins 60))
 
+;; Seconds to Hour
+(defun h2s (hours)
+  "Quick convert hours to seconds"
+  (* (* hours 60) 60))
+
+
 
 ;;,-------------------------------------------------------------------
 ;;| Hide Boring Buffers
@@ -385,4 +400,68 @@ With arg N, insert N newlines."
   (unless (string-match-p "^ " (buffer-name))
     (rename-buffer (concat " " (buffer-name)))))
 
+
+
+;;,-------------------------------------------------------------------
+;;| Org-Link-Minor-Mode
+;;|
+;;| Emacs minor mode that enables org-mode style fontification and
+;;| activation of bracket links in modes other than org-mode.
+;;|
+;;| Org-mode bracket links look like this:
+;;|
+;;| [[http://www.bbc.co.uk][BBC]]
+;;| [[org-link-minor-mode]]
+;;|
+;;| With this mode enabled, the links will be made active so you can
+;;| click on them and displayed so you can see only the description if
+;;| present.
+;;|
+;;| Note that org-toggle-link-display will also work when this mode is
+;;| enabled.
+;;`-------------------------------------------------------------------
+
+(require-git-package 'seanohalpin/org-link-minor-mode)
+(require 'org-link-minor-mode)
+
+(after-load 'org-link-minor-mode
+  (diminish 'org-link-minor-mode " ☌")
+
+  (defun ype/toggle-OLMM-1 () (interactive) (org-link-minor-mode 1))
+  (defun ype/toggle-OLMM-0 () (interactive) (org-link-minor-mode 0))
+
+  (global-set-key (kbd "A-1") 'ype/toggle-OLMM-1)
+  (global-set-key (kbd "A-2") 'ype/toggle-OLMM-0))
+
+
+;;Linum Mode
+(require 'linum)
+(require-package 'linum-relative)
+(require 'linum-relative)
+
+(defadvice linum-update-window (around linum-dynamic activate)
+  (let* ((w (length (number-to-string
+                     (count-lines (point-min) (point-max)))))
+         (linum-format (concat " %" (number-to-string w) "d ")))
+    ad-do-it))
+
+
+(define-prefix-command 'endless/toggle-map)
+;; The manual recommends C-c for user keys, but I like using C-x for
+;; global keys and using C-c for mode-specific keys.
+(define-key ctl-x-map "t" 'endless/toggle-map)
+(define-key endless/toggle-map "l" 'linum-mode)
+(define-key endless/toggle-map "r" 'linum-relative-toggle)
+(define-key endless/toggle-map "e" 'toggle-debug-on-error)
+(define-key endless/toggle-map "f" 'auto-fill-mode)
+(define-key endless/toggle-map "c" 'toggle-truncate-lines)
+(define-key endless/toggle-map "q" 'toggle-debug-on-quit)
+(define-key endless/toggle-map "d" 'read-only-mode)
+(define-key endless/toggle-map "t" 'endless/toggle-theme)
+
+
+
 (provide 'init-edit-utils)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; init-edit-utils.el ends here
