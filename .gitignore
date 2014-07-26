@@ -68,3 +68,14 @@ offlineimap.*
 /custom/multi-term-setup.el
 /custom/org-custom.el
 /custom/tabbar-custom.el
+/flycheck_org-clock-save.el
+/.type-break
+/from-git copy/
+/games/
+/init-tools/
+/type-break
+/misc/
+/request/
+/skewer-cache/
+/todo/
+/init/init-slack.el
