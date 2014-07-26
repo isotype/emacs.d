@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 03-04-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 30-06-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-paredit                                         ;;;
 ;;; Description: Config for Paredit (From: github:purcell)         ;;;
@@ -35,10 +35,8 @@
   ;; Allow my global binding of M-? to work when paredit is active
   (define-key paredit-mode-map (kbd "M-?") nil)
 
-
   ;; Compatibility with other modes
   (suspend-mode-during-cua-rect-selection 'paredit-mode)
-
 
   ;; Use paredit in the minibuffer
   ;; TODO: break out into separate package
@@ -67,9 +65,9 @@
 ;;,-==================-
 ;;| Custom Keybindings
 ;;`-==================-
-(global-set-key (kbd "s-\]") 'paredit-forward-slurp-sexp)
-(global-set-key (kbd "s-\[") 'paredit-backward-slurp-sexp)
-(global-set-key (kbd "M-\]") 'paredit-forward-barf-sexp)
-(global-set-key (kbd "M-\[") 'paredit-backward-barf-sexp)
+(global-set-key (kbd "M-\]") 'paredit-forward-slurp-sexp)
+(global-set-key (kbd "M-\[") 'paredit-backward-slurp-sexp)
+(global-set-key (kbd "s-\]") 'paredit-forward-barf-sexp)
+(global-set-key (kbd "s-\[") 'paredit-backward-barf-sexp)
 
 (provide 'init-paredit)
