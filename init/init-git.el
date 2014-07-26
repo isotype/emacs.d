@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 07-04-2014                                            ;;;
-;; Last-Updated: 07-06-2014                                         ;;
+;; Last-Updated: 08-07-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-git                                             ;;;
@@ -18,7 +18,7 @@
 (require-package 'gitignore-mode)
 (require-package 'gitconfig-mode)
 (require-package 'git-messenger)
-(require-package 'gh)
+(require-package 'git-timemachine)
 
 (setq-default
  magit-save-some-buffers nil
