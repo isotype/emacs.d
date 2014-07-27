@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;; Last-Updated: 26-07-2014                                         ;;
+;; Last-Updated: 27-07-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-theme                                           ;;;
@@ -14,51 +14,50 @@
 ;;;Powerline
 (require-package 'powerline)
 (powerline-vim-theme)
-(color-theme-initialize)
 
-(require-package 'color-theme-solarized)
+(require 'color-theme)
+(setq color-theme-is-global t)
+(color-theme-solarized-light)
+
+(defun ype:light ()
+  (interactive)
+  (color-theme-solarized-light))
+
+(defun ype:dark ()
+  (interactive)
+  (color-theme-solarized-dark))
+
 (setq solarized-termcolor 256
       solarized-broken-srgb t)
-;;; Color-theme
-(defun light ()
-  (interactive)
-  (load-theme 'solarized-light t)
-  (powerline-solarized-light))
 
-(defun dark ()
-  (interactive)
-  (load-theme 'solarized-dark t)
-  (powerline-solarized-dark))
+;; (defun powerline-solarized-light ()
+;;   "Function to change powerline to look nice with solarized-light"
+;;   (setq powerline-color1 "#eee8d5")
+;;   (setq powerline-color2 "#fdf6e3")
+;;   (set-face-attribute 'mode-line nil
+;;                       :foreground "#93a1a1"
+;;                       :background "#eee8d5"
+;;                       :box nil
+;;                       :inverse-video nil)
+;;   (set-face-attribute 'mode-line-inactive nil
+;;                       :foreground "#eee8d5"
+;;                       :background "#fdf6e3"
+;;                       :box nil))
 
-(defun powerline-solarized-light ()
-  "Function to change powerline to look nice with solarized-light"
-  (setq powerline-color1 "#eee8d5")
-  (setq powerline-color2 "#fdf6e3")
-  (set-face-attribute 'mode-line nil
-                      :foreground "#93a1a1"
-                      :background "#eee8d5"
-                      :box nil
-                      :inverse-video nil)
-  (set-face-attribute 'mode-line-inactive nil
-                      :foreground "#eee8d5"
-                      :background "#fdf6e3"
-                      :box nil))
+;; (defun powerline-solarized-dark ()
+;;   "Function to change powerline to look nice with solarized-dark"
+;;   (setq powerline-color1 "#073642")
+;;   (setq powerline-color2 "#002B36")
+;;   (set-face-attribute 'mode-line nil
+;;                       :foreground "#fdf6e3"
+;;                       :background "#073642"
+;;                       :box nil
+;;                       :inverse-video nil)
+;;   (set-face-attribute 'mode-line-inactive nil
+;;                       :foreground "#93a1a1"
+;;                       :background "#586e75"
+;;                       :box nil))
 
-(defun powerline-solarized-dark ()
-  "Function to change powerline to look nice with solarized-dark"
-  (setq powerline-color1 "#073642")
-  (setq powerline-color2 "#002B36")
-  (set-face-attribute 'mode-line nil
-                      :foreground "#fdf6e3"
-                      :background "#073642"
-                      :box nil
-                      :inverse-video nil)
-  (set-face-attribute 'mode-line-inactive nil
-                      :foreground "#93a1a1"
-                      :background "#586e75"
-                      :box nil))
-
-
-(load-theme 'solarized-light t)
+
 
 (provide 'init-theme)
