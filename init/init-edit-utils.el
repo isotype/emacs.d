@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 26-07-2014                                         ;;
-;;  Update #: 17                                                    ;;
+;; Last-Updated: 27-07-2014                                         ;;
+;;  Update #: 19                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
@@ -453,12 +453,13 @@ With arg N, insert N newlines."
 (define-key endless:toggle-map "l" 'linum-mode)
 (define-key endless:toggle-map "r" 'linum-relative-toggle)
 (define-key endless:toggle-map "e" 'toggle-debug-on-error)
-(define-key endless:toggle-map "f" 'auto-fill-mode)
+(define-key endless:toggle-map "F" 'auto-fill-mode)
 (define-key endless:toggle-map "c" 'toggle-truncate-lines)
 (define-key endless:toggle-map "q" 'toggle-debug-on-quit)
 (define-key endless:toggle-map "d" 'read-only-mode)
 (define-key endless:toggle-map "g" 'git-gutter-mode)
 (define-key endless:toggle-map "t" 'endless/toggle-theme)
+(define-key endless:toggle-map "f" 'flycheck-mode)
 
 
 
