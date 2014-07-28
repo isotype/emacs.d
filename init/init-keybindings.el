@@ -137,7 +137,4 @@
   (find-file "/sudo::/etc/passwd"))
 (global-set-key (kbd "H-f") 'ype/sudo-find)
 
-;;Reload Browser, Requires Chromix
-(global-set-key (kbd "C-x C-r") 'ype/reload-browser)
-
 (provide 'init-keybindings)

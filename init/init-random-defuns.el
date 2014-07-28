@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 25-05-2014                                            ;;;
-;; Last-Updated: 12-07-2014                                         ;;
+;; Last-Updated: 28-07-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: defuns                                               ;;;
@@ -37,7 +37,10 @@ time wasting sites"
   (interactive)
   (shell-command
    (concat
-    "chromix with http://localhost:5000/ reload")))
+    "chromix with http://localhost:4000/ reload")))
+
+;;Reload Browser, Requires Chromix
+(global-set-key "\C-crr" 'ype/reload-browser)
 
 (defun ype/kill-global-wrap ()
   "Depends on: nothing
