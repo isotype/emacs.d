@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 03-04-2014                                            ;;;
-;; Last-Updated: 30-06-2014                                         ;;
+;; Last-Updated: 04-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-paredit                                         ;;;
@@ -31,6 +31,15 @@
   ;; binding, but doesn't preserve sexp structure
   (define-key paredit-mode-map [remap kill-sentence] nil)
   (define-key paredit-mode-map [remap backward-kill-sentence] nil)
+
+  ;; Change Paredit Splice Sexp to Super instead of Meta
+  ;; Meta used for window movement
+  (define-key paredit-mode-map (kbd "s-<up>") 'paredit-splice-sexp-killing-backward)
+  (define-key paredit-mode-map (kbd "s-<down>") 'paredit-splice-sexp-killing-forward)
+
+  ;; Disable
+  (define-key paredit-mode-map (kbd "M-<up>") nil)
+  (define-key paredit-mode-map (kbd "M-<down>") nil)
 
   ;; Allow my global binding of M-? to work when paredit is active
   (define-key paredit-mode-map (kbd "M-?") nil)
