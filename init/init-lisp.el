@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 10-04-2014                                            ;;;
-;; Last-Updated: 12-06-2014                                         ;;
+;; Last-Updated: 03-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-lisp                                            ;;;
@@ -22,8 +22,6 @@
 (setq-default initial-scratch-message
               (concat ";; Happy hacking " (or user-login-name "") "!\n\n"))
 
-
-
 ;; Make C-x C-e run 'eval-region if the region is active
 
 (defun sanityinc/eval-last-sexp-or-region (beg end prefix)
@@ -41,6 +39,11 @@
 (require-package 'ipretty)
 (ipretty-mode 1)
 
+(defadvice pp-display-expression (after make-read-only (expression out-buffer-name) activate)
+  "Enable `view-mode' in the output buffer - if any - so it can be closed with `\"q\"."
+  (when (get-buffer out-buffer-name)
+    (with-current-buffer out-buffer-name
+      (view-mode 1))))
 
 ;; ----------------------------------------------------------------------------
 ;; Hippie-expand
