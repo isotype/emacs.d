@@ -6,9 +6,9 @@
 ;; Author: ype
 ;; Created: Mon Feb 17 16:51:09 2014 (+0000)
 ;; Package-Requires: ()
-;; Last-Updated: 11-06-2014                                         ;;
+;; Last-Updated: 03-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
-;;  Update #: 2                                                     ;;
+;;  Update #: 3                                                     ;;
 ;; URL: isoty.pe
 ;; Doc URL: https://github.com/purcell/emacs.d/blob/master/lisp/init-xterm.el
 ;; Keywords: Emacs, xterm, init, lisp
@@ -42,6 +42,9 @@
     (define-key map "\e[5B"   [C-down])
     (define-key map "\e[5C"   [C-right])
     (define-key map "\e[5D"   [C-left])))
+
+(global-set-key [mouse-4] (lambda () (interactive) (scroll-down 1)))
+(global-set-key [mouse-5] (lambda () (interactive) (scroll-up 1)))
 
 (add-hook 'after-make-console-frame-hooks
           (lambda ()
