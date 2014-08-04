@@ -30,7 +30,7 @@
     (define-key nxml-mode-map (kbd "M-h") nil))
   (global-set-key (kbd "M-ˍ") 'ns-do-hide-others))
 
-(global-set-key (kbd "M-SPC") 'set-mark-command)
+(global-set-key (kbd "C-\=") 'set-mark-command)
 
 ;;Quick Open init.el C-x r j e
 (set-register ?e (cons 'file "~/.emacs.d/init.el"))
@@ -38,14 +38,8 @@
 ;;Quick Open Cask
 (set-register ?c (cons 'file "~/.emacs.d/Cask"))
 
-;;Quick switch text wrap off
-(global-set-key (kbd "H-w") 'ype/kill-global-wrap)
-
-;;Quick switch text wrap on
-(global-set-key (kbd "H-W") 'ype/global-wrap)
-
 ;;Window move
-(windmove-default-keybindings 'super)
+(windmove-default-keybindings 'meta)
 
 ;;Switch tabbar to show by major-mode
 (defun ype/tabbar-group-by-mode ()
