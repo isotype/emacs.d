@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 28-07-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-ido                                             ;;;
 ;;; Description: IDO, and IDO smex config                          ;;;
@@ -40,7 +40,8 @@
   (interactive)
   (if (and ido-use-virtual-buffers (fboundp 'ido-toggle-virtual-buffers))
        (ido-switch-buffer)
-     (find-file (ido-completing-read "Open file: " recentf-list nil t))))
+    (find-file (ido-completing-read "Open file: " recentf-list nil t))))
+
 (global-set-key (kbd "C-c C-f") 'recentf-ido-find-file)
 
 ;;ibuffer
