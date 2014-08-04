@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-04-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 29-07-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-latex                                           ;;;
 ;;; Version:                                                       ;;;
@@ -15,17 +15,21 @@
 (require-package 'auctex)
 (require-package 'flymake)
 (require-package 'auto-complete-auctex)
+(require-package 'magic-latex-buffer)
+
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq TeX-save-query nil)
 (setq TeX-PDF-mode t) ; Compile to PDF by default
 
-(defun flymake-get-tex-args (file-name)
-  (list "xelatex"
-        (list "-shell-escape" "-draftmode" "-interaction nonstopmode" file-name "&& bibtex %f")))
-
-(add-hook 'LaTeX-mode-hook 'flymake-mode)
+;; set XeTeX mode in TeX/LaTeX
+(add-hook 'LaTeX-mode-hook
+          (lambda()
+             (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+             (setq TeX-command-default "XeLaTeX")
+             (setq TeX-save-query nil)
+             (setq TeX-show-compilation t)))
 
 ;;Spell Check for LaTeX
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
