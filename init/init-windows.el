@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 30-06-2014                                              ;;
-;; Last-Updated: 08-07-2014                                         ;;
-;;  Update #: 11                                                    ;;
+;; Last-Updated: 04-08-2014                                         ;;
+;;  Update #: 12                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-windows                                           ;;
@@ -12,7 +12,6 @@
 ;;                                                                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 ;;,------------------------------------------------------------
 ;;| Navigate window layouts with "C-c <left>" and "C-c <right>"
@@ -86,5 +85,7 @@ Call a second time to restore the original window configuration."
                 (lambda ()
                   (interactive)
                   (switch-to-buffer nil)))
+
+(global-set-key (kbd "M-\'") 'select-frame-by-name)
 
 (provide 'init-windows)
