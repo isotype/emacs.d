@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;; Last-Updated: 04-08-2014                                         ;;
+;; Last-Updated: 07-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
@@ -447,7 +447,7 @@
         (sequence "OPEN(o)" "CLOSED(c)") ;; GitHub Issues
         (sequence "EVENT(e)" "|" "ATTENDED(a)" "SKIPPED(u)")
         (sequence "CALL(p)" "|" "CALLED(f)")
-        (sequence "REPLY(R@/!)" "|" "REPLIED(s@/!")
+        (sequence "REPLY(R@/!)" "|" "REPLIED(s@/!)")
         (sequence "INVOICE(I@/!)" "PENDING(P@/!)" "|" "INVOICED(i@/!)" "CANCELLED(C@/!)")))
 
 (setq org-todo-keyword-faces
