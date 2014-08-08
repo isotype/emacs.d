@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 26-07-2014                                         ;;
-;;  Update #: 15                                                    ;;
+;; Last-Updated: 08-08-2014                                         ;;
+;;  Update #: 28                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init                                                   ;;
@@ -32,6 +32,9 @@
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "init-tools" user-emacs-directory))
 
+(require 'init-git-submodules)
+(require-git-submodule 'org-sync)
+
 ;; Measure startup time
 (require 'init-benchmarking)
 
@@ -46,7 +49,7 @@
 (require 'init-exec-path)
 
 ;; wgrep needed for init-edit-utils
-(require-git-package 'emacsmirror/org-sync)
+(require 'os)
 (require-package 'wgrep)
 (require-package 'project-local-variables)
 (require-package 'diminish)
@@ -141,8 +144,7 @@
 ;;Clean up modeline
 ;;(load "clean-modeline")
 
-(require-git-package 'emacsmirror/terminal-notifier)
-(require 'terminal-notifier)
+(require-git-submodule 'terminal-notifier)
 
 ;;Markdown mode
 (require 'init-markdown)
