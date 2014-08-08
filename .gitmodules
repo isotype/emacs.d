@@ -19,9 +19,9 @@
 [submodule "submodules/emacs-request"]
 	path = submodules/emacs-request
 	url = git://github.com/tkf/emacs-request.git
-[submodule "spray"]
-	path = spray
+[submodule "submodules/spray"]
+	path = submodules/spray
 	url = git://github.com/ian-kelling/spray.git
-[submodule "terminal-notifier"]
-	path = terminal-notifier
+[submodule "submodules/terminal-notifier"]
+	path = submodules/terminal-notifier
 	url = git://github.com/emacsmirror/terminal-notifier.git
