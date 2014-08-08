@@ -79,3 +79,4 @@ offlineimap.*
 /skewer-cache/
 /todo/
 /init/init-slack.el
+/init/init-git-packages.el
