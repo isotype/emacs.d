@@ -32,12 +32,6 @@
 
 (global-set-key (kbd "C-\=") 'set-mark-command)
 
-;;Quick Open init.el C-x r j e
-(set-register ?e (cons 'file "~/.emacs.d/init.el"))
-
-;;Quick Open Cask
-(set-register ?c (cons 'file "~/.emacs.d/Cask"))
-
 ;;Window move
 (windmove-default-keybindings 'meta)
 

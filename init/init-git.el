@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 07-04-2014                                            ;;;
-;; Last-Updated: 08-07-2014                                         ;;
+;; Last-Updated: 07-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-git                                             ;;;
@@ -12,6 +12,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require-package 'magit)
+(require-package 'git-blame)
 (require-package 'git-gutter-fringe)
 (require-package 'git-commit-mode)
 (require-package 'git-rebase-mode)
@@ -52,8 +53,8 @@
 ;; Use the fringe version of git-gutter
 (after-load 'git-gutter
   (require 'git-gutter-fringe)
-  (setq git-gutter:lighter " GG")
-  (global-git-gutter-mode +1)
+  (setq git-gutter:lighter " ♊ƒ")
+  (global-git-gutter-mode 1)
   (set-face-foreground 'git-gutter-fr:added "#B4C342")
   (set-face-foreground 'git-gutter-fr:modified "#F2804F")
   (set-face-foreground 'git-gutter-fr:deleted "#990A1B"))
@@ -64,8 +65,11 @@
 
 ;; git-svn support
 (require-package 'magit-svn)
-(after-load 'magit-key-mode
-  (require-package 'magit-svn))
+(autoload 'magit-svn-enabled "magit-svn")
+(defun sanityinc/maybe-enable-magit-svn-mode ()
+  (when (magit-svn-enabled)
+    (magit-svn-mode)))
+(add-hook 'magit-status-mode-hook #'sanityinc/maybe-enable-magit-svn-mode)
 
 (after-load 'compile
   (dolist (defn (list '(git-svn-updated "^\t[A-Z]\t\\(.*\\)$" 1 nil nil 0 1)
@@ -112,6 +116,10 @@
   (async-shell-command
    (concat "git clone git@github.com:" user "/" repo ".git " directory repo))
   (message "%s/%s To: %s" user repo directory))
+
+;; Git Training Wheels
+(require-package 'git-commit-training-wheels-mode)
+(add-hook 'git-commit-mode-hook 'git-commit-training-wheels-mode)
 
 (provide 'init-git)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

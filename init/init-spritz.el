@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 17-06-2014                                              ;;
-;; Last-Updated: 17-06-2014                                         ;;
-;;  Update #: 5                                                     ;;
+;; Last-Updated: 08-08-2014                                         ;;
+;;  Update #: 8                                                     ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-spritz                                            ;;
@@ -33,7 +33,8 @@
 ;;|
 ;;| Press any key else to quit spray-mode.
 ;;`---------------------------------------------------------
-(require-git-package 'zk-phi/spray)
+
+(require-git-submodule 'spray)
 (require 'spray)
 (setq spray-wpm 350)
 

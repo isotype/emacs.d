@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 11-06-2014                                              ;;
-;; Last-Updated: 25-07-2014                                         ;;
-;;   By: Anton Strilchuk <anton@ilyfa.cc>                           ;;
+;; Last-Updated: 08-08-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-mu4e                                              ;;
 ;; Version:                                                         ;;
@@ -19,7 +19,7 @@
 (require 'org-mu4e)
 ;; Needs Emacs Async Package from Github
 ;; for smtpmail-async
-(require-git-package 'jwiegley/emacs-async)
+(require-git-submodule 'emacs-async)
 
 ;; Not Working Yet
 ;; (require 'ype-network-manager)

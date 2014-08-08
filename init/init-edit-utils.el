@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 27-07-2014                                         ;;
-;;  Update #: 19                                                    ;;
+;; Last-Updated: 08-08-2014                                         ;;
+;;  Update #: 22                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
@@ -421,8 +421,8 @@ With arg N, insert N newlines."
 ;;| enabled.
 ;;`-------------------------------------------------------------------
 
-(require-git-package 'seanohalpin/org-link-minor-mode)
-(require 'org-link-minor-mode)
+(require-git-submodule 'org-link-minor-mode)
+(require-git-submodule 'org-link-minor-mode)
 
 (after-load 'org-link-minor-mode
   (diminish 'org-link-minor-mode " ☌")
@@ -446,6 +446,7 @@ With arg N, insert N newlines."
     ad-do-it))
 
 
+;; Quick Keys
 (define-prefix-command 'endless:toggle-map)
 ;; The manual recommends C-c for user keys, but I like using C-x for
 ;; global keys and using C-c for mode-specific keys.
@@ -461,6 +462,13 @@ With arg N, insert N newlines."
 (define-key endless:toggle-map "t" 'endless/toggle-theme)
 (define-key endless:toggle-map "f" 'flycheck-mode)
 
+
+;; init.el
+;; C-x r j e
+(set-register ?e (cons 'file "~/.emacs.d/init.el"))
+
+;; Ledger
+(set-register ?l (cons 'file "~/.hledger.journal"))
 
 
 (provide 'init-edit-utils)

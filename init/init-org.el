@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;; Last-Updated: 07-08-2014                                         ;;
+;; Last-Updated: 08-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
@@ -847,8 +847,8 @@
 ;; NOTE: ORG-GCAL Needs the occasional refresh, use org-gcal-refresh-token
 
 (require-package 'org-gcal)
-(require-git-package 'tkf/emacs-request)
-(require-git-package 'jwiegley/alert)
+(require-git-submodule 'emacs-request)
+(require 'alert)
 (require 'org-gcal)
 
 ;; Client ID and Secret kept in seperate file: init-keys.el
