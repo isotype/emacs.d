@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;; Last-Updated: 08-08-2014                                         ;;
+;; Last-Updated: 11-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-clojure                                         ;;;
@@ -78,7 +78,6 @@
 
 ;; Learning
 (require-git-submodule '4clj-el)
-;;(require 'four-clj)
 
 (provide 'init-clojure)
 
