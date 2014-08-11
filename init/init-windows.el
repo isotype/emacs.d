@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 30-06-2014                                              ;;
-;; Last-Updated: 04-08-2014                                         ;;
-;;  Update #: 12                                                    ;;
+;; Last-Updated: 11-08-2014                                         ;;
+;;  Update #: 15                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-windows                                           ;;
@@ -18,12 +18,14 @@
 ;;`------------------------------------------------------------
 (winner-mode 1)
 
-;; Make "C-x o" prompt for a target window when there are more than 2
+;; Make "M-`" prompt for a target window when there are more than 2
 (require-package 'switch-window)
 (require 'switch-window)
 
-(setq switch-window-shortcut-style 'alphabet)
-(global-set-key (kbd "C-x o") 'switch-window)
+;; Ace Window
+(require-package 'ace-window)
+(global-set-key (kbd "M-\`") 'ace-window)
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
 ;;,-------------------------------------------------------------
 ;;| When splitting window, show (other-buffer) in the new window
