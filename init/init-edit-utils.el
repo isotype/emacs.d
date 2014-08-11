@@ -4,7 +4,7 @@
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
 ;; Last-Updated: 11-08-2014                                         ;;
-;;  Update #: 27                                                    ;;
+;;  Update #: 35                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
@@ -130,13 +130,6 @@
 (global-set-key (kbd "C-~") 'ace-jump-word-mode)
 (global-set-key (kbd "C-`") 'ace-jump-line-mode)
 
-;; Ace Window
-(require-package 'ace-window)
-(require 'ace-window)
-(after-load 'ace-window
-  (global-set-key (kbd "M-\`") 'ace-window)
-  (setq aw-keys '(?q ?w ?e ?r ?a ?s ?d ?f ?z)))
-
 (global-set-key (kbd "C-c J") (lambda () (interactive) (join-line 1)))
 (global-set-key (kbd "C-.") 'set-mark-command)
 (global-set-key (kbd "C-x C-.") 'pop-global-mark)
@@ -249,6 +242,9 @@
              (,mode-name 1)))))))
 
 (suspend-mode-during-cua-rect-selection 'whole-line-or-region-mode)
+
+(global-set-key (kbd "M-c") 'cua-copy-region)
+(global-set-key (kbd "M-v") 'cua-paste)
 
 (defun sanityinc/open-line-with-reindent (n)
   "A version of `open-line' which reindents the start and end positions.
@@ -428,8 +424,7 @@ With arg N, insert N newlines."
 ;;| enabled.
 ;;`-------------------------------------------------------------------
 
-(require-git-submodule 'org-link-minor-mode)
-(require-git-submodule 'org-link-minor-mode)
+(require-git-submodule 'org-link-minor-mode t)
 
 (after-load 'org-link-minor-mode
   (diminish 'org-link-minor-mode " ☌")
@@ -475,7 +470,7 @@ With arg N, insert N newlines."
 (set-register ?e (cons 'file "~/.emacs.d/init.el"))
 
 ;; Ledger
-(set-register ?l (cons 'file "~/.hledger.journal"))
+(set-register ?l (cons 'file "~/Dropbox/Finances/ledgers/ledger-2014-2015.ledger"))
 
 
 (provide 'init-edit-utils)
