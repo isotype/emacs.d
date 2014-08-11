@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 08-08-2014                                         ;;
-;;  Update #: 22                                                    ;;
+;; Last-Updated: 11-08-2014                                         ;;
+;;  Update #: 27                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
@@ -103,7 +103,7 @@
 (global-set-key (kbd "H-d") 'rainbow-blocks-mode)
 
 (autoload 'zap-up-to-char "misc" "Kill up to, but not including ARGth occurrence of CHAR.")
-(global-set-key (kbd "M-Z") 'zap-up-to-char)
+(global-set-key (kbd "A-z") 'zap-up-to-char)
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
@@ -129,6 +129,13 @@
 (global-set-key (kbd "C-\\") 'ace-jump-mode)
 (global-set-key (kbd "C-~") 'ace-jump-word-mode)
 (global-set-key (kbd "C-`") 'ace-jump-line-mode)
+
+;; Ace Window
+(require-package 'ace-window)
+(require 'ace-window)
+(after-load 'ace-window
+  (global-set-key (kbd "M-\`") 'ace-window)
+  (setq aw-keys '(?q ?w ?e ?r ?a ?s ?d ?f ?z)))
 
 (global-set-key (kbd "C-c J") (lambda () (interactive) (join-line 1)))
 (global-set-key (kbd "C-.") 'set-mark-command)
