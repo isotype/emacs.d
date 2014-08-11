@@ -4,14 +4,13 @@
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
 ;; Last-Updated: 11-08-2014                                         ;;
-;;  Update #: 30                                                    ;;
+;;  Update #: 38                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init                                                   ;;
-;; Version:                                                         ;;
-;; Description:                                                     ;;
+;; Version: 0.0.0.0.0.1                                             ;;
+;; Description: ype'S emacs conf                                    ;;
 ;;                                                                  ;;
-;; Package Requires: ()                                             ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -32,8 +31,8 @@
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "init-tools" user-emacs-directory))
 
+;; Add function for requiring git submodules
 (require 'init-git-submodules)
-(require-git-submodule 'org-sync)
 
 ;; Measure startup time
 (require 'init-benchmarking)
@@ -49,7 +48,6 @@
 (require 'init-exec-path)
 
 ;; wgrep needed for init-edit-utils
-(require 'os)
 (require-package 'wgrep)
 (require-package 'project-local-variables)
 (require-package 'diminish)
@@ -144,13 +142,17 @@
 ;;Clean up modeline
 ;;(load "clean-modeline")
 
-(require-git-submodule 'terminal-notifier)
+(require-git-submodule 'terminal-notifier t)
 
 ;;Markdown mode
 (require 'init-markdown)
 
+;; Org-Sync
+(require-git-submodule 'org-sync)
+(require 'os)
 ;;The Big Giant Org
 (require 'init-org)
+
 ;;; Quick create blog post
 ;; set posts directory
 ;; (setq ype/posts-directory "~/Dropbox/ype/isotype/content/posts")
@@ -231,15 +233,15 @@
 ;;----------------------------------------------------------------------------
 (bookmark-bmenu-list)
 
+;;Cleans up mode line clutter
+(require 'init-mode-line-declutter)
+
 ;;----------------------------------------------------------------------------
 ;; variables configured via the interactive 'customize' interface
 ;;----------------------------------------------------------------------------
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
-
-;;Cleans up mode line clutter
-(require 'init-mode-line-declutter)
 
 (require 'init-locales)
 (add-hook 'after-init-hook
