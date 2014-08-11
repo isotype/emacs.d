@@ -14,7 +14,7 @@
 
 ;;Key modifiers
 (unless *is-x-toolkit*
-  (setq mac-command-modifier 'meta)
+  (setq ns-command-modifier 'meta)
   (setq ns-option-modifier 'super)
   (setq ns-right-command-modifier 'hyper)
   (setq ns-right-option-modifier 'alt)
@@ -31,9 +31,6 @@
   (global-set-key (kbd "M-ˍ") 'ns-do-hide-others))
 
 (global-set-key (kbd "C-\=") 'set-mark-command)
-
-;;Window move
-(windmove-default-keybindings 'meta)
 
 ;;Switch tabbar to show by major-mode
 (defun ype/tabbar-group-by-mode ()
