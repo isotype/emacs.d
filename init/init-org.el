@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;; Last-Updated: 08-08-2014                                         ;;
+;; Last-Updated: 11-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
@@ -891,7 +891,7 @@
 
 (require 'appt)
 (setq appt-time-msg-list nil           ;; clear existing appt list
-      appt-display-interval '5       ;; warn every 10 minutes from t - appt-message-warning-time
+      appt-display-interval '15       ;; warn every 10 minutes from t - appt-message-warning-time
       appt-message-warning-time '60  ;; send first warning 10 minutes before appointment
       appt-display-mode-line nil      ;; don't show in the modeline
       appt-display-format 'window)  ;; pass warnings to the designated window function
@@ -918,7 +918,7 @@
   (tn-notify msg title " "))
 
 ;; designate the window function for my-appt-send-notification
-(defun my-appt-display (min-to-app new-time msg)
+(defun my-appt-display (min-to-app msg)
   (my-appt-send-notification
    (format "'Appointment in %s minutes'" min-to-app) ;; passed to -title in terminal-notifier call
    (format "'%s'" msg))) ;; passed to -message in terminal-notifier call
