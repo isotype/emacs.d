@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;; Last-Updated: 03-08-2014                                         ;;
+;; Last-Updated: 12-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-auto-complete                                   ;;;
@@ -69,14 +69,6 @@
                 sql-interactive-mode
                 inferior-emacs-lisp-mode))
   (add-to-list 'ac-modes mode))
-
-;; Clojure Completion
-(require-package 'ac-cider-compliment)
-(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
-(add-hook 'cider-mode-hook 'ac-cider-compliment-setup)
-(add-hook 'cider-repl-mode-hook 'ac-cider-compliment-repl-setup)
-(after-load "auto-complete"
-  '(add-to-list 'ac-modes cider-mode))
 
 ;; Exclude very large buffers from dabbrev
 (defun sanityinc/dabbrev-friend-buffer (other-buffer)
