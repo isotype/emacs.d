@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 11-08-2014                                         ;;
-;;  Update #: 38                                                    ;;
+;; Last-Updated: 12-08-2014                                         ;;
+;;  Update #: 41                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init                                                   ;;
@@ -112,19 +112,15 @@
 ;;Social Networking
 (require 'init-social)
 
-;;Load init-javascript
-(require 'init-javascript)
 
-;;SBCL
+;; Code Modes
+(require 'init-javascript)
 (require 'init-lisp)
 (require 'init-slime)
-
-;; 4CLJ
-(require 'init-clojure)
 (require 'init-common-lisp)
-
-;;Literate Clojure
+(require 'init-clojure)
 (require 'init-literate-clojure)
+(require 'init-python)
 
 ;;Custom Functions
 (require 'init-random-defuns)
@@ -199,6 +195,9 @@
 
 ;; Slack
 (require 'init-slack)
+
+;; OSX Browse
+;;(require 'init-browse)
 
 ;;,--------------------------------------------------
 ;;| MISC: OSX Printing
