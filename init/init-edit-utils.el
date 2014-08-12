@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 11-08-2014                                         ;;
-;;  Update #: 35                                                    ;;
+;; Last-Updated: 12-08-2014                                         ;;
+;;  Update #: 41                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
@@ -97,7 +97,7 @@
 ;;Rainbow Blocks
 (require-package 'rainbow-blocks)
 (after-load 'rainbow-blocks
-  '(diminish 'rainbow-blocks-mode))
+  (diminish 'rainbow-blocks-mode))
 (add-hook 'lisp-mode-hook 'rainbow-blocks-mode)
 (add-hook 'emacs-lisp-mode-hook 'rainbow-blocks-mode)
 (global-set-key (kbd "H-d") 'rainbow-blocks-mode)
@@ -304,9 +304,10 @@ With arg N, insert N newlines."
 (hes-mode)
 
 (require-package 'guide-key)
-(setq guide-key/guide-key-sequence '("C-x"))
+(setq guide-key/guide-key-sequence '("C-x" "C-c" "C-h"))
 (setq guide-key/recursive-key-sequence-flag t)
 (setq guide-key/idle-delay 1.0)
+(setq guide-key/highlight-command-regexp "rectangle\\|register")
 (guide-key-mode 1)
 (diminish 'guide-key-mode)
 
@@ -439,13 +440,7 @@ With arg N, insert N newlines."
 ;;Linum Mode
 (require 'linum)
 (require-package 'linum-relative)
-(require 'linum-relative)
-
-(defadvice linum-update-window (around linum-dynamic activate)
-  (let* ((w (length (number-to-string
-                     (count-lines (point-min) (point-max)))))
-         (linum-format (concat " %" (number-to-string w) "d ")))
-    ad-do-it))
+(global-linum-mode +1)
 
 
 ;; Quick Keys
