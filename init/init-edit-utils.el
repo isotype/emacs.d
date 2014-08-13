@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 12-08-2014                                         ;;
-;;  Update #: 41                                                    ;;
+;; Last-Updated: 13-08-2014                                         ;;
+;;  Update #: 46                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
@@ -356,6 +356,9 @@ With arg N, insert N newlines."
 ;;Y for yes N for no
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+;; Quick Kill Buffer ESC-<return>
+(global-set-key (kbd "M-<return>") 'kill-this-buffer)
+
 ;;Confirm Emacs Quit
 (set-variable 'confirm-kill-emacs 'yes-or-no-p)
 
@@ -440,7 +443,7 @@ With arg N, insert N newlines."
 ;;Linum Mode
 (require 'linum)
 (require-package 'linum-relative)
-(global-linum-mode +1)
+(global-linum-mode -1)
 
 
 ;; Quick Keys
@@ -455,10 +458,9 @@ With arg N, insert N newlines."
 (define-key endless:toggle-map "c" 'toggle-truncate-lines)
 (define-key endless:toggle-map "q" 'toggle-debug-on-quit)
 (define-key endless:toggle-map "d" 'read-only-mode)
-(define-key endless:toggle-map "g" 'git-gutter-mode)
+(define-key endless:toggle-map "g" 'git-gutter+-toggle-fringe)
 (define-key endless:toggle-map "t" 'endless/toggle-theme)
 (define-key endless:toggle-map "f" 'flycheck-mode)
-
 
 ;; init.el
 ;; C-x r j e
