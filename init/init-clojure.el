@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;; Last-Updated: 12-08-2014                                         ;;
+;; Last-Updated: 13-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-clojure                                         ;;;
@@ -13,14 +13,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require-package 'clojure-mode)
-(require-package 'clojure-test-mode)
 (require-package 'cljsbuild-mode)
 (require-package 'elein)
-(require-package 'cider)
-(require-package 'ac-cider)
-;;(require-package 'slamhound)
-(require-package 'latest-clojure-libraries)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Slime with Clojure
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -40,32 +34,6 @@
 (after-load 'slime-repl
   (add-hook 'slime-repl-mode-hook 'slime-clojure-repl-setup))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; nrepl with Clojure
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq nrepl-popup-stacktraces nil)
-
-(after-load 'cider
-  (add-hook 'cider-mode-hook 'ac-flyspell-workaround)
-  (add-hook 'cider-mode-hook 'ac-cider-setup)
-  (add-hook 'cider-repl-mode-hook 'ac-cider-setup)
-  (eval-after-load "auto-complete"
-    '(add-to-list 'ac-modes 'cider-mode))
-
-  (add-hook 'cider-repl-mode-hook 'set-auto-complete-as-completion-at-point-function)
-  (add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)
-
-  (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-  (add-hook 'cider-repl-mode-hook 'subword-mode)
-  (add-hook 'cider-repl-mode-hook 'paredit-mode)
-  (define-key cider-mode-map (kbd "C-c C-d") 'ac-cider-compliment-popup-doc)
-
-  ;; nrepl isn't based on comint
-  (add-hook 'cider-repl-mode-hook
-            (lambda () (setq show-trailing-whitespace nil))))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Misc clojure tweaks
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -74,13 +42,34 @@
   (add-hook 'clojure-mode-hook 'sanityinc/lisp-setup)
   (add-hook 'clojure-mode-hook 'subword-mode))
 
-;; Use clojure-mode for clojurescript, since clojurescript-mode
-;; pulls in Slime
-(add-auto-mode 'clojure-mode "\\.cljs\\'")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Cider
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require-package 'cider)
+(require-package 'ac-cider)
+
+(setq nrepl-popup-stacktraces nil)
+
+(after-load 'cider
+  (add-hook 'cider-repl-mode-hook 'ac-cider-setup)
+  (add-hook 'cider-mode-hook 'ac-cider-setup)
+  (after-load 'auto-complete
+    (add-to-list 'ac-modes 'cider-repl-mode))
+
+  (add-hook 'cider-repl-mode-hook 'set-auto-complete-as-completion-at-point-function)
+  (add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)
+  (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+  (add-hook 'cider-repl-mode-hook 'subword-mode)
+  (add-hook 'cider-repl-mode-hook 'paredit-mode)
+  (define-key cider-mode-map (kbd "C-c C-d") 'ac-cider-popup-doc)
+
+  ;; nrepl isn't based on comint
+  (add-hook 'cider-repl-mode-hook
+            (lambda () (setq show-trailing-whitespace nil))))
 
 ;; Learning
-(require-git-submodule '4clj-el)
+;;(require-git-submodule '4clj-el)
 
 (provide 'init-clojure)
-
-;;; init-clojure.el ends here)
+;;; init-clojure.el ends here
