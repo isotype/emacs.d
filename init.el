@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 12-08-2014                                         ;;
-;;  Update #: 41                                                    ;;
+;; Last-Updated: 13-08-2014                                         ;;
+;;  Update #: 45                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init                                                   ;;
@@ -13,7 +13,6 @@
 ;;                                                                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;;; Code:
 
 (let ((minver 23))
@@ -226,11 +225,6 @@
 (require 'server)
 (unless (server-running-p)
   (server-start))
-
-;;----------------------------------------------------------------------------
-;; Open bookmark menu on start
-;;----------------------------------------------------------------------------
-(bookmark-bmenu-list)
 
 ;;Cleans up mode line clutter
 (require 'init-mode-line-declutter)
