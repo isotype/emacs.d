@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;; Last-Updated: 11-08-2014                                         ;;
+;; Last-Updated: 13-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
@@ -891,15 +891,15 @@
 
 (require 'appt)
 (setq appt-time-msg-list nil           ;; clear existing appt list
-      appt-display-interval '15       ;; warn every 10 minutes from t - appt-message-warning-time
-      appt-message-warning-time '60  ;; send first warning 10 minutes before appointment
+      appt-display-interval '3       ;; warn every 3 minutes from t - appt-message-warning-time
+      appt-message-warning-time '10  ;; send first warning 10 minutes before appointment
       appt-display-mode-line nil      ;; don't show in the modeline
       appt-display-format 'window)  ;; pass warnings to the designated window function
 
 (appt-activate 1) ;; activate appointment notification
 (display-time)    ;; activate time display
 
-;; Erase all reminders and rebuilt reminders for today from the agenda
+;; ;; Erase all reminders and rebuilt reminders for today from the agenda
 (defun ype/org-agenda-to-appt ()
   (interactive)
   (setq appt-time-msg-list nil)
@@ -907,18 +907,17 @@
 
 ;; Rebuild the reminders everytime the agenda is displayed
 (add-hook 'org-finalize-agenda-hook 'ype/org-agenda-to-appt 'append)
-(run-at-time "24:01" nil 'ype/org-agenda-to-appt) ;; update appt list hourly
+(run-at-time "24:01" 3600 'ype/org-agenda-to-appt) ;; update appt list hourly
 
 ;;,-------------------------------------
 ;;| TERMINAL NOTIFIER
 ;;`-------------------------------------
-
 ;; set up the call to terminal-notifier
 (defun my-appt-send-notification (title msg)
   (tn-notify msg title " "))
 
 ;; designate the window function for my-appt-send-notification
-(defun my-appt-display (min-to-app msg)
+(defun my-appt-display (min-to-app new-time msg)
   (my-appt-send-notification
    (format "'Appointment in %s minutes'" min-to-app) ;; passed to -title in terminal-notifier call
    (format "'%s'" msg))) ;; passed to -message in terminal-notifier call
@@ -926,7 +925,7 @@
 (setq appt-disp-window-function (function my-appt-display))
 
 ;; This is at the end of my .emacs - so appointments are set up when Emacs starts
-(ype/org-agenda-to-appt)
+(org-agenda-to-appt)
 
 ;;,-------------
 ;;| Org Mac Link
@@ -934,6 +933,14 @@
 (require-package 'org-mac-link)
 (require 'org-mac-link)
 (define-key org-mode-map (kbd "C-'") 'org-mac-grab-link)
+
+;;,----------------
+;;| Org Box
+;;| [[https://github.com/yasuhito/orgbox][yasuhito/orgbox]]
+;;`----------------
+(require-package 'orgbox)
+(require 'orgbox)
+
 
 
 (provide 'init-org)

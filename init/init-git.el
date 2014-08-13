@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 07-04-2014                                            ;;;
-;; Last-Updated: 07-08-2014                                         ;;
+;; Last-Updated: 13-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-git                                             ;;;
@@ -13,7 +13,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require-package 'magit)
 (require-package 'git-blame)
-(require-package 'git-gutter-fringe)
+(require-package 'git-gutter-fringe+)
 (require-package 'git-commit-mode)
 (require-package 'git-rebase-mode)
 (require-package 'gitignore-mode)
@@ -40,7 +40,7 @@
 
 (require-package 'fullframe)
 (after-load 'magit
-  (fullframe magit-status magit-mode-quit-window))
+  (fullframe magit-status magit-mode-quit-window t))
 
 ;; When we start working on git-backed files, use git-wip if available
 (after-load 'magit
@@ -52,12 +52,18 @@
 
 ;; Use the fringe version of git-gutter
 (after-load 'git-gutter
-  (require 'git-gutter-fringe)
-  (setq git-gutter:lighter " ♊ƒ")
-  (global-git-gutter-mode 1)
-  (set-face-foreground 'git-gutter-fr:added "#B4C342")
-  (set-face-foreground 'git-gutter-fr:modified "#F2804F")
-  (set-face-foreground 'git-gutter-fr:deleted "#990A1B"))
+  (require 'git-gutter-fringe+)
+  (global-git-gutter+-mode +1)
+  (setq git-gutter+-lighter " ♊ƒ"
+        git-gutter-fr+-side 'right-fringe
+        git-gutter+-modified-sign "☁"
+        git-gutter+-added-sign "☀"
+        git-gutter+-deleted-sign "☂")
+  (setq right-fringe-width 10)
+  (set-face-foreground 'git-gutter+-added "#3CCF33")
+  (set-face-foreground 'git-gutter+-modified "#33CCFF")
+  (set-face-foreground 'git-gutter+-deleted "#FF33CF")
+  (git-gutter+-toggle-fringe))
 
 (when *is-a-mac*
   (after-load 'magit

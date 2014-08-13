@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 25-05-2014                                            ;;;
-;; Last-Updated: 08-08-2014                                         ;;
+;; Last-Updated: 13-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-elpa                                            ;;;
@@ -63,6 +63,6 @@ re-downloaded in order to locate PACKAGE."
 (package-initialize)
 
 (require-package 'fullframe)
-(fullframe list-packages quit-window)
+(fullframe list-packages quit-window t)
 
 (provide 'init-elpa)

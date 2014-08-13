@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;; Last-Updated: 28-07-2014                                         ;;
+;; Last-Updated: 13-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-ido                                             ;;;
@@ -44,6 +44,32 @@
 
 (global-set-key (kbd "C-c C-f") 'recentf-ido-find-file)
 
+
+;; Bookmark
+(require 'bookmark)
+
+(after-load 'bookmark
+  ;; Add Bookmark list to ido
+  (setq enable-recursive-minibuffers t)
+  (define-key ido-file-dir-completion-map [(control ?')] 'ido-goto-bookmark)
+  (defun ido-goto-bookmark (bookmark)
+    (interactive
+     (list (bookmark-completing-read "Jump to bookmark" bookmark-current-bookmark)))
+    (unless bookmark
+      (error "No bookmark specified"))
+    (let ((filename (bookmark-get-filename bookmark)))
+      (if (file-directory-p filename)
+          (progn
+            (ido-set-current-directory filename)
+            (setq ido-text ""))
+        (progn
+          (ido-set-current-directory (file-name-directory filename))))
+      (setq ido-exit 'refresh
+            ido-text-init ido-text
+            ido-rotate-temp t)
+      (exit-minibuffer)))
+  (global-set-key (kbd "C-M-<return>") 'bookmark-set))
+
 ;;ibuffer
 (require 'init-ibuffer)
 
