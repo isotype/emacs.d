@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 13-08-2014                                         ;;
-;;  Update #: 45                                                    ;;
+;; Last-Updated: 21-08-2014                                         ;;
+;;  Update #: 51                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init                                                   ;;
@@ -87,6 +87,9 @@
 (require 'init-ido)
 (require 'init-auto-complete)
 (require 'init-windows)
+(require 'init-sessions)
+
+
 (require 'init-edit-utils)
 (require 'init-helpers)
 (require 'init-paredit)
@@ -120,7 +123,8 @@
 (require 'init-clojure)
 (require 'init-literate-clojure)
 (require 'init-python)
-
+(require 'init-ruby)
+(require 'init-oascript)
 ;;Custom Functions
 (require 'init-random-defuns)
 
@@ -227,7 +231,7 @@
   (server-start))
 
 ;;Cleans up mode line clutter
-(require 'init-mode-line-declutter)
+;;(require 'init-mode-line-declutter)
 
 ;;----------------------------------------------------------------------------
 ;; variables configured via the interactive 'customize' interface
