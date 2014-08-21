@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 21-08-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-appearance                                      ;;;
 ;;; Description: Setup for the look and feel of emacs              ;;;
@@ -21,12 +21,6 @@
 
 ;;; Column Numbers
 (column-number-mode 1)
-
-;;; Remove Toolbar
-(tool-bar-mode -1)
-
-;;; Remove scrollbar
-(scroll-bar-mode -1)
 
 (require-package 'pretty-mode)
 (global-pretty-mode t)
