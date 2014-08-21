@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 17-04-2014                                            ;;;
-;; Last-Updated: 30-06-2014                                         ;;
+;; Last-Updated: 21-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-gui-frames                                      ;;;
@@ -49,7 +49,7 @@
 (when (and *is-a-mac* (fboundp 'toggle-frame-fullscreen))
   ;; Option-super-f to toggle fullscreen mode
   ;; Hint: Customize `ns-use-native-fullscreen'
-  (global-set-key (kbd "M-s-ƒ") 'toggle-frame-fullscreen))
+  (global-set-key (kbd "M-s-f") 'toggle-frame-fullscreen))
 
 (global-set-key (kbd "M-C-8") '(lambda () (interactive) (adjust-opacity nil -5)))
 (global-set-key (kbd "M-C-9") '(lambda () (interactive) (adjust-opacity nil 5)))
@@ -61,10 +61,35 @@
               (unless window-system
                 (set-frame-parameter nil 'menu-bar-lines 0)))))
 
+(defun frame-title-prefix()
+  (cond (multiple-frames (buffer-name))
+        (t (abbreviate-file-name (file-name-sans-extension (buffer-name))))))
+
+(defun ype/mail-count ()
+  (setq count
+        (+ (- (length (directory-files "~/.mail/anton-ilyfa.cc/INBOX/cur/")) 2)
+           (- (length (directory-files "~/.mail/anton-ilyfa.cc/INBOX/new/")) 2)))
+  (if (> count 0) (propertize (format "%d" count))))
+
+
+(defadvice vc-git-mode-line-string (after plus-minus (file) compile activate)
+  (setq ad-return-value
+    (concat ad-return-value
+            (let ((plus-minus (vc-git--run-command-string
+                               file "diff" "--numstat" "--")))
+              (and plus-minus
+                   (string-match "^\\([0-9]+\\)\t\\([0-9]+\\)\t" plus-minus)
+                   (format " [+%s][-%s]" (match-string 1 plus-minus) (match-string 2 plus-minus)))))))
+
 (setq frame-title-format
-      '((:eval (if (buffer-file-name)
-                   (abbreviate-file-name (buffer-file-name))
-                 "%b"))))
+      '("%m "
+        " ↂ "
+        (:eval (ype/mail-count))
+        " ↂ "
+        (:eval (vc-git-mode-line-string (buffer-file-name)))
+        " ↂ "
+        (:eval (frame-title-prefix))
+        " %-"))
 
 ;;,-----------------------------------------------------------------
 ;;| Non-zero values for `line-spacing' can mess up ansi-term and co,
@@ -74,5 +99,9 @@
           (lambda ()
             (set (make-local-variable 'line-spacing)
                  0)))
+
+;; OSX 10.6 Plus - Auto Show/Hide Menubar
+(setq ns-auto-hide-menu-bar t)
+
 
 (provide 'init-gui-frames)
