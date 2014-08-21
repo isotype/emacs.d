@@ -42,19 +42,34 @@
 (after-load 'magit
   (defadvice magit-status
       (around magit-fullscreen activate)
-    (window-configuration-to-register :magit-fullscreen)
+    (window-configuration-to-register :magit-status-fullscreen)
     ad-do-it
     (delete-other-windows))
 
-  (defun magit-quit-session ()
+  (defadvice magit-log
+      (around magit-fullscreen activate)
+    (window-configuration-to-register :magit-log-fullscreen)
+    ad-do-it
+    (delete-other-windows))
+
+  (defun magit-status-quit-session ()
     "Restores the previous window configuration and kills the magit buffer"
     (interactive)
     (kill-buffer)
-    (when (get-register :magit-fullscreen)
+    (when (get-register :magit-status-fullscreen)
       (ignore-errors
-        (jump-to-register :magit-fullscreen))))
+        (jump-to-register :magit-status-fullscreen))))
 
-  (define-key magit-status-mode-map (kbd "q") 'magit-quit-session))
+    (defun magit-log-quit-session ()
+    "Restores the previous window configuration and kills the magit buffer"
+    (interactive)
+    (kill-buffer)
+    (when (get-register :magit-log-fullscreen)
+      (ignore-errors
+        (jump-to-register :magit-log-fullscreen))))
+
+    (define-key magit-status-mode-map (kbd "q") 'magit-status-quit-session)
+    (define-key magit-log-mode-map (kbd "q") 'magit-log-quit-session))
 
 ;; When we start working on git-backed files, use git-wip if available
 (after-load 'magit
