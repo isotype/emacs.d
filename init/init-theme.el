@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;; Last-Updated: 27-07-2014                                         ;;
+;; Last-Updated: 21-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-theme                                           ;;;
@@ -15,49 +15,55 @@
 (require-package 'powerline)
 (powerline-vim-theme)
 
-(require 'color-theme)
-(setq color-theme-is-global t)
-(color-theme-solarized-light)
+(require-package 'ample-theme)
 
 (defun ype:light ()
-  (interactive)
-  (color-theme-solarized-light))
+ (interactive)
+ (ample-light-theme))
 
 (defun ype:dark ()
+ (interactive)
+ (ample-theme))
+
+;; Change Light Based on OSX Ambient Light Sensor Values
+(setq direct-sun 44000000)
+
+(setq light-theme 'solarized-light)
+(setq dark-theme 'ample)
+
+(defun light-level ()
+  "Access the level of light detected by the LMU sensor on Macbook Pros"
+  (string-to-number (shell-command-to-string "~/.emacs.d/light/LMU-sensor")))
+
+(defun adjust-theme-to-light ()
+  "Picks a theme according to the level of ambient light in the room"
+  (cond ((= ambient-light 1)
+         (if (> (light-level) direct-sun)
+             (progn
+               (load-theme light-theme t)
+               (disable-theme dark-theme))
+           (progn
+             (load-theme dark-theme t)
+             (disable-theme light-theme))))
+        ((= ambient-light 0)
+         (message "LMU Theme Switcher Disabled"))))
+
+(setq ambient-light 1)
+(if (= ambient-light 1)
+    't
+  'nil)
+
+(defun ype:toggle-lmu-theme-switch-on ()
   (interactive)
-  (color-theme-solarized-dark))
+  (setq ambient-light 1))
 
-(setq solarized-termcolor 256
-      solarized-broken-srgb t)
+(defun ype:toggle-lmu-theme-switch-off ()
+  (interactive)
+  (setq ambient-light 0))
 
-;; (defun powerline-solarized-light ()
-;;   "Function to change powerline to look nice with solarized-light"
-;;   (setq powerline-color1 "#eee8d5")
-;;   (setq powerline-color2 "#fdf6e3")
-;;   (set-face-attribute 'mode-line nil
-;;                       :foreground "#93a1a1"
-;;                       :background "#eee8d5"
-;;                       :box nil
-;;                       :inverse-video nil)
-;;   (set-face-attribute 'mode-line-inactive nil
-;;                       :foreground "#eee8d5"
-;;                       :background "#fdf6e3"
-;;                       :box nil))
+(run-at-time 0 (* 60 60) 'adjust-theme-to-light)
 
-;; (defun powerline-solarized-dark ()
-;;   "Function to change powerline to look nice with solarized-dark"
-;;   (setq powerline-color1 "#073642")
-;;   (setq powerline-color2 "#002B36")
-;;   (set-face-attribute 'mode-line nil
-;;                       :foreground "#fdf6e3"
-;;                       :background "#073642"
-;;                       :box nil
-;;                       :inverse-video nil)
-;;   (set-face-attribute 'mode-line-inactive nil
-;;                       :foreground "#93a1a1"
-;;                       :background "#586e75"
-;;                       :box nil))
-
+;;(adjust-theme-to-light)
 
 
 (provide 'init-theme)
