@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 16-06-2014                                         ;;
-;;  Update #: 1                                                     ;;
+;; Last-Updated: 15-08-2014                                         ;;
+;;  Update #: 2                                                     ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-headers                                           ;;
@@ -210,6 +210,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
 (register-file-header-action "Last-Updated[ \t]*: " 'update-last-modified-date)
 (register-file-header-action "  By[ \t]*: " 'update-last-modifier)
 (register-file-header-action "  Update #[ \t]*: " 'update-write-count)
+(defun kill-header-auto-write ()
+  (interactive)
+  (remove-hook 'write-file-hooks 'auto-update-file-header))
+(defun header-auto-write ()
+  (interactive)
+  (add-hook 'write-file-hooks 'auto-update-file-header))
 (add-hook 'write-file-hooks 'auto-update-file-header)
 (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
 (add-hook 'c-mode-common-hook   'auto-make-header)
