@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 13-08-2014                                         ;;
-;;  Update #: 46                                                    ;;
+;; Last-Updated: 18-08-2014                                         ;;
+;;  Update #: 55                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
@@ -37,6 +37,9 @@
               tooltip-delay 1.5
               truncate-lines nil
               truncate-partial-width-windows nil)
+
+;; Set Backtab
+(define-key function-key-map [S-tab] [backtab])
 
 (when *is-a-mac*
   (setq-default locate-command "mdfind"))
@@ -72,7 +75,7 @@
 (global-set-key (kbd "S-<return>") 'sanityinc/newline-at-end-of-line)
 
 (after-load 'subword
-    (diminish 'subword-mode))
+  (diminish 'subword-mode))
 
 (when (fboundp 'global-prettify-symbols-mode)
   (global-prettify-symbols-mode))
@@ -253,10 +256,10 @@ on the new line if the line would have been blank.
 With arg N, insert N newlines."
   (interactive "*p")
   (let* ((do-fill-prefix (and fill-prefix (bolp)))
-   (do-left-margin (and (bolp) (> (current-left-margin) 0)))
-   (loc (point-marker))
-   ;; Don't expand an abbrev before point.
-   (abbrev-mode nil))
+         (do-left-margin (and (bolp) (> (current-left-margin) 0)))
+         (loc (point-marker))
+         ;; Don't expand an abbrev before point.
+         (abbrev-mode nil))
     (delete-horizontal-space t)
     (newline n)
     (indent-according-to-mode)
@@ -265,8 +268,8 @@ With arg N, insert N newlines."
     (goto-char loc)
     (while (> n 0)
       (cond ((bolp)
-       (if do-left-margin (indent-to (current-left-margin)))
-       (if do-fill-prefix (insert-and-inherit fill-prefix))))
+             (if do-left-margin (indent-to (current-left-margin)))
+             (if do-fill-prefix (insert-and-inherit fill-prefix))))
       (forward-line 1)
       (setq n (1- n)))
     (goto-char loc)
@@ -329,16 +332,23 @@ With arg N, insert N newlines."
 ;;| Mark a bunch of stuff just like in sublime
 ;;`-------------------------------------------
 (require-package 'multiple-cursors)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-+") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(define-prefix-command 'ype:multiple-cursors-map)
+(define-key ype:multiple-cursors-map (vector ?r) 'set-rectangular-region-anchor)
+(define-key ype:multiple-cursors-map (vector ?d) 'mc/edit-lines)
+(define-key ype:multiple-cursors-map (vector ?e) 'mc/edit-ends-of-lines)
+(define-key ype:multiple-cursors-map (vector ?f) 'mc/edit-beginnings-of-lines)
+(define-key ype:multiple-cursors-map (vector ?a) 'mc/mark-all-like-this)
+(define-key ype:multiple-cursors-map (vector ?b) 'mc/mark-all-words-like-this)
+(define-key ype:multiple-cursors-map (vector ?k) 'mc/mark-previous-like-this)
+(define-key ype:multiple-cursors-map (vector ?j) 'mc/mark-next-like-this)
+(define-key ype:multiple-cursors-map (vector ?n) 'mc/mark-next-symbol-like-this)
+(define-key ype:multiple-cursors-map (vector ?m) 'mc/mark-previous-symbol-like-this)
+(define-key ype:multiple-cursors-map (vector ?o) 'mc/mark-next-word-like-this)
+(define-key ype:multiple-cursors-map (vector ?p) 'mc/mark-previous-word-like-this)
+(define-key ype:multiple-cursors-map (vector ?q) 'mc/mark-all-like-this-in-defun)
+(global-set-key [?\C-c ?m] 'ype:multiple-cursors-map)
 
-;; From active region to multiple cursors:
-(global-set-key (kbd "C-c c r") 'set-rectangular-region-anchor)
-(global-set-key (kbd "C-c c c") 'mc/edit-lines)
-(global-set-key (kbd "C-c c e") 'mc/edit-ends-of-lines)
-(global-set-key (kbd "C-c c a") 'mc/edit-beginnings-of-lines)
+
 
 ;;,-----------------------------------------------------------------
 ;;|  Drag Stuff
@@ -468,6 +478,14 @@ With arg N, insert N newlines."
 
 ;; Ledger
 (set-register ?l (cons 'file "~/Dropbox/Finances/ledgers/ledger-2014-2015.ledger"))
+
+;; Reformat Buffer
+(defun indent-buffer ()
+  (interactive)
+  (save-excursion
+    (indent-region (point-min) (point-max) nil))
+  (message "Buffer Reformatted"))
+(global-set-key (kbd "M-RET") 'indent-buffer)
 
 
 (provide 'init-edit-utils)
