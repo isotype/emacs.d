@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 07-04-2014                                            ;;;
-;; Last-Updated: 13-08-2014                                         ;;
+;; Last-Updated: 21-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-git                                             ;;;
@@ -13,7 +13,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require-package 'magit)
 (require-package 'git-blame)
-(require-package 'git-gutter-fringe+)
+(require-package 'git-gutter-fringe)
 (require-package 'git-commit-mode)
 (require-package 'git-rebase-mode)
 (require-package 'gitignore-mode)
@@ -40,7 +40,21 @@
 
 (require-package 'fullframe)
 (after-load 'magit
-  (fullframe magit-status magit-mode-quit-window t))
+  (defadvice magit-status
+      (around magit-fullscreen activate)
+    (window-configuration-to-register :magit-fullscreen)
+    ad-do-it
+    (delete-other-windows))
+
+  (defun magit-quit-session ()
+    "Restores the previous window configuration and kills the magit buffer"
+    (interactive)
+    (kill-buffer)
+    (when (get-register :magit-fullscreen)
+      (ignore-errors
+        (jump-to-register :magit-fullscreen))))
+
+  (define-key magit-status-mode-map (kbd "q") 'magit-quit-session))
 
 ;; When we start working on git-backed files, use git-wip if available
 (after-load 'magit
@@ -52,18 +66,14 @@
 
 ;; Use the fringe version of git-gutter
 (after-load 'git-gutter
-  (require 'git-gutter-fringe+)
-  (global-git-gutter+-mode +1)
-  (setq git-gutter+-lighter " ♊ƒ"
-        git-gutter-fr+-side 'right-fringe
-        git-gutter+-modified-sign "☁"
-        git-gutter+-added-sign "☀"
-        git-gutter+-deleted-sign "☂")
-  (setq right-fringe-width 10)
-  (set-face-foreground 'git-gutter+-added "#3CCF33")
-  (set-face-foreground 'git-gutter+-modified "#33CCFF")
-  (set-face-foreground 'git-gutter+-deleted "#FF33CF")
-  (git-gutter+-toggle-fringe))
+  (require 'git-gutter-fringe)
+  (global-git-gutter-mode +1)
+  (setq git-gutter:lighter " ♊ƒ")
+  (setq-default right-fringe-width  10)
+  (setq git-gutter-fr:side 'right-fringe)
+  (set-face-foreground 'git-gutter-fr:modified "#33CCFF")
+  (set-face-foreground 'git-gutter-fr:added "#3CCF33")
+  (set-face-foreground 'git-gutter-fr:deleted "#FF33CF"))
 
 (when *is-a-mac*
   (after-load 'magit
