@@ -31,17 +31,6 @@
 
 (global-set-key (kbd "C-\=") 'set-mark-command)
 
-;;Switch tabbar to show by major-mode
-(defun ype/tabbar-group-by-mode ()
-  (interactive)
-  (tabbar-switch-grouping-method '1))
-
-;;Buffer Switch Remap
-(global-set-key (kbd "H-[") 'tabbar-backward-tab)
-(global-set-key (kbd "H-]") 'tabbar-forward-tab)
-(global-set-key (kbd "H-{") 'tabbar-backward-group)
-(global-set-key (kbd "H-}") 'tabbar-forward-group)
-
 ;;Switch between two (or more) emacs windows
 ;;(global-set-key (kbd "C-s-<right>") 'other-frame)
 ;;(global-set-key (kbd "C-s-<left>") 'other-frame)

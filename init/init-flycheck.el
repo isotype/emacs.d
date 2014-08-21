@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-04-2014                                            ;;;
-;; Last-Updated: 03-08-2014                                         ;;
+;; Last-Updated: 13-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-flycheck                                        ;;;
@@ -36,7 +36,7 @@
 
 (setq flycheck-display-errors-function 'sanityinc/flycheck-maybe-display-errors)
 
-(global-set-key (kbd "H-\.") 'flycheck-next-error)
-(global-set-key (kbd "H-\,") 'flycheck-previous-error)
+(global-set-key (kbd "M-2") 'flycheck-next-error)
+(global-set-key (kbd "M-1") 'flycheck-previous-error)
 
 (provide 'init-flycheck)

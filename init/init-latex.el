@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-04-2014                                            ;;;
-;; Last-Updated: 29-07-2014                                         ;;
+;; Last-Updated: 16-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-latex                                           ;;;
@@ -13,15 +13,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require-package 'auctex)
-(require-package 'flymake)
+(require-package 'flycheck)
 (require-package 'auto-complete-auctex)
 (require-package 'magic-latex-buffer)
-
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq TeX-save-query nil)
 (setq TeX-PDF-mode t) ; Compile to PDF by default
+(add-to-list 'ac-modes 'LaTeX-mode)
 
 ;; set XeTeX mode in TeX/LaTeX
 (add-hook 'LaTeX-mode-hook
@@ -47,16 +47,24 @@
 (setq TeX-view-program-list
       '(("PDF Viewer" "/opt/homebrew-cask/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
 
+;; AC Maths
+(require-package 'ac-math)
+(add-to-list 'ac-modes 'latex-mode)   ; make auto-complete aware of `latex-mode`
+(setq ac-math-unicode-in-math-p t)
+
+(defun ac-latex-mode-setup ()
+  (setq ac-sources
+     (append '(ac-source-math-unicode ac-source-latex-commands)
+               ac-sources)))
+(add-hook 'latex-mode-hook 'ac-latex-mode-setup)
+(ac-flyspell-workaround)
+
 ;;,-=========-
 ;;| Org Latex
 ;;`-=========-
 (require 'ob-latex)
 (require 'ox-latex)
 (require 'ox-html)
-
-;; Org Mac Link
-(require-package 'org-mac-link)
-(define-key org-mode-map (kbd "C-'") 'org-mac-grab-link)
 
 (setq org-export-with-sub-superscripts '{})
 (setq org-export-with-smart-quotes t)

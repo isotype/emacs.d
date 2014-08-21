@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;; Last-Updated: 12-08-2014                                         ;;
+;; Last-Updated: 16-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-auto-complete                                   ;;;
@@ -16,10 +16,11 @@
 (require 'auto-complete-config)
 (global-auto-complete-mode t)
 (diminish 'auto-complete-mode " ⌦")
-
 (setq-default ac-expand-on-auto-complete nil)
-(setq-default ac-auto-start nil)
+(setq-default ac-auto-start 2)
 (setq-default ac-dwim nil) ; To get pop-ups with docs even if a word is uniquely completed
+(define-key ac-complete-mode-map "\r" nil)
+(define-key ac-complete-mode-map [return] nil)
 
 ;;----------------------------------------------------------------------------
 ;; Use Emacs' built-in TAB completion hooks to trigger AC (Emacs >= 23.2)
