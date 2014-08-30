@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;; Last-Updated: 16-08-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 30-08-2014                                         ;;
+;;   By: Anton Strilchuk <anton@ilyfa.cc>                           ;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
 ;; Version: 0.0.1                                                   ;;
@@ -931,9 +931,7 @@
 ;;| Org Mac Link
 ;;`-------------
 (require-package 'org-mac-link)
-(after-load 'org-mac-link
-  (global-set-key (kbd "C-\'") 'org-mac-grab-link))
-
+(global-set-key (kbd "\C-c l g") 'org-mac-grab-link)
 
 ;;,----------------
 ;;| Org Box
