@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;; Last-Updated: 16-08-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 30-08-2014                                         ;;
+;;   By: Anton Strilchuk <anton@ilyfa.cc>                           ;;
 ;;;                                                                ;;;
 ;;; Filename: init-auto-complete                                   ;;;
 ;;; Version:                                                       ;;;
@@ -61,12 +61,29 @@
                ac-source-words-in-all-buffer))
 
 (dolist (mode '(magit-log-edit-mode
-                log-edit-mode org-mode text-mode haml-mode
+                log-edit-mode
+                org-mode
+                text-mode
+                haml-mode
                 git-commit-mode
-                sass-mode yaml-mode csv-mode espresso-mode haskell-mode
-                html-mode nxml-mode sh-mode smarty-mode clojure-mode
-                lisp-mode textile-mode markdown-mode tuareg-mode
-                js3-mode css-mode less-css-mode sql-mode
+                sass-mode
+                yaml-mode
+                csv-mode
+                espresso-mode
+                haskell-mode
+                html-mode
+                nxml-mode
+                sh-mode
+                smarty-mode
+                clojure-mode
+                lisp-mode
+                textile-mode
+                markdown-mode
+                tuareg-mode
+                js3-mode
+                css-mode
+                less-css-mode
+                sql-mode
                 sql-interactive-mode
                 inferior-emacs-lisp-mode))
   (add-to-list 'ac-modes mode))
@@ -76,6 +93,9 @@
   (< (buffer-size other-buffer) (* 1 1024 1024)))
 
 (setq dabbrev-friend-buffer-function 'sanityinc/dabbrev-friend-buffer)
+
+
+(define-key ac-completing-map (kbd "M-h") 'ac-quick-help)
 
 ;;; Docstring popup anywhere
 ;;From

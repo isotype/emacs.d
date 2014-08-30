@@ -3,9 +3,9 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 21-08-2014                                         ;;
-;;  Update #: 51                                                    ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 30-08-2014                                         ;;
+;;  Update #: 52                                                    ;;
+;;   By: Anton Strilchuk <anton@ilyfa.cc>                           ;;
 ;;                                                                  ;;
 ;; Filename: init                                                   ;;
 ;; Version: 0.0.0.0.0.1                                             ;;
@@ -159,6 +159,9 @@
 
 ;; Org Custom Macros
 (require 'init-org-macros)
+
+;; R in Emacs
+(require 'init-ess)
 
 ;;LATEX
 (require 'init-latex)
