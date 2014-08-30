@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;; Last-Updated: 21-08-2014                                         ;;
+;; Last-Updated: 23-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-theme                                           ;;;
@@ -28,6 +28,8 @@
 ;; Change Light Based on OSX Ambient Light Sensor Values
 (setq direct-sun 44000000)
 
+(setq ambient-light 1)
+
 (setq light-theme 'solarized-light)
 (setq dark-theme 'ample)
 
@@ -48,14 +50,10 @@
         ((= ambient-light 0)
          (message "LMU Theme Switcher Disabled"))))
 
-(setq ambient-light 1)
-(if (= ambient-light 1)
-    't
-  'nil)
-
 (defun ype:toggle-lmu-theme-switch-on ()
   (interactive)
-  (setq ambient-light 1))
+  (setq ambient-light 1)
+  (adjust-theme-to-light))
 
 (defun ype:toggle-lmu-theme-switch-off ()
   (interactive)

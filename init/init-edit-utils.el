@@ -129,9 +129,9 @@
 ;; C-u C-c SPC => ace-jump-char-mode
 ;; C-u C-u C-c SPC => ace-jump-line-mode
 (require-package 'ace-jump-mode)
-(global-set-key (kbd "C-\\") 'ace-jump-mode)
+(global-set-key (kbd "C-\'") 'ace-jump-mode)
 (global-set-key (kbd "C-~") 'ace-jump-word-mode)
-(global-set-key (kbd "C-`") 'ace-jump-line-mode)
+(global-set-key (kbd "C-'") 'ace-jump-line-mode)
 
 (global-set-key (kbd "C-c J") (lambda () (interactive) (join-line 1)))
 (global-set-key (kbd "C-.") 'set-mark-command)

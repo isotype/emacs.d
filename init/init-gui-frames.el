@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 17-04-2014                                            ;;;
-;; Last-Updated: 21-08-2014                                         ;;
+;; Last-Updated: 25-08-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-gui-frames                                      ;;;
@@ -81,15 +81,20 @@
                    (string-match "^\\([0-9]+\\)\t\\([0-9]+\\)\t" plus-minus)
                    (format " [+%s][-%s]" (match-string 1 plus-minus) (match-string 2 plus-minus)))))))
 
+(defun ype:vc-check ()
+  (if (vc-backend (buffer-file-name))
+      (progn
+        (propertize (vc-git-mode-line-string (buffer-file-name))))
+    (propertize (format "[No Repo Found]"))))
+
 (setq frame-title-format
       '("%m "
-        " ↂ "
+        " %+ "
         (:eval (ype/mail-count))
-        " ↂ "
-        (:eval (vc-git-mode-line-string (buffer-file-name)))
-        " ↂ "
-        (:eval (frame-title-prefix))
-        " %-"))
+        " %+ "
+        (:eval (ype:vc-check))
+        " %+ "
+        (:eval (frame-title-prefix))))
 
 ;;,-----------------------------------------------------------------
 ;;| Non-zero values for `line-spacing' can mess up ansi-term and co,

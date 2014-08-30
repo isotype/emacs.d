@@ -24,7 +24,7 @@
   (setq mouse-wheel-scroll-amount '(1
                                     ((shift) . 5)
                                     ((control))))
-  (global-set-key (kbd "M-h") 'ns-do-hide-emacs)
+  (global-set-key (kbd "S-h") 'ns-do-hide-emacs)
   (after-load 'nxml-mode
     (define-key nxml-mode-map (kbd "M-h") nil))
   (global-set-key (kbd "M-ˍ") 'ns-do-hide-others))
