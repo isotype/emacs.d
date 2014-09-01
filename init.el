@@ -3,9 +3,9 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 30-08-2014                                         ;;
-;;  Update #: 52                                                    ;;
-;;   By: Anton Strilchuk <anton@ilyfa.cc>                           ;;
+;; Last-Updated: 01-09-2014                                         ;;
+;;  Update #: 55                                                    ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init                                                   ;;
 ;; Version: 0.0.0.0.0.1                                             ;;
@@ -154,8 +154,9 @@
 
 ;;; Quick create blog post
 ;; set posts directory
-;; (setq ype/posts-directory "~/Dropbox/ype/isotype/content/posts")
-;; (require 'init-blog-post)
+(setq ype/blog-posts-directory "~/Dropbox/ype/blog/posts4review/")
+(setq ype/blog-media-directory "~/Dropbox/ype/blog/ypeblog/media/")
+(require 'init-blog-post)
 
 ;; Org Custom Macros
 (require 'init-org-macros)
