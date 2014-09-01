@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;; Last-Updated: 18-08-2014                                         ;;
+;; Last-Updated: 01-09-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-ido                                             ;;;
@@ -76,8 +76,8 @@
           ido-text-init ido-text
           ido-rotate-temp t)
     (exit-minibuffer)))
-(after-load 'ido
-  (define-key ido-file-dir-completion-map [(control ?1)] 'ido-goto-bookmark))
+
+(define-key ido-file-dir-completion-map [(control ?1)] 'ido-goto-bookmark)
 (global-set-key (kbd "C-M-<return>") 'bookmark-set)
 
 
