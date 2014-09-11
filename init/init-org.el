@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;; Last-Updated: 30-08-2014                                         ;;
-;;   By: Anton Strilchuk <anton@ilyfa.cc>                           ;;
+;; Last-Updated: 09-09-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
 ;; Version: 0.0.1                                                   ;;
@@ -109,7 +109,7 @@
   (setq org-directory "~/Dropbox/ORGS/"
         org-agenda-files '("~/Dropbox/ORGS/gtd.org"
                            "~/Dropbox/ORGS/gcal.org"
-                           "~/Dropbox/ype/org-issues/"
+                           ;;"~/Dropbox/ype/org-issues/"
                            ;; "~/Dropbox/ORGS/school/s_main.org"
                            "~/Dropbox/ORGS/refile.org"
                            )
