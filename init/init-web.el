@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 20-05-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 05-09-2014                                         ;;
+;;   By: Anton Strilchuk <anton@ilyfa.cc>                           ;;
 ;;;                                                                ;;;
 ;;; Filename: init-web                                             ;;;
 ;;; Version:                                                       ;;;
@@ -41,5 +41,14 @@
 (require-package 'emmet-mode)
 (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
 (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+
+
+;;,---------------
+;;| WebDev Helpers
+;;`---------------
+(require-package 'know-your-http-well)
+(require-package 'restclient)
+
+
 
 (provide 'init-web)
