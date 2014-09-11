@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 10-04-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 05-09-2014                                         ;;
+;;   By: Anton Strilchuk <anton@ilyfa.cc>                           ;;
 ;;;                                                                ;;;
 ;;; Filename: init-nxml                                            ;;;
 ;;; Description: nxml, by @purcell                                 ;;;
@@ -20,10 +20,8 @@
          "\\'"))
 (setq magic-mode-alist (cons '("<\\?xml " . nxml-mode) magic-mode-alist))
 (fset 'xml-mode 'nxml-mode)
-(add-hook 'nxml-mode-hook (lambda ()
-                            (set (make-local-variable 'ido-use-filename-at-point) nil)))
+(add-hook 'nxml-mode-hook (lambda () (set (make-local-variable 'ido-use-filename-at-point) nil)))
 (setq nxml-slash-auto-complete-flag t)
-
 
 ;; See: http://sinewalker.wordpress.com/2008/06/26/pretty-printing-xml-with-emacs-nxml-mode/
 (defun pp-xml-region (begin end)
@@ -47,5 +45,27 @@ indentation rules."
 (add-hook 'html-mode-hook (lambda () (tidy-build-menu html-mode-map)))
 
 (add-auto-mode 'html-mode "\\.(jsp|tmpl)\\'")
+
+
+;;,---------
+;;| Fold XML
+;;`---------
+; hide-show for nxml mode
+(add-to-list 'hs-special-modes-alist
+             '(nxml-mode
+               "<!--\\|<[^/>]>\\|<[^/][^>]*[^/]>"
+               ""
+               "<!--" ;; won't work on its own; uses syntax table
+               (lambda (arg) (my-nxml-forward-element))
+               nil))
+
+(defun my-nxml-forward-element ()
+  (let ((nxml-sexp-element-flag))
+    (setq nxml-sexp-element-flag (not (looking-at "<!--")))
+    (unless (looking-at outline-regexp)
+      (condition-case nil
+          (nxml-forward-balanced-item 1)
+        (error nil)))))
+
 
 (provide 'init-nxml)
