@@ -82,3 +82,5 @@ offlineimap.*
 /init/init-git-packages.el
 /writing-tools/LanguageTool/
 /history
+/.session
+/gitstats/
