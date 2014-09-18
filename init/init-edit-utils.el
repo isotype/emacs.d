@@ -456,6 +456,10 @@ With arg N, insert N newlines."
 (global-linum-mode -1)
 
 
+;; Unfill Paragraph
+(global-set-key (kbd "C-c u") 'unfill-paragraph)
+
+
 ;; Quick Keys
 (define-prefix-command 'endless:toggle-map)
 ;; The manual recommends C-c for user keys, but I like using C-x for

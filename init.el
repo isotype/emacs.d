@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 01-09-2014                                         ;;
-;;  Update #: 55                                                    ;;
+;; Last-Updated: 18-09-2014                                         ;;
+;;  Update #: 58                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init                                                   ;;
@@ -154,8 +154,6 @@
 
 ;;; Quick create blog post
 ;; set posts directory
-(setq ype/blog-posts-directory "~/Dropbox/ype/blog/posts4review/")
-(setq ype/blog-media-directory "~/Dropbox/ype/blog/ypeblog/media/")
 (require 'init-blog-post)
 
 ;; Org Custom Macros
@@ -253,7 +251,6 @@
 ;; Clock in default task (Daily Dose)
 ;; Jump: [[file:init/init-org.el::%3B%3B|%20DEFAULT%20TASK%20IDs][Default task ID function]]
 ;;(ype/clock-in-default-task-as-default)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
