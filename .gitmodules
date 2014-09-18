@@ -25,3 +25,6 @@
 [submodule "submodules/terminal-notifier"]
 	path = submodules/terminal-notifier
 	url = git://github.com/emacsmirror/terminal-notifier.git
+[submodule "submodules/textlint"]
+	path = submodules/textlint
+	url = git@github.com:DamienCassou/textlint.git

@@ -5,3 +5,6 @@ backup/
 elpa/
 mthesaur.*
 wakatime/
+history
+.session
+submodules/
