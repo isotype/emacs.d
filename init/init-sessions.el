@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 20-08-2014                                              ;;
-;; Last-Updated: 20-08-2014                                         ;;
-;;  Update #: 2                                                     ;;
+;; Last-Updated: 14-09-2014                                         ;;
+;;  Update #: 8                                                     ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-sessions                                          ;;
@@ -13,10 +13,13 @@
 ;;                                                                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; save a list of open files in ~/.emacs.d/.emacs.desktop
+
+;;,-------------------------------------------------------
+;;| save a list of open files in ~/.emacs.d/.emacs.desktop
+;;`-------------------------------------------------------
 (setq desktop-path (list user-emacs-directory)
       desktop-auto-save-timeout 600)
-(desktop-save-mode 1)
+(desktop-save-mode 0)
 (defadvice desktop-read (around trace-desktop-errors activate)
   (let ((debug-on-error t))
     ad-do-it))
@@ -40,16 +43,16 @@
                (when filename
      (abbreviate-file-name filename))))))
 
-;;----------------------------------------------------------------------------
-;; Restore histories and registers after saving
-;;----------------------------------------------------------------------------
+;;,---------------------------------------------
+;;| Restore histories and registers after saving
+;;`---------------------------------------------
 (setq-default history-length 1000)
 (savehist-mode t)
 
 (require-package 'session)
 
 (setq session-save-file (expand-file-name ".session" user-emacs-directory))
-(add-hook 'after-init-hook 'session-initialize)
+;;(add-hook 'after-init-hook 'session-initialize)
 
 ;; save a bunch of variables to the desktop file
 ;; for lists specify the len of the maximal saved data also
@@ -83,8 +86,7 @@
                 tags-table-list)))
 
 (when (eval-when-compile (and (>= emacs-major-version 24)
-                              (string< emacs-version "24.3.50")
-                              ))
+                              (string< emacs-version "24.3.50")))
   (unless (boundp 'desktop-restore-frames)
     (require-package 'frame-restore)
     (frame-restore)))
