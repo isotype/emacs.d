@@ -28,3 +28,22 @@
 [submodule "submodules/textlint"]
 	path = submodules/textlint
 	url = git@github.com:DamienCassou/textlint.git
+[submodule "submodules/erc-terminal-notifier.el"]
+	path = submodules/erc-terminal-notifier.el
+	url = git://github.com/julienXX/erc-terminal-notifier.el.git
+[submodule "submodules/org-opml"]
+	path = submodules/org-opml
+	url = git://github.com/edavis/org-opml.git
+[submodule "submodules/websocket"]
+	path = submodules/websocket
+	url = git://github.com/ahyatt/emacs-websocket.git
+[submodule "submodules/realtime-markdown-viewer"]
+	path = submodules/realtime-markdown-viewer
+	url = git://github.com/syohex/emacs-realtime-markdown-viewer.git
+[submodule "submodules/powerline"]
+	path = submodules/powerline
+	url = git://github.com/milkypostman/powerline.git
+
+[submodule "submodules/ein"]
+	path = submodules/ein
+	url = git://github.com/tkf/emacs-ipython-notebook.git
