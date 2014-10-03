@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 18-08-2014                                         ;;
-;;  Update #: 55                                                    ;;
+;; Last-Updated: 03-10-2014                                         ;;
+;;  Update #: 78                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
@@ -101,6 +101,8 @@
 (require-package 'rainbow-blocks)
 (after-load 'rainbow-blocks
   (diminish 'rainbow-blocks-mode))
+
+(add-hook 'prog-mode-hook 'rainbow-blocks-mode)
 (add-hook 'lisp-mode-hook 'rainbow-blocks-mode)
 (add-hook 'emacs-lisp-mode-hook 'rainbow-blocks-mode)
 (global-set-key (kbd "H-d") 'rainbow-blocks-mode)
@@ -129,9 +131,8 @@
 ;; C-u C-c SPC => ace-jump-char-mode
 ;; C-u C-u C-c SPC => ace-jump-line-mode
 (require-package 'ace-jump-mode)
-(global-set-key (kbd "C-\'") 'ace-jump-mode)
-(global-set-key (kbd "C-~") 'ace-jump-word-mode)
-(global-set-key (kbd "C-'") 'ace-jump-line-mode)
+(global-set-key (kbd "C-\'") 'ace-jump-char-mode)
+(global-set-key (kbd "C-\`") 'ace-jump-line-mode)
 
 (global-set-key (kbd "C-c J") (lambda () (interactive) (join-line 1)))
 (global-set-key (kbd "C-.") 'set-mark-command)
@@ -199,7 +200,7 @@
   (defadvice popup-delete (after restore-fci-mode activate)
     "Restore fci-mode when all popups have closed"
     (when (and sanityinc/fci-mode-suppressed
-               (null popup-instances))
+             (null popup-instances))
       (setq sanityinc/fci-mode-suppressed nil)
       (turn-on-fci-mode)))
 
@@ -248,6 +249,9 @@
 
 (global-set-key (kbd "M-c") 'cua-copy-region)
 (global-set-key (kbd "M-v") 'cua-paste)
+
+(require-package 'browse-kill-ring)
+(global-set-key (kbd "<f12> DEL") 'browse-kill-ring)
 
 (defun sanityinc/open-line-with-reindent (n)
   "A version of `open-line' which reindents the start and end positions.
@@ -307,11 +311,13 @@ With arg N, insert N newlines."
 (hes-mode)
 
 (require-package 'guide-key)
+(require-package 'guide-key-tip)
 (setq guide-key/guide-key-sequence '("C-x" "C-c" "C-h"))
 (setq guide-key/recursive-key-sequence-flag t)
 (setq guide-key/idle-delay 1.0)
 (setq guide-key/highlight-command-regexp "rectangle\\|register")
 (guide-key-mode 1)
+(setq guide-key-tip/enabled nil)
 (diminish 'guide-key-mode)
 
 (require-package 'rebox2)
@@ -327,25 +333,29 @@ With arg N, insert N newlines."
 ;; Suggested setting
 (global-set-key "\C-cw" 'wc-mode)
 
-;;,-------------------------------------------
-;;| Multiple Cursors
-;;| Mark a bunch of stuff just like in sublime
-;;`-------------------------------------------
+;;,----------------------------------------------
+;;|  Multiple Cursors
+;;|  Mark a bunch of stuff just like in sublime
+;;| =============================================
+;;|  Usage:
+;;|  C-c m (vector ?key)
+;;|  e.g. mark-all-words-like-this => C-c m a
+;;`----------------------------------------------
 (require-package 'multiple-cursors)
-(define-prefix-command 'ype:multiple-cursors-map)
-(define-key ype:multiple-cursors-map (vector ?r) 'set-rectangular-region-anchor)
-(define-key ype:multiple-cursors-map (vector ?d) 'mc/edit-lines)
-(define-key ype:multiple-cursors-map (vector ?e) 'mc/edit-ends-of-lines)
-(define-key ype:multiple-cursors-map (vector ?f) 'mc/edit-beginnings-of-lines)
-(define-key ype:multiple-cursors-map (vector ?a) 'mc/mark-all-like-this)
-(define-key ype:multiple-cursors-map (vector ?b) 'mc/mark-all-words-like-this)
-(define-key ype:multiple-cursors-map (vector ?k) 'mc/mark-previous-like-this)
-(define-key ype:multiple-cursors-map (vector ?j) 'mc/mark-next-like-this)
-(define-key ype:multiple-cursors-map (vector ?n) 'mc/mark-next-symbol-like-this)
-(define-key ype:multiple-cursors-map (vector ?m) 'mc/mark-previous-symbol-like-this)
-(define-key ype:multiple-cursors-map (vector ?o) 'mc/mark-next-word-like-this)
-(define-key ype:multiple-cursors-map (vector ?p) 'mc/mark-previous-word-like-this)
-(define-key ype:multiple-cursors-map (vector ?q) 'mc/mark-all-like-this-in-defun)
+(define-prefix-command 'ype:multiple-cursors-map)                                     ; Key sequence
+(define-key ype:multiple-cursors-map (vector ?r) 'set-rectangular-region-anchor)      ; C-c m r
+(define-key ype:multiple-cursors-map (vector ?d) 'mc/edit-lines)                      ; C-c m d
+(define-key ype:multiple-cursors-map (vector ?e) 'mc/edit-ends-of-lines)              ; C-c m e
+(define-key ype:multiple-cursors-map (vector ?f) 'mc/edit-beginnings-of-lines)        ; C-c m f
+(define-key ype:multiple-cursors-map (vector ?a) 'mc/mark-all-like-this)              ; C-c m a
+(define-key ype:multiple-cursors-map (vector ?b) 'mc/mark-all-words-like-this)        ; C-c m b
+(define-key ype:multiple-cursors-map (vector ?k) 'mc/mark-previous-like-this)         ; C-c m k
+(define-key ype:multiple-cursors-map (vector ?j) 'mc/mark-next-like-this)             ; C-c m j
+(define-key ype:multiple-cursors-map (vector ?n) 'mc/mark-next-symbol-like-this)      ; C-c m n
+(define-key ype:multiple-cursors-map (vector ?m) 'mc/mark-previous-symbol-like-this)  ; C-c m m
+(define-key ype:multiple-cursors-map (vector ?o) 'mc/mark-next-word-like-this)        ; C-c m o
+(define-key ype:multiple-cursors-map (vector ?p) 'mc/mark-previous-word-like-this)    ; C-c m p
+(define-key ype:multiple-cursors-map (vector ?q) 'mc/mark-all-like-this-in-defun)     ; C-c m q
 (global-set-key [?\C-c ?m] 'ype:multiple-cursors-map)
 
 
@@ -489,9 +499,9 @@ With arg N, insert N newlines."
   (save-excursion
     (indent-region (point-min) (point-max) nil))
   (message "Buffer Reformatted"))
-(global-set-key (kbd "M-RET") 'indent-buffer)
-
+(global-set-key (kbd "\C-c r r") 'indent-buffer)
 
+
 (provide 'init-edit-utils)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
