@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;; Last-Updated: 09-09-2014                                         ;;
+;; Last-Updated: 22-09-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
@@ -90,22 +90,10 @@
 ;;| Let Emacs Find Org-files on multiple systems
 ;;| Sets different directory location depending on system-name
 ;;`-----------------------------------------------------------
-(print system-name)
-(when (or (string-equal system-name "bastard.local")
-         (string-equal system-name "bastard.lan"))
-  (setq org-directory "/Volumes/Ed/Dropbox/ORGS/"
-        org-agenda-files '("/Volumes/Ed/Dropbox/ype/org-issues/"
-                           "/Volumes/Ed/Dropbox/ORGS/gtd.org"
-                           "/Volumes/Ed/Dropbox/ORGS/gcal.org"
-                           ;; "/Volumes/Ed/Dropbox/ORGS/school/s_main.org"
-                           "/Volumes/Ed/Dropbox/ORGS/refile.org"
-                           )
-        org-icalendar-combined-agenda-file (concat org-directory "combi.ics")
-        org-archive-location (concat org-directory "archive/%s_archive::")
-        org-default-notes-file (concat org-directory "gtd.org")))
 
 (when (or (string-equal system-name "fennec.local")
          (string-equal system-name "fennec.lan"))
+  (defvar main-agenda-file "~/Dropbox/ORGS/gtd.org")
   (setq org-directory "~/Dropbox/ORGS/"
         org-agenda-files '("~/Dropbox/ORGS/gtd.org"
                            "~/Dropbox/ORGS/gcal.org"
@@ -319,11 +307,6 @@
 ;;`-----------------
 (defvar ype/default-task-id "0CE8B026-E93A-4021-AD99-2ACECAA974DE")
 
-(when (or (string-equal system-name "bastard.local")
-         (string-equal system-name "bastard.lan"))
-  (setq ype/default-task-id-and-dir
-        (org-id-find-id-in-file ype/default-task-id "/Volumes/Ed/Dropbox/ORGS/gtd.org" 'marker)))
-
 (when (or (string-equal system-name "fennec.local")
          (string-equal system-name "fennec.lan"))
   (setq ype/default-task-id-and-dir
@@ -331,6 +314,7 @@
 
 (defvar ype/default-email-id "AC4B5743-4FDC-4886-9084-D2F1AA29047E")
 (defvar ype/default-elisp-id "8FE1162A-C5E3-4B7C-B0B6-9B3EDED7B477")
+
 
 
 (defun ype/clock-in-default-task-as-default ()
@@ -441,58 +425,65 @@
 ;;,----------
 ;;| TODO Conf
 ;;`----------
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "NEXT(n)" "REVIEW(r@/!)" "|" "DONE(d)" "WAITING(w@/!)") ;; NORMAL
-        (sequence "BUG(B@/!)" "HOTFIX(H@/!)" "|" "FIXED(F@/!)" "STUCK(S@/!)")
-        (sequence "OPEN(o)" "CLOSED(c)") ;; GitHub Issues
-        (sequence "EVENT(e)" "|" "ATTENDED(a)" "SKIPPED(u)")
-        (sequence "CALL(p)" "|" "CALLED(f)")
-        (sequence "REPLY(R@/!)" "|" "REPLIED(s@/!)")
-        (sequence "INVOICE(I@/!)" "PENDING(P@/!)" "|" "INVOICED(i@/!)" "CANCELLED(C@/!)")))
+(after-load 'org
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "NEXT(n)" "REVIEW(r@/!)" "|" "DONE(d)" "WAITING(w@/!)") ;; NORMAL
+          (sequence "BUG(B@/!)" "HOTFIX(H@/!)" "|" "FIXED(F@/!)" "STUCK(S@/!)")
+          (sequence "OPEN(o)" "CLOSED(c)") ;; GitHub Issues
+          (sequence "EVENT(e)" "|" "ATTENDED(a)" "SKIPPED(u)")
+          (sequence "CALL(p)" "|" "CALLED(f)")
+          (sequence "REPLY(R@/!)" "|" "REPLIED(s@/!)")
+          (sequence "INVOICE(I@/!)" "PENDING(P@/!)" "|" "INVOICED(i@/!)" "CANCELLED(C@/!)")))
 
-(setq org-todo-keyword-faces
-      '(("TODO" . (:foreground "#D26464" :weight bold))
-        ("NEXT" . (:foreground "#D2BF64" :weight bold))
-        ("REVIEW" . (:foreground "#8477AE" :weight bold))
-        ("DONE" . (:foreground "#82CA82" :weight bold-italic))
-        ("WAITING" . (:foreground "#6B8E23" :weight bold))
-        ("BUG" . (:foreground "#990000" :weight bold))
-        ("HOTFIX" . (:foreground "#663300" :weight bold))
-        ("FIXED" . (:foreground "#336600" :weight bold))
-        ("STUCK" . (:foreground "#FF0F00" :weight bold))
-        ("OPEN" . (:foreground "#00FF7F" :weight bold))
-        ("CLOSED" . (:foreground "#FF4500" :weight bold))
-        ("EVENT" . (:foreground "#82CA82" :weight bold))
-        ("ATTENDED" . (:foreground "#8477AE" :weight bold))
-        ("SKIPPED" . (:foreground "#FDEEA3" :weight bold))
-        ("CALL" . (:foreground "#C71585" :weight bold))
-        ("CALLED" . (:foreground "#FF4500" :weight bold))
-        ("REPLY" . (:foreground "#FFC0CB" :weight bold))
-        ("REPLIED" . (:foreground "#B0C4DE" :weight bold))
-        ("INVOICE" . (:foreground "#FFA07A" :weight bold))
-        ("PENDING" . (:foreground "#FF6347" :weight bold))
-        ("INVOICED" . (:foreground "#40E0D0" :weight bold))
-        ("CANCELLED" . (:foreground "#FDA3A3" :weight bold))))
+  (setq org-todo-keyword-faces
+        '(("TODO" . (:foreground "#a6ff99" :weight bold))
+          ("NEXT" . (:foreground "#ff999f" :weight bold))
+          ("REVIEW" . (:foreground "#ffff99" :weight bold))
+          ("DONE" . (:foreground "#99b6ff" :weight bold))
+          ("WAITING" . (:foreground "#ffce99" :weight bold))
+          ("BUG" . (:foreground "#990000" :weight bold))
+          ("HOTFIX" . (:foreground "#663300" :weight bold))
+          ("FIXED" . (:foreground "#336600" :weight bold))
+          ("STUCK" . (:foreground "#FF0F00" :weight bold))
+          ("OPEN" . (:foreground "#00FF7F" :weight bold))
+          ("CLOSED" . (:foreground "#FF4500" :weight bold))
+          ("EVENT" . (:foreground "#82CA82" :weight bold))
+          ("ATTENDED" . (:foreground "#8477AE" :weight bold))
+          ("SKIPPED" . (:foreground "#FDEEA3" :weight bold))
+          ("CALL" . (:foreground "#C71585" :weight bold))
+          ("CALLED" . (:foreground "#FF4500" :weight bold))
+          ("REPLY" . (:foreground "#FFC0CB" :weight bold))
+          ("REPLIED" . (:foreground "#B0C4DE" :weight bold))
+          ("INVOICE" . (:foreground "#FFA07A" :weight bold))
+          ("PENDING" . (:foreground "#FF6347" :weight bold))
+          ("INVOICED" . (:foreground "#40E0D0" :weight bold))
+          ("CANCELLED" . (:foreground "#FDA3A3" :weight bold))))
 
-;; TAGS
-(setq org-tag-alist '((:startgroup . nil)
-                      ("@work" . ?W)
-                      ("@home" . ?H)
-                      ("@expense" . ?E)
-                      (:endgroup . nil)
-                      ("EVENT" . ?e)
-                      ("HABIT" . ?h)
-                      ("MEETING" . ?m)
-                      ("REPLY" . ?r)
-                      ("FLAGGED" . ?f)
-                      ("ADMIN" . ?a)
-                      ("NOTE" . ?n)
-                      ("INVOICE" .?i)
-                      ("HOMEROOM" . ?1)
-                      ("CodaSign" . ?3)
-                      ("CRYPT" . ?C)
-                      ("PERSONAL" . ?p)
-                      ("MAJ_PROJ" . ?j)))
+  ;; TAGS
+  (setq org-tag-alist '((:startgroup . nil)
+                        ("@work" . ?W)
+                        ("@home" . ?H)
+                        ("@env" . ?E)
+                        (:endgroup . nil)
+
+                        ;; GENERAL
+                        ("EVENT" . ?e)
+                        ("HABIT" . ?h)
+                        ("MEETING" . ?m)
+                        ("REPLY" . ?r)
+                        ("FLAGGED" . ?f)
+                        ("ADMIN" . ?a)
+                        ("NOTE" . ?n)
+
+                        ;; WORK
+                        ("HOMER" . ?1)
+                        ("CODA" . ?3)
+                        ("INVOICE" .?i)
+
+                        ;; OTHER
+                        ("CRYPT" . ?C)
+                        ("PERSONAL" . ?p)
+                        ("MAJ_PROJ" . ?j))))
 
 (setq org-fast-tag-selection-single-key (quote expert))
 (setq org-agenda-tags-todo-honor-ignore-options t)
@@ -585,17 +576,19 @@
           (org-deadline-warning-days 60)
           (org-agenda-time-grid nil)))
 
-        ("n" "Next Task" todo "TODO"
-         ((org-agenda-overriding-header "Next Tasks")
+        ("n" "Next Task" todo "NEXT"
+         ((org-agenda-files '("~/Dropbox/ORGS/gtd.org"))
+          (org-agenda-overriding-header "Next Tasks")
           (org-agenda-overriding-columns-format "%55ITEM %35SCHEDULED %25DEADLINE")
           (org-agenda-view-columns-initially t)
           (org-agenda-todo-ignore-scheduled nil)
           (org-agenda-todo-ignore-deadlines nil)
           (org-agenda-todo-ignore-with-date nil)
           (org-tags-match-list-sublevels t)
-          (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp ":HABIT:"))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp "\\(:HABIT:\\)"))
           (org-agenda-sorting-strategy
-           '(scheduled-up deadline-down todo-state-up category-keep))))
+           '(scheduled-up deadline-down todo-state-up category-keep))
+          ))
 
         ("u" "Meetings" todo "MEETING"
          ((org-agenda-overriding-header "Meeting")
@@ -856,10 +849,6 @@
 ;;   (setq org-gcal-client-id "long numbering thing here"
 ;;         org-gcal-client-secret "super secret key"))
 
-(when (or (string-equal system-name "bastard.local")
-         (string-equal system-name "bastard.lan"))
-  (setq org-gcal-file-alist '(("anton@ilyfa.cc" .  "/Volumes/Ed/Dropbox/ORGS/gcal.org"))))
-
 (when (or (string-equal system-name "fennec.local")
          (string-equal system-name "fennec.lan"))
   (setq org-gcal-file-alist '(("anton@ilyfa.cc" .  "~/Dropbox/ORGS/gcal.org"))))
@@ -941,6 +930,13 @@
 (require 'orgbox)
 
 
+;;,---------
+;;| Org OPML
+;;`---------
+;; FIXME
+(add-to-list 'load-path (expand-file-name "submodules/org-opml" user-emacs-directory))
+(load-library "org-opml")
+(require 'ox-opml)
 
+
 (provide 'init-org)
-;;; init-org.el ends here

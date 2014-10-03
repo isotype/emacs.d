@@ -84,3 +84,4 @@ offlineimap.*
 /history
 /.session
 /gitstats/
+/init/init-mu4e-sr.el

@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 08-04-2014                                            ;;;
-;; Last-Updated: 27-07-2014                                         ;;
+;; Last-Updated: 01-10-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-font                                            ;;;
@@ -60,8 +60,7 @@ by the :height face attribute."
 (global-set-key (kbd "H-\=") 'ype/increase-default-font-height)
 (global-set-key (kbd "H-\-") 'ype/decrease-default-font-height)
 
-(set-frame-font "PT Mono" nil t)
-
+(set-default-font "Droid Sans Mono")
 
 
 (provide 'init-font)

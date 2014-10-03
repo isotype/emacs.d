@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;; Last-Updated: 30-08-2014                                         ;;
-;;   By: Anton Strilchuk <anton@ilyfa.cc>                           ;;
+;; Last-Updated: 23-09-2014                                         ;;
+;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-auto-complete                                   ;;;
 ;;; Version:                                                       ;;;

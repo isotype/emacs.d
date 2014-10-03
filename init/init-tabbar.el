@@ -29,15 +29,11 @@ With a prefix arg, changes to grouping by major mode."
 
 (global-set-key (kbd "C-c C-\;") 'tabbar-ruler-group-buffer-groups)
 (global-set-key (kbd "C-c C-\'") 'tabbar-ruler-group-by-projectile-project)
-
+(global-set-key [(backtab)] 'tabbar-ruler-move)
 
 (setq tabbar-add-tab-function 'tabbar-add-tab)
 (add-hook 'after-change-major-mode-hook 'tabbar-install-faces)
 
-;;Switch tabbar to show by major-mode
-(defun ype/tabbar-group-by-mode ()
-  (interactive)
-  (tabbar-switch-grouping-method '1))
 
 ;;Buffer Switch Remap
 (global-set-key (kbd "H-[") 'tabbar-backward-tab)
@@ -53,6 +49,8 @@ With a prefix arg, changes to grouping by major mode."
                   (buffer-file-name (tabbar-tab-value tab)))
              (concat " [" (concat ad-return-value "] "))
            (concat " " (concat ad-return-value " ")))))
+
+(tabbar-ruler-group-buffer-groups)
 
 
 (provide 'init-tabbar)

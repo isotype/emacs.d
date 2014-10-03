@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 07-04-2014                                            ;;;
-;; Last-Updated: 21-08-2014                                         ;;
+;; Last-Updated: 23-09-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-git                                             ;;;
@@ -80,15 +80,14 @@
   (diminish 'magit-auto-revert-mode))
 
 ;; Use the fringe version of git-gutter
-(after-load 'git-gutter
-  (require 'git-gutter-fringe)
-  (global-git-gutter-mode +1)
-  (setq git-gutter:lighter " ♊ƒ")
-  (setq-default right-fringe-width  10)
-  (setq git-gutter-fr:side 'right-fringe)
-  (set-face-foreground 'git-gutter-fr:modified "#33CCFF")
-  (set-face-foreground 'git-gutter-fr:added "#3CCF33")
-  (set-face-foreground 'git-gutter-fr:deleted "#FF33CF"))
+(require 'git-gutter-fringe)
+(global-git-gutter-mode +1)
+(setq git-gutter:lighter " ♊ƒ")
+(setq-default right-fringe-width  10)
+(setq git-gutter-fr:side 'right-fringe)
+(set-face-foreground 'git-gutter-fr:modified "#33CCFF")
+(set-face-foreground 'git-gutter-fr:added "#3CCF33")
+(set-face-foreground 'git-gutter-fr:deleted "#FF33CF")
 
 (when *is-a-mac*
   (after-load 'magit
@@ -138,6 +137,8 @@
 (add-hook 'prog-mode-hook 'bug-reference-prog-mode)
 
 ;; Org-Sync Github
+(require-git-submodule 'org-sync)
+(require 'os)
 (mapc 'load
       '("os" "os-github"))
 

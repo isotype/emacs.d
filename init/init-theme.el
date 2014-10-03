@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;; Last-Updated: 23-08-2014                                         ;;
+;; Last-Updated: 03-10-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-theme                                           ;;;
@@ -12,18 +12,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;Powerline
-(require-package 'powerline)
+(require-git-submodule 'powerline t)
 (powerline-vim-theme)
 
-(require-package 'ample-theme)
-
-(defun ype:light ()
- (interactive)
- (ample-light-theme))
-
-(defun ype:dark ()
- (interactive)
- (ample-theme))
+(require-package 'zenburn-theme)
 
 ;; Change Light Based on OSX Ambient Light Sensor Values
 (setq direct-sun 44000000)
@@ -31,7 +23,7 @@
 (setq ambient-light 1)
 
 (setq light-theme 'solarized-light)
-(setq dark-theme 'ample)
+(setq dark-theme 'zenburn)
 
 (defun light-level ()
   "Access the level of light detected by the LMU sensor on Macbook Pros"
@@ -59,9 +51,14 @@
   (interactive)
   (setq ambient-light 0))
 
-(run-at-time 0 (* 60 60) 'adjust-theme-to-light)
-
-;;(adjust-theme-to-light)
+(load-theme dark-theme t)
+;;,-------------------------------------------------
+;;| Change theme based on OSX ambient light sensor
+;;| BUG: Occasionally Crashes Emacs
+;;|
+;;| eg. check light sensor every hour
+;;| (run-at-time 0 (* 60 60) 'adjust-theme-to-light)
+;;`-------------------------------------------------
 
 
 (provide 'init-theme)

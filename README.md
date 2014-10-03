@@ -1,4 +1,4 @@
-#ype EMACSd
+#ype Emacs.D
 
 My dotemacs a sometimes dirty, sometimes beautiful heap of defuns and
 party hats that gets me from point A to B and sometimes a little bit

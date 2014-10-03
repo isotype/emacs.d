@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 17-04-2014                                            ;;;
-;; Last-Updated: 25-08-2014                                         ;;
+;; Last-Updated: 29-09-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-gui-frames                                      ;;;
@@ -28,6 +28,7 @@
 (setq use-dialog-box nil)
 (setq inhibit-startup-screen t)
 (setq inhibit-startup-echo-area-message t)
+(setq ns-auto-hide-menu-bar nil)
 ;;----------------------------------------------------------------------------
 ;; Show a marker in the left fringe for lines not in the buffer
 ;;----------------------------------------------------------------------------
@@ -87,15 +88,22 @@
         (propertize (vc-git-mode-line-string (buffer-file-name))))
     (propertize (format "[No Repo Found]"))))
 
+(setq display-time-24hr-format t
+      display-time-use-mail-icon nil
+      display-time-mail-directory "~/.mail/anton-ilyfa.cc/INBOX/")
+
 (setq frame-title-format
       '("%m "
         " %+ "
-        (:eval (ype/mail-count))
-        " %+ "
         (:eval (ype:vc-check))
         " %+ "
-        (:eval (frame-title-prefix))))
-
+        (:eval (frame-title-prefix))
+        " %+ "
+        (:eval display-time-string)
+        " ["
+        (:eval (ype/mail-count))
+        "]"
+        ))
 ;;,-----------------------------------------------------------------
 ;;| Non-zero values for `line-spacing' can mess up ansi-term and co,
 ;;| so we zero it explicitly in those cases.
@@ -104,9 +112,6 @@
           (lambda ()
             (set (make-local-variable 'line-spacing)
                  0)))
-
-;; OSX 10.6 Plus - Auto Show/Hide Menubar
-(setq ns-auto-hide-menu-bar t)
 
 
 (provide 'init-gui-frames)

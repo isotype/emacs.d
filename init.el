@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 18-09-2014                                         ;;
-;;  Update #: 58                                                    ;;
+;; Last-Updated: 02-10-2014                                         ;;
+;;  Update #: 73                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init                                                   ;;
@@ -43,7 +43,6 @@
 (require 'init-utils)
 (require 'init-site-lisp)
 (require 'init-elpa)
-(require 'init-git-packages)
 (require 'init-exec-path)
 
 ;; wgrep needed for init-edit-utils
@@ -151,7 +150,7 @@
 (require 'os)
 ;;The Big Giant Org
 (require 'init-org)
-
+(require 'init-org-publish)
 ;;; Quick create blog post
 ;; set posts directory
 (require 'init-blog-post)
@@ -171,9 +170,6 @@
 ;;MU4E
 (require 'init-contacts)
 (require 'init-mu4e)
-
-;;IRC
-(require 'init-irc)
 
 
 ;;,---------------------
@@ -199,7 +195,10 @@
 (require 'init-spritz)
 
 ;; Slack
-(require 'init-slack)
+;;(require 'init-slack)
+
+;;IRC
+(require 'init-irc)
 
 ;; OSX Browse
 ;;(require 'init-browse)
@@ -224,7 +223,8 @@
 (defun lw:byte-compile-directory(directory)
   (interactive
    (list
-    (read-file-name "Lisp directory: "))))
+    (read-file-name "Lisp directory: ")))
+  (byte-recompile-directory directory 0 t))
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
 ;;----------------------------------------------------------------------------
@@ -232,15 +232,14 @@
 (unless (server-running-p)
   (server-start))
 
-;;Cleans up mode line clutter
-;;(require 'init-mode-line-declutter)
-
 ;;----------------------------------------------------------------------------
 ;; variables configured via the interactive 'customize' interface
 ;;----------------------------------------------------------------------------
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
+
+(set-frame-font (ype/font-name-replace-size (face-font 'default) 14) t)
 
 (require 'init-locales)
 (add-hook 'after-init-hook

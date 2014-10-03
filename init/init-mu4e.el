@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 11-06-2014                                              ;;
-;; Last-Updated: 08-08-2014                                         ;;
+;; Last-Updated: 03-10-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-mu4e                                              ;;
@@ -16,7 +16,7 @@
 (add-to-list 'load-path "/usr/local/Cellar/mu/HEAD/share/emacs/site-lisp/mu4e")
 (require-package 'offlineimap)
 (require 'mu4e)
-(require 'org-mu4e)
+
 ;; Needs Emacs Async Package from Github
 ;; for smtpmail-async
 (require-git-submodule 'emacs-async)
@@ -24,10 +24,6 @@
 ;; Not Working Yet
 ;; (require 'ype-network-manager)
 (require-package 'w3m)
-
-;;(require-package 'mu4e-maildirs-extension)
-;;(mu4e-maildirs-extension)
-
 
 ;;,--------------------------
 ;;| DEFAULTS
@@ -48,15 +44,15 @@
       mu4e-html2text-command "w3m -dump -T text/html -cols 72"   ; html to text
       mu4e-compose-dont-reply-to-self t                          ; don't reply to myself
       mail-signature nil                                           ; kill default signature
-      mu4e-compose-signature nil                                   ; signature
       org-mu4e-convert-to-html t                                 ; automatic convert org-mode => html
       mu4e-sent-messages-behavior 'delete                        ; don't delete messages
       mu4e-compose-complete-only-personal t                      ; only personal messages get in the address book
       mu4e-use-fancy-chars t                                     ; use fancy characters
-      mu4e-get-mail-command "offlineimap -q"                     ; fetch email with offlineimap
+      mu4e-get-mail-command "true"
       mu4e-html-renderer 'w3m                                    ; use w3m to render html in mail
       mu4e-view-show-images t                                    ; auto show images
       mu4e-view-image-max-width 450                              ; set max image width
+      mu4e-compose-signature "---\nAnton"
       )
 
 ;; my email addresses
@@ -165,22 +161,56 @@
       (dolist (buffer (buffer-list t))
         (set-buffer buffer)
         (when (and (derived-mode-p 'message-mode)
-                   (null message-sent-message-via))
+                 (null message-sent-message-via))
           (push (buffer-name buffer) buffers))))
     (nreverse buffers)))
 
 (setq gnus-dired-mail-mode 'mu4e-user-agent)
 (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
-(add-hook 'mu4e-index-updated-hook
-          '(lambda ()
-             (tn-notify "Mail has been updated, next update in 3 minutes" "MU4E" "New/Updated Mail")))
 
-;;MU4E Maildirs Extentions
-;; (setq mu4e-maildirs-extension-insert-before-str "\n  Bookmarks")
-;; (setq mu4e-maildirs-extension-maildir-separator "∑ ")
-;; (setq mu4e-maildirs-extension-submaildir-separator "\t ∫ ")
+
+;;,-------------------------
+;;| MU4E Maildirs Extentions
+;;`-------------------------
+(require-package 'mu4e-maildirs-extension)
+(require 'mu4e-maildirs-extension)
+
+(defun ype:mu4e-maildirs-extension-propertize-unread-only (item)
+  "Propertize only the maildir unread count using ITEM plist."
+  (format "%s\t%s%s %s (%s/%s)\n"
+          (if (equal (plist-get item :level) 0) "\n" "")
+          (plist-get item :indent)
+          (plist-get item :separator)
+          (plist-get item :name)
+          (propertize
+           (number-to-string (plist-get item :unread))
+           'face (cond
+                  ((> (plist-get item :unread) 0) 'mu4e-maildirs-extension-maildir-unread-face)
+                  (t 'mu4e-maildirs-extension-maildir-face)))
+          (plist-get item :total)))
+
+(after-load 'mu4e-maildirs-extension
+  (setq mu4e-maildirs-extension-propertize-func 'ype:mu4e-maildirs-extension-propertize-unread-only
+        mu4e-maildirs-extension-insert-before-str "\n"
+        mu4e-maildirs-extension-maildir-separator "∑ "
+        mu4e-maildirs-extension-submaildir-separator "\t ∫ ")
+  (mu4e-maildirs-extension))
+
+
+;;,---------
+;;| Org MU4E
+;;`---------
+(require 'org-mu4e)
+(require 'ox)
 
 (defalias 'org-mail 'org-mu4e-compose-org-mode)
+(defun org-export-string (data &rest rest)
+  (let ((org-html-with-latex 'imagemagick))
+  (org-export-string-as
+   data 'html t)))
+
+
+
 (global-set-key (kbd "H-c") 'mu4e)
 
 (add-hook 'mu4e-compose-mode-hook
@@ -193,8 +223,7 @@
           (defun ype/add-mandrill-tags ()
             "Add Mandrill tags to header."
             (save-excursion (message-add-header
-                             (concat "X-MC-BccAddress: antonstrilchuk@gmail.com\n"
-                                     "X-MC-Tags: mu4e\n"
+                             (concat "X-MC-Tags: mu4e\n"
                                      "X-MC-SendAt: \n")))))
 
 
@@ -219,28 +248,24 @@
 ;;,------------------------------
 ;;| Queue Connection Check & Send
 ;;`------------------------------
+;; TODO: Need Less Annoying Notification
+(defvar monitor-attributes nil
+  "Cached file attributes to be monitored.")
 
-;; TODO: Need alternative connection check to dbus
+(defun mail-monitor (file secs)
+  (run-with-timer
+   0 secs
+   (lambda (f p)
+     (let ((att (file-attributes f)))
+       (unless (or (null monitor-attributes) (equalp monitor-attributes att))
+         (progn
+           (mu4e-update-mail-and-index 1)
+           ;; Uncomment to get Notifications when INBOX is changed
+           ;; (tn-notify "INBOX: checked and updated")
+           ))
+       (setq monitor-attributes att))) file secs))
 
-(setq mu4e-update-interval (m2s 3))
-
-;; (defun ype:on-connect()
-;;   (message "Connected: Flushing Mail Queue")
-;;   (offlineimap)
-;;   (smtpmail-send-queued-mail)
-;;   (setq smtpmail-queue-mail nil))
-
-;; (defun ype:on-disconnect()
-;;   (message "Disconnected: Queuing Mail")
-;;   (condition-case ex
-;;       (offlineimap-kill 9)
-;;     ('error (message (format "Ignoring exception: %s" ex))))
-;;   (setq smtpmail-queue-mail t))
-
-;; (add-to-list 'nm-connected-hook 'ype:on-connect)
-;; (add-to-list 'nm-disconnected-hook 'ype:on-disconnect)
-
-;; (nm-enable)
+(defvar monitor-timer (mail-monitor "/Users/anton/.offlineimap/Account-anton-ilyfa/LocalStatus-sqlite/inbox" 5))
 
 
 ;;,---------
@@ -251,7 +276,7 @@
 
 (setq mu4e-org-contacts-file "~/.org-contacts.org")
 (add-to-list 'mu4e-headers-actions
-  '("org-contact-add" . mu4e-action-add-org-contact) t)
+             '("org-contact-add" . mu4e-action-add-org-contact) t)
 (add-to-list 'mu4e-view-actions
              '("org-contact-add" . mu4e-action-add-org-contact) t)
 
@@ -275,5 +300,19 @@
   (insert-manual-day-and-time date time))
 
 
+;;,------------------------------------------
+;;| FIX: Use MU4E as default OS X Mail Client
+;;`------------------------------------------
+
+;;,---------------------------------------
+;;| ,---------------
+;;| | Smart Refiling
+;;| `---------------
+;;|  This file is not included with config
+;;|  Not Required by Config
+;;`---------------------------------------
 
+(require 'init-mu4e-sr)
+
+
 (provide 'init-mu4e)
