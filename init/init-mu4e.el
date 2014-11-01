@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 11-06-2014                                              ;;
-;; Last-Updated: 03-10-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 01-11-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;                                                                  ;;
 ;; Filename: init-mu4e                                              ;;
 ;; Version:                                                         ;;
@@ -31,7 +31,7 @@
 ;;`--------------------------
 
 (setq mail-user-agent 'mu4e-user-agent                           ; mu4e as default mail agent
-      mu4e-maildir "~/.mail/anton-ilyfa.cc"                      ; set mu4e mail directory
+      mu4e-maildir "~/.mail/ilyfa.cc"                            ; set mu4e mail directory
       mu4e-drafts-folder "/drafts"                               ; set drafts folder
       mu4e-sent-folder   "/sent"                                 ; set sent folder
       mu4e-trash-folder  "/trash"                                ; set trash folder
@@ -42,27 +42,32 @@
       mu4e-headers-date-format "%A at %H:%M"                     ; date format
       mu4e-headers-leave-behavior 'apply                         ; apply all marks at quit
       mu4e-html2text-command "w3m -dump -T text/html -cols 72"   ; html to text
+      mu4e-view-prefer-html nil                                    ; if text version available prefer it
+      mu4e-view-wrap-lines t                                     ; wrap long lines
       mu4e-compose-dont-reply-to-self t                          ; don't reply to myself
-      mail-signature nil                                           ; kill default signature
+      mail-signature ""                                           ; kill default signature
       org-mu4e-convert-to-html t                                 ; automatic convert org-mode => html
       mu4e-sent-messages-behavior 'delete                        ; don't delete messages
       mu4e-compose-complete-only-personal t                      ; only personal messages get in the address book
       mu4e-use-fancy-chars t                                     ; use fancy characters
       mu4e-get-mail-command "true"
       mu4e-html-renderer 'w3m                                    ; use w3m to render html in mail
-      mu4e-view-show-images t                                    ; auto show images
+      mu4e-view-show-images nil                                   ; auto show images
       mu4e-view-image-max-width 450                              ; set max image width
-      mu4e-compose-signature "---\nAnton"
-      )
+      mu4e-compose-signature ""
+      mu4e-user-mail-address-list (list "anton@env.sh"           ;my email addresses
+                                        "ype@env.sh"
+                                        "anton@ilyfa.cc"
+                                        "anton@ilyfa.com"
+                                        "antonstrilchuk@gmail.com"
+                                        "anton@homeroom.org.uk"))
 
-;; my email addresses
-(setq mu4e-user-mail-address-list
-      (list "antonstrilchuk@gmail.com" "anton@ilyfa.cc" "anton@ilyfa.com"
-            "anton@isoty.pe" "anton@env.sh" "anton@homeroom.org.uk" "ype@env.sh"))
+(add-hook 'mu4e-compose-mode-hook 'turn-off-auto-fill)
+(remove-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; 1) messages to me@foo.com should be replied with From:me@foo.com
 ;; 2) messages to me@bar.com should be replied with From:me@bar.com
-;; 3) all other mail should use From: ype@env.sh
+;; 3) all other mail should use From: anton@env.sh
 (add-hook 'mu4e-compose-pre-hook
           (defun my-set-from-address ()
             "Set the From address based on the To address of the original."
@@ -71,24 +76,30 @@
                   (setq user-mail-address
                         (cond
                          ((mu4e-message-contact-field-matches msg :to "antonstrilchuk@gmail.com")
-                          "antonstrilchuk@gmail.com")
+                          "anton@env.sh")
                          ((mu4e-message-contact-field-matches msg :to "anton@ilyfa.cc")
-                          "anton@ilyfa.cc")
+                          "anton@env.sh")
                          ((mu4e-message-contact-field-matches msg :to "anton@ilyfa.com")
-                          "anton@ilyfa.com")
-                         ((mu4e-message-contact-field-matches msg :to "anton@isoty.pe")
-                          "anton@isoty.pe")
+                          "anton@env.sh")
                          ((mu4e-message-contact-field-matches msg :to "anton@env.sh")
                           "anton@env.sh")
                          ((mu4e-message-contact-field-matches msg :to "anton@homeroom.org.uk")
                           "anton@homeroom.org.uk")
                          ((mu4e-message-contact-field-matches msg :to "ype@env.sh")
                           "ype@env.sh")
-                         (t "ype@env.sh")))))))
+                         (t "anton@env.sh")))))))
 
 ;; reply attribution line
-(setq message-citation-line-format "On %A \[%d/%m/%y\]\n%N wrote:")
-(setq message-citation-line-function 'message-insert-formatted-citation-line)
+(setq message-citation-line-format "> On %A \[%d/%m/%y\]\n> %N wrote:"
+      message-citation-line-function 'message-insert-formatted-citation-line)
+
+;; headers in the overview
+(setq mu4e-headers-fields
+      '((:flags         .   6)
+        (:from-or-to    .  16)
+        (:date          .  24)
+        (:subject       .  nil)
+        ))
 
 ;;,--------------------------------------------------------
 ;;| SHORTCUTS
@@ -97,12 +108,18 @@
 ;;| the 'All Mail' folder by pressing ``ma''.
 ;;`--------------------------------------------------------
 (setq mu4e-maildir-shortcuts
-      '( ("/INBOX"    . ?i)
-         ("/starred"  . ?!)
-         ("/drafts"   . ?d)
-         ("/sent"     . ?s)
-         ("/trash"    . ?t)
-         ("/archive"  . ?a)))
+      '( ("/INBOX"        . ?i)
+         ("/A_important"  . ?a)
+         ("/B_work"       . ?b)
+         ("/C_misc"       . ?c)
+         ("/starred"      . ?s)
+         ("/drafts"       . ?d)
+         ("/sent"         . ?S)
+         ("/trash"        . ?t)
+         ("/archive"      . ?r)))
+(add-to-list 'mu4e-bookmarks '("flag:attach"    "Messages with attachment"   ?a) t)
+(add-to-list 'mu4e-bookmarks '("size:5M..500M"  "Big messages"               ?b) t)
+(add-to-list 'mu4e-bookmarks '("flag:flagged"   "Flagged messages"           ?f) t)
 
 ;; See http://www.emacswiki.org/emacs/GnusGmail for more details
 (require 'smtpmail-async)
@@ -113,21 +130,13 @@
       smtpmail-default-smtp-server "smtp.mandrillapp.com"
       smtpmail-smtp-server "smtp.mandrillapp.com"
       smtpmail-smtp-service 587
-      smtpmail-debug-info nil
+      smtpmail-debug-info t
       smtpmail-local-domain "ilyfa.cc"
       sendmail-coding-system 'UTF-8
       smtpmail-queue-mail t
       smtpmail-queue-dir "/Users/anton/.mail/queue/cur")
 
-(global-set-key (kbd "H-x H-s") 'smtpmail-send-queued-mail)
-
-;; headers in the overview
-(setq mu4e-headers-fields
-      '((:flags         .   6)
-        (:from          .  16)
-        (:date          .  24)
-        (:subject       .  nil)
-        ))
+(global-set-key (kbd "H-x s") 'smtpmail-send-queued-mail)
 
 ;; use imagemagick, if available
 (when (fboundp 'imagemagick-register-types)
@@ -161,7 +170,7 @@
       (dolist (buffer (buffer-list t))
         (set-buffer buffer)
         (when (and (derived-mode-p 'message-mode)
-                 (null message-sent-message-via))
+                   (null message-sent-message-via))
           (push (buffer-name buffer) buffers))))
     (nreverse buffers)))
 
@@ -174,7 +183,6 @@
 ;;`-------------------------
 (require-package 'mu4e-maildirs-extension)
 (require 'mu4e-maildirs-extension)
-
 (defun ype:mu4e-maildirs-extension-propertize-unread-only (item)
   "Propertize only the maildir unread count using ITEM plist."
   (format "%s\t%s%s %s (%s/%s)\n"
@@ -189,12 +197,15 @@
                   (t 'mu4e-maildirs-extension-maildir-face)))
           (plist-get item :total)))
 
-(after-load 'mu4e-maildirs-extension
-  (setq mu4e-maildirs-extension-propertize-func 'ype:mu4e-maildirs-extension-propertize-unread-only
-        mu4e-maildirs-extension-insert-before-str "\n"
-        mu4e-maildirs-extension-maildir-separator "∑ "
-        mu4e-maildirs-extension-submaildir-separator "\t ∫ ")
-  (mu4e-maildirs-extension))
+(mu4e-maildirs-extension)
+(setq mu4e-maildirs-extension-propertize-func 'ype:mu4e-maildirs-extension-propertize-unread-only
+      mu4e-maildirs-extension-insert-before-str "  Misc"
+      mu4e-maildirs-extension-title nil
+      mu4e-maildirs-extension-maildir-separator " » "
+      mu4e-maildirs-extension-submaildir-separator " | "
+      mu4e-maildirs-extension-custom-list (quote ("/INBOX" "/A_important" "/B_work"
+                                                  "/C_misc" "/flagged" "/drafts"
+                                                  "/sent" "/archive" "/trash")))
 
 
 ;;,---------
@@ -206,8 +217,8 @@
 (defalias 'org-mail 'org-mu4e-compose-org-mode)
 (defun org-export-string (data &rest rest)
   (let ((org-html-with-latex 'imagemagick))
-  (org-export-string-as
-   data 'html t)))
+    (org-export-string-as
+     data 'html t)))
 
 
 
@@ -224,7 +235,7 @@
             "Add Mandrill tags to header."
             (save-excursion (message-add-header
                              (concat "X-MC-Tags: mu4e\n"
-                                     "X-MC-SendAt: \n")))))
+                                     "X-MC-Tags: \n")))))
 
 
 ;;,------------------------------
@@ -265,7 +276,7 @@
            ))
        (setq monitor-attributes att))) file secs))
 
-(defvar monitor-timer (mail-monitor "/Users/anton/.offlineimap/Account-anton-ilyfa/LocalStatus-sqlite/inbox" 5))
+(defvar monitor-timer (mail-monitor "/Users/anton/.offlineimap/Account-anton-ilyfa/LocalStatus-sqlite/inbox" 60))
 
 
 ;;,---------
@@ -273,6 +284,8 @@
 ;;`---------
 ;; Google Contacts
 (require 'org-contacts)
+(require-package 'google-contacts)
+(require 'google-org-contacts)
 
 (setq mu4e-org-contacts-file "~/.org-contacts.org")
 (add-to-list 'mu4e-headers-actions
@@ -313,6 +326,17 @@
 ;;`---------------------------------------
 
 (require 'init-mu4e-sr)
+
+
+;; Import OSX Addressbook
+(add-to-list 'load-path (expand-file-name "init-tools" user-emacs-directory))
+(require 'external-abook)
+(setq external-abook-command "contacts -lSf '%%e\t\"%%n\"' '%s'")
+(eval-after-load "message"
+      '(progn
+         (add-to-list 'message-mode-hook
+                      '(lambda ()
+                         (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))
 
 
 (provide 'init-mu4e)
