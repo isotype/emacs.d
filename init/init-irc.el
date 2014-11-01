@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 15-04-2014                                            ;;;
-;; Last-Updated: 28-09-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 13-10-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-irc                                             ;;;
 ;;; Version:                                                       ;;;
@@ -13,11 +13,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require-package 'sr-speedbar)
-(require-package 'znc)
+;;(require-package 'znc)
 (require 'erc)
 
 ;;ERC Terminal Notifier
-(require-git-submodule 'erc-terminal-notifier t)
+;;(require-git-submodule 'erc-terminal-notifier t)
 
 ;;ERC Tabs
 (add-to-list 'load-path (expand-file-name "init-tools/erc-tab" user-emacs-directory))
@@ -30,8 +30,8 @@
 (add-hook 'erc-mode-hook (lambda () (auto-fill-mode 0)))
 
 (after-load 'erc
-  (require 'znc)
-  (require 'erc-terminal-notifier)
+;;  (require 'znc)
+;;  (require 'erc-terminal-notifier)
   (require 'erc-tab)
   (setq erc-timestamp-only-if-changed-flag nil ;; always timestamp
         erc-timestamp-format "[%H:%M] "

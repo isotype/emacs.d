@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;; Last-Updated: 23-09-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 16-10-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-appearance                                      ;;;
 ;;; Description: Setup for the look and feel of emacs              ;;;
@@ -18,6 +18,10 @@
 
 ;;; Highlight Cursor Line
 (global-hl-line-mode 1)
+
+;;Highlight matching parens
+(setq show-paren-style 'parenthesis)
+(show-paren-mode 1)
 
 ;;; Column Numbers
 (column-number-mode 1)

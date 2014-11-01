@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 25-05-2014                                            ;;;
-;; Last-Updated: 11-08-2014                                         ;;
+;; Last-Updated: 07-10-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: defuns                                               ;;;
@@ -70,20 +70,6 @@ source: http://stackoverflow.com/questions/6762686/prevent-emacs-from-asking-mod
        ;;(or (null confirm-kill-emacs)
 	   ;;(funcall confirm-kill-emacs "Really exit Emacs? "))
        (kill-emacs)))
-
-(defun camelCase-to_underscores (start end)
-  "Convert any string matching something like aBc to a_bc"
-  (interactive "r")
-  (save-restriction
-    (narrow-to-region start end)
-    (goto-char 1)
-    (let ((case-fold-search nil))
-      (while (search-forward-regexp "\\([a-z]\\)\\([A-Z]\\)\\([a-z]\\)" nil t)
-        (replace-match (concat (match-string 1)
-                               "_"
-                               (downcase (match-string 2))
-                               (match-string 3))
-                       t nil)))))
 
 ;; ;;ERC TERMINAL NOTIFIER
 ;; (defvar erc-terminal-notifier-command nil "The path to terminal-notifier.")

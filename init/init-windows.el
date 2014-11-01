@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 30-06-2014                                              ;;
-;; Last-Updated: 11-08-2014                                         ;;
-;;  Update #: 15                                                    ;;
+;; Last-Updated: 09-10-2014                                         ;;
+;;  Update #: 17                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-windows                                           ;;
@@ -44,7 +44,7 @@
   "Delete other windows in frame if any, or restore previous window config."
   (interactive)
   (if (and winner-mode
-           (equal (selected-window) (next-window)))
+         (equal (selected-window) (next-window)))
       (winner-undo)
     (delete-other-windows)))
 
@@ -89,5 +89,27 @@ Call a second time to restore the original window configuration."
                   (switch-to-buffer nil)))
 
 (global-set-key (kbd "M-\'") 'select-frame-by-name)
+
+
+;; Sticky Windows
+(defadvice pop-to-buffer (before cancel-other-window first)
+  (ad-set-arg 1 nil))
+
+(ad-activate 'pop-to-buffer)
+
+;; Toggle window dedication
+(defun toggle-window-dedicated ()
+  "Toggle whether the current active window is dedicated or not"
+  (interactive)
+  (message
+   (if (let (window (get-buffer-window (current-buffer)))
+         (set-window-dedicated-p window (not (window-dedicated-p window))))
+       "Window '%s' is dedicated"
+     "Window '%s' is normal")
+   (current-buffer)))
+
+;; Press [pause] key in each window you want to "freeze"
+(global-set-key (kbd "H-x w l") 'toggle-window-dedicated)
+
 
 (provide 'init-windows)

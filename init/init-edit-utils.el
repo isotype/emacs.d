@@ -3,9 +3,9 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 03-10-2014                                         ;;
-;;  Update #: 78                                                    ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 30-10-2014                                         ;;
+;;  Update #: 95                                                    ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
 ;; Version:                                                         ;;
@@ -95,7 +95,7 @@
 
 ;;Rainbow Delimiter
 (require-package 'rainbow-delimiters)
-(global-rainbow-delimiters-mode t)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 ;;Rainbow Blocks
 (require-package 'rainbow-blocks)
@@ -114,10 +114,6 @@
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-defun 'disabled nil)
 
-;;Highlight matching parens
-(setq show-paren-style 'expression)
-(show-paren-mode 1)
-
 ;;----------------------------------------------------------------------------
 ;; Expand region
 ;;----------------------------------------------------------------------------
@@ -131,7 +127,7 @@
 ;; C-u C-c SPC => ace-jump-char-mode
 ;; C-u C-u C-c SPC => ace-jump-line-mode
 (require-package 'ace-jump-mode)
-(global-set-key (kbd "C-\'") 'ace-jump-char-mode)
+(oVr-set-key "C-\'" 'ace-jump-char-mode)
 (global-set-key (kbd "C-\`") 'ace-jump-line-mode)
 
 (global-set-key (kbd "C-c J") (lambda () (interactive) (join-line 1)))
@@ -301,7 +297,7 @@ With arg N, insert N newlines."
   (require-package 'ag)
   (require-package 'wgrep-ag)
   (setq-default ag-highlight-search t)
-  (global-set-key (kbd "H-q") 'ag-project)
+  (global-set-key (kbd "H-x q") 'ag-project)
   (global-set-key (kbd "H-z") 'projectile-ag))
 
 (global-set-key (kbd "H-+") 'enlarge-window)
@@ -312,7 +308,7 @@ With arg N, insert N newlines."
 
 (require-package 'guide-key)
 (require-package 'guide-key-tip)
-(setq guide-key/guide-key-sequence '("C-x" "C-c" "C-h"))
+(setq guide-key/guide-key-sequence '("C-x" "C-c" "C-h" "H-x" "M-g"))
 (setq guide-key/recursive-key-sequence-flag t)
 (setq guide-key/idle-delay 1.0)
 (setq guide-key/highlight-command-regexp "rectangle\\|register")
@@ -456,8 +452,8 @@ With arg N, insert N newlines."
   (defun ype/toggle-OLMM-1 () (interactive) (org-link-minor-mode 1))
   (defun ype/toggle-OLMM-0 () (interactive) (org-link-minor-mode 0))
 
-  (global-set-key (kbd "A-1") 'ype/toggle-OLMM-1)
-  (global-set-key (kbd "A-2") 'ype/toggle-OLMM-0))
+  (global-set-key (kbd "A-x 1") 'ype/toggle-OLMM-1)
+  (global-set-key (kbd "A-x 2") 'ype/toggle-OLMM-0))
 
 
 ;;Linum Mode
@@ -465,6 +461,47 @@ With arg N, insert N newlines."
 (require-package 'linum-relative)
 (global-linum-mode -1)
 
+(defun ype:autohide-linum ()
+  "Show linum-mode only when its really needed"
+  (interactive)
+  (defvar *linum-autohide-delay* 3)
+  (linum-mode -1)
+  (defvar *linum-autohide-timer* nil)
+  (defun renew-linum-autohide-timer (seconds-to-show)
+    (if (timerp *linum-autohide-timer*)
+        (cancel-timer *linum-autohide-timer*))
+    (setf *linum-autohide-timer*
+          (run-with-timer
+           seconds-to-show nil
+           (lambda () (linum-mode -1)
+             (setf *linum-autohide-timer* nil)))))
+  (global-set-key
+   [C-down]
+   (lambda ()
+     (interactive)
+     (if linum-mode
+         (forward-paragraph)
+       (linum-mode 1))
+     (renew-linum-autohide-timer 1)))
+  (global-set-key
+   [C-up]
+   (lambda ()
+     (interactive)
+     (if linum-mode
+         (backward-paragraph)
+       (linum-mode 1))
+     (renew-linum-autohide-timer 1)))
+  (defun show-linum-goto-num ()
+    "Shows Line Numbers for goto-line command"
+    (interactive)
+    (linum-mode 1)
+    (let ((num (read-string "Goto line: ")))
+      (goto-line (string-to-number num)))
+    (renew-linum-autohide-timer 1))
+  (global-unset-key (kbd "M-g g"))
+  (global-set-key (kbd "M-g g") 'show-linum-goto-num))
+
+(ype:autohide-linum)
 
 ;; Unfill Paragraph
 (global-set-key (kbd "C-c u") 'unfill-paragraph)
@@ -500,6 +537,20 @@ With arg N, insert N newlines."
     (indent-region (point-min) (point-max) nil))
   (message "Buffer Reformatted"))
 (global-set-key (kbd "\C-c r r") 'indent-buffer)
+
+(defun camelCase-to_underscores (start end)
+  "Convert any string matching something like aBc to a_bc"
+  (interactive "r")
+  (save-restriction
+    (narrow-to-region start end)
+    (goto-char 1)
+    (let ((case-fold-search nil))
+      (while (search-forward-regexp "\\([a-z]\\)\\([A-Z]\\)\\([a-z]\\)" nil t)
+        (replace-match (concat (match-string 1)
+                               "_"
+                               (downcase (match-string 2))
+                               (match-string 3))
+                       t nil)))))
 
 
 (provide 'init-edit-utils)

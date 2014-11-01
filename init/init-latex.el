@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-04-2014                                            ;;;
-;; Last-Updated: 16-08-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 08-10-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-latex                                           ;;;
 ;;; Version:                                                       ;;;
@@ -45,7 +45,7 @@
 (add-hook 'latex-mode-hook 'turn-on-reftex)   ; with Emacs latex mode
 
 (setq TeX-view-program-list
-      '(("PDF Viewer" "/opt/homebrew-cask/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
+      '(("PDF Viewer" "/opt/homebrew-cask/Caskroom/skim/1.4.8/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
 
 ;; AC Maths
 (require-package 'ac-math)

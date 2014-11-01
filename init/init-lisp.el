@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 10-04-2014                                            ;;;
-;; Last-Updated: 03-08-2014                                         ;;
+;; Last-Updated: 09-10-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-lisp                                            ;;;
@@ -19,8 +19,8 @@
 
 (require-package 'lively)
 
-(setq-default initial-scratch-message
-              (concat ";; Happy hacking " (or user-login-name "") "!\n\n"))
+(setq initial-scratch-message
+      (concat ";; Happy hacking " (or user-login-name "") "!\n\n"))
 
 ;; Make C-x C-e run 'eval-region if the region is active
 
@@ -34,7 +34,7 @@
 (global-set-key (kbd "M-:") 'pp-eval-expression)
 
 (after-load 'lisp-mode
-  (define-key emacs-lisp-mode-map (kbd "H-\\") 'sanityinc/eval-last-sexp-or-region))
+  (define-key emacs-lisp-mode-map (kbd "H-x \\") 'sanityinc/eval-last-sexp-or-region))
 
 (require-package 'ipretty)
 (ipretty-mode 1)

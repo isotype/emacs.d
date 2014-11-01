@@ -3,9 +3,9 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 02-10-2014                                         ;;
-;;  Update #: 73                                                    ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 01-11-2014                                         ;;
+;;  Update #: 109                                                   ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;                                                                  ;;
 ;; Filename: init                                                   ;;
 ;; Version: 0.0.0.0.0.1                                             ;;
@@ -41,6 +41,7 @@
 ;; ---------------- ;;
 (require 'init-compat)
 (require 'init-utils)
+(require 'oVr-mode)
 (require 'init-site-lisp)
 (require 'init-elpa)
 (require 'init-exec-path)
@@ -51,7 +52,6 @@
 (require-package 'diminish)
 (require-package 'scratch)
 (require-package 'mwe-log-commands)
-(require-package 'itail)
 
 (setq temporary-file-directory (expand-file-name "backup" user-emacs-directory))
 ;;Buffer Backups (files in ~/.emacs.d/backup)
@@ -64,7 +64,7 @@
       kept-old-versions 5    ; and how many of the old
       )
 
-(setq user-mail-address "ype@env.sh"
+(setq user-mail-address "anton@env.sh"
       user-full-name "Anton Strilchuk")
 
 (require 'init-keys) ; Keys and Passwords, do not include in public git
@@ -80,6 +80,7 @@
 
 ;;Customizations
 (add-to-list 'load-path (expand-file-name "custom" user-emacs-directory))
+(require-git-submodule 'terminal-notifier t)
 
 ;;Search Modes
 (require 'init-search)
@@ -87,7 +88,6 @@
 (require 'init-auto-complete)
 (require 'init-windows)
 (require 'init-sessions)
-
 
 (require 'init-edit-utils)
 (require 'init-helpers)
@@ -101,19 +101,6 @@
 ;;Git
 (require 'init-git)
 
-;; Paradox Package Rankings from GitHub
-(require 'init-paradox-github)
-
-;;Dash
-(require 'init-dash)
-
-;; Finances
-(require 'init-ledger)
-
-;;Social Networking
-(require 'init-social)
-
-
 ;; Code Modes
 (require 'init-javascript)
 (require 'init-lisp)
@@ -124,8 +111,9 @@
 (require 'init-python)
 (require 'init-ruby)
 (require 'init-oascript)
+
 ;;Custom Functions
-(require 'init-random-defuns)
+;;(require 'init-random-defuns)
 
 ;;Jump to Page
 (require 'init-webjump)
@@ -140,23 +128,26 @@
 ;;Clean up modeline
 ;;(load "clean-modeline")
 
-(require-git-submodule 'terminal-notifier t)
-
 ;;Markdown mode
 (require 'init-markdown)
 
 ;; Org-Sync
 (require-git-submodule 'org-sync)
 (require 'os)
+
 ;;The Big Giant Org
 (require 'init-org)
 (require 'init-org-publish)
+
+(when (executable-find "google")
+  (require 'init-gcal))
+
 ;;; Quick create blog post
 ;; set posts directory
-(require 'init-blog-post)
+;; (require 'init-blog-post)
 
-;; Org Custom Macros
-(require 'init-org-macros)
+;;; Org Custom Macros
+;; (require 'init-org-macros)
 
 ;; R in Emacs
 (require 'init-ess)
@@ -164,12 +155,24 @@
 ;;LATEX
 (require 'init-latex)
 
-;;Custom Keybindings
-(require 'init-keybindings)
-
 ;;MU4E
 (require 'init-contacts)
 (require 'init-mu4e)
+
+;; Paradox Package Rankings from GitHub
+(require 'init-paradox-github)
+
+;;Dash
+(require 'init-dash)
+
+;; Finances
+(require 'init-ledger)
+
+;;Social Networking
+(require 'init-social)
+
+;;Custom Keybindings
+(require 'init-keybindings)
 
 
 ;;,---------------------
@@ -185,14 +188,14 @@
 (require 'init-web)
 
 ;; Time Tracking
-(require 'init-wakatime)
+;;(require 'init-wakatime)
 
 ;; Health
 (require 'init-rsi)
 
 ;; News and Reading
 (require 'init-feeds)
-(require 'init-spritz)
+;;(require 'init-spritz)
 
 ;; Slack
 ;;(require 'init-slack)
@@ -208,7 +211,7 @@
 ;;| From: http://www.emacswiki.org/emacs/MacPrintMode
 ;;`--------------------------------------------------
 (add-to-list 'load-path (expand-file-name "misc" user-emacs-directory))
-(require 'mac-print-mode)
+;;(require 'mac-print-mode)
 
 (require-package 'gnuplot)
 (when *is-a-mac*
@@ -239,7 +242,7 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
-(set-frame-font (ype/font-name-replace-size (face-font 'default) 14) t)
+;;(set-frame-font (ype/font-name-replace-size (face-font 'default) 14) t)
 
 (require 'init-locales)
 (add-hook 'after-init-hook
@@ -250,6 +253,7 @@
 ;; Clock in default task (Daily Dose)
 ;; Jump: [[file:init/init-org.el::%3B%3B|%20DEFAULT%20TASK%20IDs][Default task ID function]]
 ;;(ype/clock-in-default-task-as-default)
+(run-at-time "30 min" 3600 'org-agenda-list)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
@@ -257,3 +261,5 @@
 ;; coding: utf-8
 ;; no-byte-compile: t
 ;; End:
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)

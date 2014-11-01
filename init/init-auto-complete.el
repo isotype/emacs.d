@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;; Last-Updated: 23-09-2014                                         ;;
+;; Last-Updated: 10-10-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-auto-complete                                   ;;;
@@ -115,6 +115,6 @@
                :scroll-bar t
                :margin t)))
 
-(global-set-key (kbd "H-h") 'describe-thing-in-popup)
+(global-set-key (kbd "H-x h") 'describe-thing-in-popup)
 
 (provide 'init-auto-complete)
