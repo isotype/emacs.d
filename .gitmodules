@@ -43,7 +43,12 @@
 [submodule "submodules/powerline"]
 	path = submodules/powerline
 	url = git://github.com/milkypostman/powerline.git
-
 [submodule "submodules/ein"]
 	path = submodules/ein
 	url = git://github.com/tkf/emacs-ipython-notebook.git
+[submodule "submodules/zenburn-theme"]
+	path = submodules/zenburn-theme
+	url = git://github.com/ype/zenburn-emacs.git
+[submodule "submodules/epy"]
+	path = submodules/epy
+	url = git://github.com/gabrielelanaro/emacs-for-python.git

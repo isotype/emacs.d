@@ -85,3 +85,4 @@ offlineimap.*
 /.session
 /gitstats/
 /init/init-mu4e-sr.el
+/submodules/zenburn-theme
