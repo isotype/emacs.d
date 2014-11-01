@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <anton@ilyfa.cc>                         ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 23-07-2014                                              ;;
-;; Last-Updated: 01-10-2014                                         ;;
-;;  Update #: 19                                                    ;;
+;; Last-Updated: 09-10-2014                                         ;;
+;;  Update #: 24                                                    ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;                                                                  ;;
 ;; Filename: init-python                                            ;;
@@ -15,12 +15,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Code:
-
 ;;,-------------------------------------------
 ;;| Elpy: Emacs Python Development Environment
 ;;`-------------------------------------------
+(require-package 'yasnippet)
 (require-package 'elpy)
 (elpy-enable)
+(add-hook 'python-mode-hook 'paredit-mode)
 
 
 
