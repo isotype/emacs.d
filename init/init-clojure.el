@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;; Last-Updated: 18-08-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 15-10-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-clojure                                         ;;;
 ;;; Description: Clojure config                                    ;;;
@@ -15,6 +15,7 @@
 (require-package 'clojure-mode)
 (require-package 'cljsbuild-mode)
 (require-package 'elein)
+(require-package 'latest-clojure-libraries)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Slime with Clojure
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -72,7 +73,7 @@
 ;;(require-git-submodule '4clj-el)
 
 ;; Trace
-(require-package 'cider-tracing)
+;;(require-package 'cider-tracing)
 
 (provide 'init-clojure)
 ;;; init-clojure.el ends here
