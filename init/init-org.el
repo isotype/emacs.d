@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;; Last-Updated: 22-09-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 31-10-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
 ;; Version: 0.0.1                                                   ;;
@@ -82,28 +82,20 @@
 ;; (setq org-plantuml-jar-path
 ;;       (expand-file-name "/Users/anton/.emacs.d/plantuml.jar"))
 
-;;Save all org buffers 1 minute before every hour
-(run-at-time "00:59" 3600 'org-save-all-org-buffers)
-
 
 ;;,-----------------------------------------------------------
 ;;| Let Emacs Find Org-files on multiple systems
 ;;| Sets different directory location depending on system-name
 ;;`-----------------------------------------------------------
 
-(when (or (string-equal system-name "fennec.local")
-         (string-equal system-name "fennec.lan"))
-  (defvar main-agenda-file "~/Dropbox/ORGS/gtd.org")
-  (setq org-directory "~/Dropbox/ORGS/"
-        org-agenda-files '("~/Dropbox/ORGS/gtd.org"
-                           "~/Dropbox/ORGS/gcal.org"
-                           ;;"~/Dropbox/ype/org-issues/"
-                           ;; "~/Dropbox/ORGS/school/s_main.org"
-                           "~/Dropbox/ORGS/refile.org"
-                           )
-        org-icalendar-combined-agenda-file (concat org-directory "combi.ics")
-        org-archive-location (concat org-directory "archive/%s_archive::")
-        org-default-notes-file (concat org-directory "gtd.org")))
+;; (when (or (string-equal system-name "fennec.local")
+;;           (string-equal system-name "fennec.lan")))
+(setq org-directory "~/Dropbox/ORGS/"
+      org-agenda-files '("~/Dropbox/ORGS/gtd.org"
+                         "~/Dropbox/ORGS/gcal.org"
+                         "~/Dropbox/ORGS/refile.org")
+      org-archive-location (concat org-directory "archive/%s_archive::")
+      org-default-notes-file (concat org-directory "refile.org"))
 
 
 ;;,------------------------
@@ -121,7 +113,8 @@
       org-clone-delete-id t
       org-return-follows-link t
       org-cycle-separator-lines 0
-      org-insert-heading-respect-content nil)
+      org-insert-heading-respect-content nil
+      org-treat-S-cursor-todo-selection-as-state-change nil)
 
 ;;Use System Settings For File-Application Selection
 (setq org-file-apps (quote ((auto-mode . emacs)
@@ -134,9 +127,9 @@
 
 ;;If Priority needed
 ;;Priorities A-E where tasks without a specific priority are lowest priority E
-(setq org-enable-priority-commands t)
-(setq org-default-priority ?E)
-(setq org-lowest-priority ?E)
+(setq org-enable-priority-commands t
+      org-default-priority ?E
+      org-lowest-priority ?E)
 
 (setq org-habit-graph-column 50)
 (run-at-time "06:00" 86400 '(lambda () (setq org-habit-show-habits t)))
@@ -160,31 +153,18 @@
 ;;| AGENDA
 ;;`-------
 
-;;Show Today in Agenda
-(setq org-agenda-span 'day)
-(setq org-agenda-sticky t)
-
-(setq org-agenda-include-diary nil)
-(setq org-agenda-show-all-dates t)
-
-(setq org-agenda-skip-deadline-if-done t)
-
-(setq org-agenda-skip-scheduled-if-done t)
-
-;; Start the weekly agenda on Monday
-(setq org-agenda-start-on-weekday 1)
-(setq org-deadline-warning-days 30)
-
-(setq org-agenda-persistent-filter t)
-
-;;Remove Multiple State Change Log Details From The Agenda
-(setq org-agenda-skip-additional-timestamps-same-entry t)
-
-;; Show all future entries for repeating tasks
-(setq org-agenda-repeating-timestamp-show-all t)
-
-;; Show all agenda dates - even if they are empty
-(setq org-agenda-show-all-dates t)
+(setq org-agenda-span 'day                               ;;Show Today in Agenda
+      org-agenda-sticky t
+      org-agenda-include-diary nil
+      org-agenda-show-all-dates t
+      org-agenda-skip-deadline-if-done t
+      org-agenda-skip-scheduled-if-done t
+      org-agenda-start-on-weekday 1                      ;; Start the weekly agenda on Monday
+      org-deadline-warning-days 30
+      org-agenda-persistent-filter t
+      org-agenda-skip-additional-timestamps-same-entry t ;;Remove Multiple State Change Log Details From The Agenda
+      org-agenda-repeating-timestamp-show-all t          ;; Show all future entries for repeating tasks
+      org-agenda-show-all-dates t)                       ;; Show all agenda dates - even if they are empty
 
 ;; Sorting order for tasks on the agenda
 (setq org-agenda-sorting-strategy
@@ -198,58 +178,32 @@
                                    #("----------------" 0 16 (org-heading t))
                                    (0900 1100 1300 1500 1700))))
 
-;;Include Archive in Search
-(setq org-agenda-text-search-extra-files '((agenda-archives)))
 
-;; Do not dim blocked tasks
-(setq org-agenda-dim-blocked-tasks nil)
-
-;; Compact the block agenda view
-(setq org-agenda-compact-blocks t)
-
-;; Keep tasks with dates on the global todo lists
-(setq org-agenda-todo-ignore-with-date nil)
-
-;; Keep tasks with deadlines on the global todo lists
-(setq org-agenda-todo-ignore-deadlines nil)
-
-;; Keep tasks with scheduled dates on the global todo lists
-(setq org-agenda-todo-ignore-scheduled nil)
-
-;; Keep tasks with timestamps on the global todo lists
-(setq org-agenda-todo-ignore-timestamp nil)
-
-;; Remove completed deadline tasks from the agenda view
-(setq org-agenda-skip-deadline-if-done t)
-
-;; Remove completed scheduled tasks from the agenda view
-(setq org-agenda-skip-scheduled-if-done t)
-
-;; Remove completed items from search results
-(setq org-agenda-skip-timestamp-if-done t)
+(setq org-agenda-text-search-extra-files '((agenda-archives)) ;;Include Archive in Search
+      org-agenda-dim-blocked-tasks nil       ;; Do not dim blocked tasks
+      org-agenda-compact-blocks t          ;; Compact the block agenda view
+      org-agenda-todo-ignore-with-date nil   ;; Keep tasks with dates on the global todo lists
+      org-agenda-todo-ignore-deadlines nil   ;; Keep tasks with deadlines on the global todo lists
+      org-agenda-todo-ignore-scheduled nil   ;; Keep tasks with scheduled dates on the global todo lists
+      org-agenda-todo-ignore-timestamp nil   ;; Keep tasks with timestamps on the global todo lists
+      org-agenda-skip-deadline-if-done t   ;; Remove completed deadline tasks from the agenda view
+      org-agenda-skip-scheduled-if-done t  ;; Remove completed scheduled tasks from the agenda view
+      org-agenda-skip-timestamp-if-done t) ;; Remove completed items from search results
 
 
-;;Unique IDs
-(setq org-id-method 'uuid)
 
-;;Search
-(setq org-show-following-heading t)
-(setq org-show-hierarchy-above t)
-(setq org-show-siblings '(default))
-
-;;#+STARTUP
-(setq org-startup-align-all-tables t)
-(setq org-startup-folded t)
-
-;;LOGGING
-(setq org-log-into-drawer t)
-(setq org-log-state-notes-insert-after-drawers nil)
-(setq org-log-done 'time)
-(setq org-log-done 'note)
-;;show notes at top
-(setq org-reverse-note-order nil)
-;; Agenda log mode items to display (closed and state changes by default)
-(setq org-agenda-log-mode-items '(closed state))
+(setq org-id-method 'uuid                          ;;UIDs
+      org-show-following-heading t                 ;;SEARCH
+      org-show-hierarchy-above t                   ;;SEARCH
+      org-show-siblings '(default)                 ;;SEARCH
+      org-startup-align-all-tables t               ;;#+STARTUP
+      org-startup-folded t                         ;;#+STARTUP
+      org-log-into-drawer t                        ;;LOGGING
+      org-log-state-notes-insert-after-drawers nil   ;;LOGGING
+      org-log-done 'time                           ;;LOGGING
+      org-log-done 'note                           ;;LOGGING
+      org-reverse-note-order nil                     ;;show notes at top
+      org-agenda-log-mode-items '(closed state))
 
 
 ;;,------
@@ -260,38 +214,17 @@
 (setq org-clock-idle-time 2)
 (org-clock-persistence-insinuate)
 
-;; Show lot of clocking history so it's easy to pick items off the C-F11 list
-(setq org-clock-history-length 23)
-
-;; Resume clocking task on clock-in if the clock is open
-(setq org-clock-in-resume t)
-
-;; Separate drawers for clocking and logs
-(setq org-drawers '("PROPERTIES" "LOGBOOK"))
-
-;; Save clock data and state changes and notes in the LOGBOOK drawer
-(setq org-clock-into-drawer t)
-
-;; Change tasks quickly
-;; this removes clocked tasks with 0:00 duration
-(setq org-clock-out-remove-zero-time-clocks t)
-
-;; Clock out when moving task to a done state
-(setq org-clock-out-when-done t)
-
-;; Save the running clock and all clock history when exiting Emacs, load it on startup
-(setq org-clock-persist 'history)
-
-;; Do not prompt to resume an active clock
-(setq org-clock-persist-query-resume nil)
-
-;; Enable auto clock resolution for finding open clocks
-(setq org-clock-auto-clock-resolution 'when-no-clock-is-running)
-
-;; Include current clocking task in clock reports
-(setq org-clock-report-include-clocking-task t)
-
-;;(setq org-clock-sound "/Users/anton/Library/Sounds/Quack.aiff")
+(setq org-clock-history-length 23                               ;; clocking history lenth
+      org-clock-in-resume t                                     ;; Resume clocking task on clock-in
+      org-drawers '("PROPERTIES" "LOGBOOK")                     ;; Separate drawers for clocking and logs
+      org-clock-into-drawer t                                   ;; Save clock data, state changes, notes
+      org-clock-out-remove-zero-time-clocks t                   ;; removes 0:00 duration
+      org-clock-out-when-done t                                 ;; Clock out when state DONE
+      org-clock-persist 'history                                ;; Save the running clock & all history on exit
+      org-clock-persist-query-resume nil                          ;; Do not prompt resume clock
+      org-clock-auto-clock-resolution 'when-no-clock-is-running ;; Enable auto clock for finding open clocks
+      org-clock-report-include-clocking-task t                  ;; Current clocking task in clock reports
+      org-clock-sound "/Users/anton/Library/Sounds/Timer.wav")  ;; make some noise when over task time
 
 (setq org-time-stamp-rounding-minutes '(1 1))
 
@@ -305,13 +238,7 @@
 ;;,-----------------
 ;;| DEFAULT TASK IDs
 ;;`-----------------
-(defvar ype/default-task-id "0CE8B026-E93A-4021-AD99-2ACECAA974DE")
-
-(when (or (string-equal system-name "fennec.local")
-         (string-equal system-name "fennec.lan"))
-  (setq ype/default-task-id-and-dir
-        (org-id-find-id-in-file ype/default-task-id "~/Dropbox/ORGS/gtd.org" 'marker)))
-
+(defvar ype/default-task-id "deftask0001")
 (defvar ype/default-email-id "AC4B5743-4FDC-4886-9084-D2F1AA29047E")
 (defvar ype/default-elisp-id "8FE1162A-C5E3-4B7C-B0B6-9B3EDED7B477")
 
@@ -319,12 +246,7 @@
 
 (defun ype/clock-in-default-task-as-default ()
   (interactive)
-  (org-with-point-at (print ype/default-task-id-and-dir)
-    (org-clock-in '(16))))
-
-(defun ype/clock-in-default-school ()
-  (interactive)
-  (org-with-point-at (org-id-find ype/default-school-id 'marker)
+  (org-with-point-at (org-id-find ype/default-task-id 'marker)
     (org-clock-in '(16))))
 
 (defun ype/clock-in-default-email ()
@@ -346,28 +268,17 @@
 ;;,----------
 ;;| iCalendar
 ;;`----------
-
-(setq org-icalendar-combined-name "GTD")
-
-(setq org-icalendar-include-todo t)
-
-(setq org-icalendar-include-body t)
-
-(setq org-icalendar-categories '(todo-state all-tags category))
-
-(setq org-icalendar-exclude-tags '("HABIT" "IGNORE"))
-
-(setq org-icalendar-store-UID t)
-
-(setq org-icalendar-alarm-time 30)
-
-(setq org-icalendar-use-scheduled '(todo-start event-if-todo))
-
-(setq org-icalendar-use-deadline '(todo-due event-if-todo))
-
-(setq org-icalendar-use-plain-timestamp nil)
-
-(setq org-icalendar-timezone "Europe/London")
+;; (setq org-icalendar-combined-name "GTD"
+;;       org-icalendar-include-todo t
+;;       org-icalendar-include-body t
+;;       org-icalendar-categories '(todo-state all-tags category)
+;;       org-icalendar-exclude-tags '("HABIT" "IGNORE")
+;;       org-icalendar-store-UID t
+;;       org-icalendar-alarm-time 30
+;;       org-icalendar-use-scheduled '(todo-start event-if-todo)
+;;       org-icalendar-use-deadline '(todo-due event-if-todo)
+;;       org-icalendar-use-plain-timestamp nil
+;;       org-icalendar-timezone "Europe/London")
 
 
 ;;,----------------
@@ -425,65 +336,64 @@
 ;;,----------
 ;;| TODO Conf
 ;;`----------
-(after-load 'org
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "REVIEW(r@/!)" "|" "DONE(d)" "WAITING(w@/!)") ;; NORMAL
-          (sequence "BUG(B@/!)" "HOTFIX(H@/!)" "|" "FIXED(F@/!)" "STUCK(S@/!)")
-          (sequence "OPEN(o)" "CLOSED(c)") ;; GitHub Issues
-          (sequence "EVENT(e)" "|" "ATTENDED(a)" "SKIPPED(u)")
-          (sequence "CALL(p)" "|" "CALLED(f)")
-          (sequence "REPLY(R@/!)" "|" "REPLIED(s@/!)")
-          (sequence "INVOICE(I@/!)" "PENDING(P@/!)" "|" "INVOICED(i@/!)" "CANCELLED(C@/!)")))
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "NEXT(n)" "REVIEW(r@/!)" "WAITING(w@/!)" "|" "DONE(d)") ;; NORMAL
+        (sequence "BUG(B@/!)" "HOTFIX(H@/!)" "|" "FIXED(F@/!)" "STUCK(S@/!)")
+        (sequence "OPEN(o)" "CLOSED(c)") ;; GitHub Issues
+        (sequence "EVENT(e)" "|" "ATTENDED(a)" "SKIPPED(u)")
+        (sequence "CALL(p)" "|" "CALLED(f)")
+        (sequence "REPLY(R@/!)" "|" "REPLIED(s@/!)")
+        (sequence "INVOICE(I@/!)" "PENDING(P@/!)" "|" "INVOICED(i@/!)" "CANCELLED(C@/!)")))
 
-  (setq org-todo-keyword-faces
-        '(("TODO" . (:foreground "#a6ff99" :weight bold))
-          ("NEXT" . (:foreground "#ff999f" :weight bold))
-          ("REVIEW" . (:foreground "#ffff99" :weight bold))
-          ("DONE" . (:foreground "#99b6ff" :weight bold))
-          ("WAITING" . (:foreground "#ffce99" :weight bold))
-          ("BUG" . (:foreground "#990000" :weight bold))
-          ("HOTFIX" . (:foreground "#663300" :weight bold))
-          ("FIXED" . (:foreground "#336600" :weight bold))
-          ("STUCK" . (:foreground "#FF0F00" :weight bold))
-          ("OPEN" . (:foreground "#00FF7F" :weight bold))
-          ("CLOSED" . (:foreground "#FF4500" :weight bold))
-          ("EVENT" . (:foreground "#82CA82" :weight bold))
-          ("ATTENDED" . (:foreground "#8477AE" :weight bold))
-          ("SKIPPED" . (:foreground "#FDEEA3" :weight bold))
-          ("CALL" . (:foreground "#C71585" :weight bold))
-          ("CALLED" . (:foreground "#FF4500" :weight bold))
-          ("REPLY" . (:foreground "#FFC0CB" :weight bold))
-          ("REPLIED" . (:foreground "#B0C4DE" :weight bold))
-          ("INVOICE" . (:foreground "#FFA07A" :weight bold))
-          ("PENDING" . (:foreground "#FF6347" :weight bold))
-          ("INVOICED" . (:foreground "#40E0D0" :weight bold))
-          ("CANCELLED" . (:foreground "#FDA3A3" :weight bold))))
+(setq org-todo-keyword-faces
+      '(("TODO" . (:foreground "#a6ff99" :weight bold))
+        ("NEXT" . (:foreground "#ff999f" :weight bold))
+        ("REVIEW" . (:foreground "#ffff99" :weight bold))
+        ("DONE" . (:foreground "#99b6ff" :weight bold))
+        ("WAITING" . (:foreground "#ffce99" :weight bold))
+        ("BUG" . (:foreground "#990000" :weight bold))
+        ("HOTFIX" . (:foreground "#663300" :weight bold))
+        ("FIXED" . (:foreground "#336600" :weight bold))
+        ("STUCK" . (:foreground "#FF0F00" :weight bold))
+        ("OPEN" . (:foreground "#00FF7F" :weight bold))
+        ("CLOSED" . (:foreground "#FF4500" :weight bold))
+        ("EVENT" . (:foreground "#82CA82" :weight bold))
+        ("ATTENDED" . (:foreground "#8477AE" :weight bold))
+        ("SKIPPED" . (:foreground "#FDEEA3" :weight bold))
+        ("CALL" . (:foreground "#C71585" :weight bold))
+        ("CALLED" . (:foreground "#FF4500" :weight bold))
+        ("REPLY" . (:foreground "#FFC0CB" :weight bold))
+        ("REPLIED" . (:foreground "#B0C4DE" :weight bold))
+        ("INVOICE" . (:foreground "#FFA07A" :weight bold))
+        ("PENDING" . (:foreground "#FF6347" :weight bold))
+        ("INVOICED" . (:foreground "#40E0D0" :weight bold))
+        ("CANCELLED" . (:foreground "#FDA3A3" :weight bold))))
 
-  ;; TAGS
-  (setq org-tag-alist '((:startgroup . nil)
-                        ("@work" . ?W)
-                        ("@home" . ?H)
-                        ("@env" . ?E)
-                        (:endgroup . nil)
+;; TAGS
+(setq org-tag-alist '((:startgroup . nil)
+                      ("@work" . ?W)
+                      ("@home" . ?H)
+                      ("@env" . ?E)
+                      (:endgroup . nil)
 
-                        ;; GENERAL
-                        ("EVENT" . ?e)
-                        ("HABIT" . ?h)
-                        ("MEETING" . ?m)
-                        ("REPLY" . ?r)
-                        ("FLAGGED" . ?f)
-                        ("ADMIN" . ?a)
-                        ("NOTE" . ?n)
+                      ;; GENERAL
+                      ("EVENT" . ?e)
+                      ("HABIT" . ?h)
+                      ("MEETING" . ?m)
+                      ("REPLY" . ?r)
+                      ("FLAGGED" . ?f)
+                      ("ADMIN" . ?a)
+                      ("NOTE" . ?n)
 
-                        ;; WORK
-                        ("HOMER" . ?1)
-                        ("CODA" . ?3)
-                        ("INVOICE" .?i)
+                      ;; WORK
+                      ("HOMER" . ?1)
+                      ("CODA" . ?3)
+                      ("INVOICE" .?i)
 
-                        ;; OTHER
-                        ("CRYPT" . ?C)
-                        ("PERSONAL" . ?p)
-                        ("MAJ_PROJ" . ?j))))
+                      ;; OTHER
+                      ("CRYPT" . ?C)
+                      ("PERSONAL" . ?p)
+                      ("MAJ_PROJ" . ?j)))
 
 (setq org-fast-tag-selection-single-key (quote expert))
 (setq org-agenda-tags-todo-honor-ignore-options t)
@@ -610,25 +520,6 @@
           (org-agenda-sorting-strategy
            '(scheduled-up todo-state-up effort-up category-keep))))
 
-        ("ca" "All Tags"
-         ((tags-todo "@office")
-          (tags-todo "@home")
-          (tags-todo "@school")
-          (tags-todo "@errand")
-          (tags-todo "HOLD")
-          (tags-todo "FLAGGED")
-          (tags-todo "ADMIN")
-          (tags-todo "R&D")
-          (tags-todo "TEACHING")
-          (tags-todo "NOTE")
-          (tags-todo "EXPENSE")
-          (tags-todo "MUU")
-          (tags-todo "HOMEROOM")
-          (tags-todo "CodaSign")
-          (tags-todo "CRYPT")
-          (tags-todo "PERSONAL")
-          (tags-todo "MAJ_PROJ")))
-
         ("w" "Waiting Tasks" todo "WAITING"
          ((org-agenda-overriding-header "Waiting")
           (org-tags-match-list-sublevels nil)
@@ -642,8 +533,16 @@
          ((org-agenda-overriding-header "Tasks to Refile")
           (org-tags-match-list-sublevels nil)))
 
-        ("cc" "All Clients"
-         ((tags-todo "@office"))
+        ("cc" "ALL WORK"
+         ((tags-todo "@work"))
+         ((org-agenda-compact-blocks t)))
+
+        ("ce" "ALL ENV"
+         ((tags-todo "@env"))
+         ((org-agenda-compact-blocks t)))
+
+        ("cr" "ALL HOME"
+         ((tags-todo "@home"))
          ((org-agenda-compact-blocks t)))
 
         ("ca" "All Tasks" todo "NEXT"
@@ -725,140 +624,28 @@
       (bh/insert-inactive-timestamp))))
 
 (setq org-export-with-timestamps nil)
-
-;;,------------------
-;;| ORG AUTO-COMPLETE
-;;`------------------
 
-(defvar ac-org-candidates nil)
-(defvar ac-org-pattern nil)
-(defun ac-org-construct-candidates ()
-  "Pabbrev source for org."
-  (let* ((end (point))
-         (beg1 (save-excursion
-                 (skip-chars-backward (org-re "[:alnum:]_@"))
-                 (point)))
-
-         (beg (save-excursion
-                (skip-chars-backward "a-zA-Z0-9_:$")
-                (point)))
-
-         (confirm (lambda (x) (stringp (car x))))
-
-         (searchhead (equal (char-before beg) ?*))
-
-         (struct
-          (when
-              (and (member (char-before beg1) '(?. ?<))
-                 (setq a (assoc
-                          (buffer-substring beg1 (point))
-                          org-structure-template-alist)))
-            (org-complete-expand-structure-template (1- beg1) a)
-            (throw 'exit t)))
-
-         (tag (and (equal (char-before beg1) ?:)
-                 (equal (char-after (point-at-bol)) ?*)))
-
-         (prop (and (equal (char-before beg1) ?:)
-                  (not (equal (char-after (point-at-bol)) ?*))))
-
-         (texp (equal (char-before beg) ?\\))
-         (link (equal (char-before beg) ?\[))
-         (opt (equal
-               (buffer-substring
-                (max (point-at-bol) (- beg 2)) beg) "#+"))
-
-         (startup
-          (string-match "^#\\+STARTUP:.*"
-                        (buffer-substring (point-at-bol) (point))))
-
-         (completion-ignore-case opt)
-         (type nil)
-         (tbl nil)
-         (table
-          (cond
-           (opt (setq type :opt)
-                (require 'org-exp)
-                (append
-                 (mapcar
-                  (lambda (x)
-                    (string-match "^#\\+\\(\\([A-Z_]+:?\\).*\\)" x)
-                    (cons (match-string 2 x) (match-string 1 x)))
-                  (org-split-string (org-get-current-options) "\n"))
-                 (mapcar 'list org-additional-option-like-keywords)))
-
-           (startup
-            (setq type :startup)
-            org-startup-options)
-           (link (append org-link-abbrev-alist-local
-                         org-link-abbrev-alist))
-
-           (texp (setq type :tex)
-                 org-html-entities)
-           ((string-match "\\`\\*+[ \t]+\\'"
-                          (buffer-substring (point-at-bol) beg))
-            (setq type :todo)
-            (mapcar 'list org-todo-keywords-1))
-
-           (searchhead
-            (setq type :searchhead)
-            (save-excursion
-              (goto-char (point-min))
-              (while
-                  (re-search-forward org-todo-line-regexp nil t)
-                (push
-                 (list
-                  (org-make-org-heading-search-string
-                   (match-string 3) t)) tbl))) tbl)
-
-           (tag (setq type :tag beg beg1)
-                (or org-tag-alist (org-get-buffer-tags)))
-
-           (prop (setq type :prop beg beg1)
-                 (mapcar 'list (org-buffer-property-keys nil t t)))
-
-           (t (progn
-                (call-interactively org-completion-fallback-command)
-                (throw 'exit nil)))
-           )))
-    (setq ac-org-pattern
-          (buffer-substring-no-properties beg end)) table))
-
-(defvar ac-source-org nil)
-(setq ac-source-org
-      `((sigil . "o")
-        (init . (lambda ()
-                  (setq ac-org-candidates
-                        (condition-case nil
-                            (ac-org-construct-candidates)))))
-        (candidates . (lambda ()
-                        (all-completions ac-target ac-org-candidates)))))
 
 ;;,---------
 ;;| ORG GCAL
 ;;`---------
 ;; NOTE: ORG-GCAL Needs the occasional refresh, use org-gcal-refresh-token
-
 (require-package 'org-gcal)
 (require-git-submodule 'emacs-request)
-(require 'alert)
 (require 'org-gcal)
-
 ;; Client ID and Secret kept in seperate file: init-keys.el
 ;; (after-load 'org-gcal
 ;;   (setq org-gcal-client-id "long numbering thing here"
 ;;         org-gcal-client-secret "super secret key"))
 
-(when (or (string-equal system-name "fennec.local")
-         (string-equal system-name "fennec.lan"))
-  (setq org-gcal-file-alist '(("anton@ilyfa.cc" .  "~/Dropbox/ORGS/gcal.org"))))
-
+;; (when (or (string-equal system-name "fennec.local")
+;;           (string-equal system-name "fennec.lan")))
+(setq org-gcal-file-alist '(("anton@ilyfa.cc" .  "~/Dropbox/ORGS/gcal.org")))
 (run-at-time "30 min" 3600 'org-gcal-fetch)
 
 ;;,------------
 ;;| TaskJuggler
 ;;`------------
-
 (setq org-export-taskjuggler-target-version 3.1)
 ;; :timezone: Europe/London
 ;; :dailyworkinghours: 8
@@ -870,57 +657,57 @@
 ;;,---------
 ;;| RevealJS
 ;;`---------
-
-(require-package 'ox-reveal)
-(setq org-reveal-root "file:///Users/anton/git_repos/reveal.js")
+;; DISABLE: Use Seldom
+;; (require-package 'ox-reveal)
+;; (setq org-reveal-root "file:///Users/anton/git_repos/reveal.js")
 
 ;;,-----------------------
 ;;| APPT and Notifications
 ;;`-----------------------
+;; DISABLE: in favour of iCal Notification
+;; (require 'appt)
+;; (setq appt-time-msg-list nil           ;; clear existing appt list
+;;       appt-display-interval '3       ;; warn every 3 minutes from t - appt-message-warning-time
+;;       appt-message-warning-time '10  ;; send first warning 10 minutes before appointment
+;;       appt-display-mode-line nil      ;; don't show in the modeline
+;;       appt-display-format 'window)  ;; pass warnings to the designated window function
 
-(require 'appt)
-(setq appt-time-msg-list nil           ;; clear existing appt list
-      appt-display-interval '3       ;; warn every 3 minutes from t - appt-message-warning-time
-      appt-message-warning-time '10  ;; send first warning 10 minutes before appointment
-      appt-display-mode-line nil      ;; don't show in the modeline
-      appt-display-format 'window)  ;; pass warnings to the designated window function
+;; (appt-activate 1) ;; activate appointment notification
+;; (display-time)    ;; activate time display
 
-(appt-activate 1) ;; activate appointment notification
-(display-time)    ;; activate time display
+;; ;; ;; Erase all reminders and rebuilt reminders for today from the agenda
+;; (defun ype/org-agenda-to-appt ()
+;;   (interactive)
+;;   (setq appt-time-msg-list nil)
+;;   (org-agenda-to-appt))
 
-;; ;; Erase all reminders and rebuilt reminders for today from the agenda
-(defun ype/org-agenda-to-appt ()
-  (interactive)
-  (setq appt-time-msg-list nil)
-  (org-agenda-to-appt))
+;; ;; Rebuild the reminders everytime the agenda is displayed
+;; (add-hook 'org-finalize-agenda-hook 'ype/org-agenda-to-appt 'append)
+;; (run-at-time "24:01" 3600 'ype/org-agenda-to-appt) ;; update appt list hourly
 
-;; Rebuild the reminders everytime the agenda is displayed
-(add-hook 'org-finalize-agenda-hook 'ype/org-agenda-to-appt 'append)
-(run-at-time "24:01" 3600 'ype/org-agenda-to-appt) ;; update appt list hourly
+;; ;;,-------------------------------------
+;; ;;| TERMINAL NOTIFIER
+;; ;;`-------------------------------------
+;; ;; set up the call to terminal-notifier
+;; (defun my-appt-send-notification (title msg)
+;;   (tn-notify msg title " "))
 
-;;,-------------------------------------
-;;| TERMINAL NOTIFIER
-;;`-------------------------------------
-;; set up the call to terminal-notifier
-(defun my-appt-send-notification (title msg)
-  (tn-notify msg title " "))
+;; ;; designate the window function for my-appt-send-notification
+;; (defun my-appt-display (min-to-app new-time msg)
+;;   (my-appt-send-notification
+;;    (format "'Appointment in %s minutes'" min-to-app) ;; passed to -title in terminal-notifier call
+;;    (format "'%s'" msg))) ;; passed to -message in terminal-notifier call
 
-;; designate the window function for my-appt-send-notification
-(defun my-appt-display (min-to-app new-time msg)
-  (my-appt-send-notification
-   (format "'Appointment in %s minutes'" min-to-app) ;; passed to -title in terminal-notifier call
-   (format "'%s'" msg))) ;; passed to -message in terminal-notifier call
+;; (setq appt-disp-window-function (function my-appt-display))
 
-(setq appt-disp-window-function (function my-appt-display))
-
-;; This is at the end of my .emacs - so appointments are set up when Emacs starts
-(org-agenda-to-appt)
+;; ;; This is at the end of my .emacs - so appointments are set up when Emacs starts
+;; (org-agenda-to-appt)
 
 ;;,-------------
 ;;| Org Mac Link
 ;;`-------------
 (require-package 'org-mac-link)
-(global-set-key (kbd "\C-c l g") 'org-mac-grab-link)
+;;(global-set-key (kbd "\C-x l g") 'org-mac-grab-link)
 
 ;;,----------------
 ;;| Org Box
@@ -930,13 +717,18 @@
 (require 'orgbox)
 
 
-;;,---------
-;;| Org OPML
-;;`---------
-;; FIXME
-(add-to-list 'load-path (expand-file-name "submodules/org-opml" user-emacs-directory))
-(load-library "org-opml")
-(require 'ox-opml)
+;; ;;,---------
+;; ;;| Org OPML
+;; ;;`---------
+;; ;; FIXME:
+;; (add-to-list 'load-path (expand-file-name "submodules/org-opml" user-emacs-directory))
+;; (load-library "org-opml")
+;; (require 'ox-opml)
+
+
+;;Save all org buffers 1 minute before every hour
+(run-at-time "00:59" 3600 'org-save-all-org-buffers)
 
 
 (provide 'init-org)
+;;; init-org.el ends here
