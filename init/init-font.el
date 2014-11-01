@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 08-04-2014                                            ;;;
-;; Last-Updated: 01-10-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 01-11-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-font                                            ;;;
 ;;; Version:                                                       ;;;
@@ -12,7 +12,9 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Code:
 ;;; Character sets
+
 (defcustom ype/force-default-font-for-symbols nil
   "When non-nil, force Emacs to use your default font for symbols."
   :type 'boolean)
@@ -60,7 +62,10 @@ by the :height face attribute."
 (global-set-key (kbd "H-\=") 'ype/increase-default-font-height)
 (global-set-key (kbd "H-\-") 'ype/decrease-default-font-height)
 
-(set-default-font "Droid Sans Mono")
+(set-frame-font "PT Mono-15")
+;;(set-frame-font "Bitstream Vera Sans Mono-15")
+(setq default-frame-alist '((font . "PT Mono-15")))
+
 
 
 (provide 'init-font)
