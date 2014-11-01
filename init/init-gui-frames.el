@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 17-04-2014                                            ;;;
-;; Last-Updated: 29-09-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 01-11-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-gui-frames                                      ;;;
 ;;; Version:                                                       ;;;
@@ -52,9 +52,9 @@
   ;; Hint: Customize `ns-use-native-fullscreen'
   (global-set-key (kbd "M-s-f") 'toggle-frame-fullscreen))
 
-(global-set-key (kbd "M-C-8") '(lambda () (interactive) (adjust-opacity nil -5)))
-(global-set-key (kbd "M-C-9") '(lambda () (interactive) (adjust-opacity nil 5)))
-(global-set-key (kbd "M-C-0") '(lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
+(global-set-key (kbd "A-\-") '(lambda () (interactive) (adjust-opacity nil -5)))
+(global-set-key (kbd "A-\=") '(lambda () (interactive) (adjust-opacity nil 5)))
+(global-set-key (kbd "A-\+") '(lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
 
 (add-hook 'after-make-frame-functions
           (lambda (frame)
@@ -66,21 +66,27 @@
   (cond (multiple-frames (buffer-name))
         (t (abbreviate-file-name (file-name-sans-extension (buffer-name))))))
 
-(defun ype/mail-count ()
-  (setq count
-        (+ (- (length (directory-files "~/.mail/anton-ilyfa.cc/INBOX/cur/")) 2)
-           (- (length (directory-files "~/.mail/anton-ilyfa.cc/INBOX/new/")) 2)))
-  (if (> count 0) (propertize (format "%d" count))))
-
+(defun ype:mail-unread-message-count ()
+  (setq unread
+        (length
+         (directory-files "~/.mail/ilyfa.cc/INBOX/new/" t "^\\([^.]\\|\\.[^.]\\|\\.\\..\\)" t)))
+  (if (> unread 0) (propertize (format "%d" unread))))
 
 (defadvice vc-git-mode-line-string (after plus-minus (file) compile activate)
   (setq ad-return-value
-    (concat ad-return-value
-            (let ((plus-minus (vc-git--run-command-string
-                               file "diff" "--numstat" "--")))
-              (and plus-minus
-                   (string-match "^\\([0-9]+\\)\t\\([0-9]+\\)\t" plus-minus)
-                   (format " [+%s][-%s]" (match-string 1 plus-minus) (match-string 2 plus-minus)))))))
+        (concat ad-return-value
+                (let ((plus-minus (vc-git--run-command-string
+                                   file "diff" "--numstat" "--")))
+                  (and plus-minus (string-match "^\\([0-9]+\\)\t\\([0-9]+\\)\t" plus-minus)
+                     (format " [+%s][-%s]"
+                             (match-string 1 plus-minus)
+                             (match-string 2 plus-minus)))))))
+
+(defun ype:show-tabbar-groups-in-gui-frame ()
+  (when (tabbar-mode-on-p)
+    (concat (propertize
+             (car (funcall tabbar-buffer-groups-function)) 'face 'font-lock-string-face)
+            " > ")))
 
 (defun ype:vc-check ()
   (if (vc-backend (buffer-file-name))
@@ -89,8 +95,8 @@
     (propertize (format "[No Repo Found]"))))
 
 (setq display-time-24hr-format t
-      display-time-use-mail-icon nil
-      display-time-mail-directory "~/.mail/anton-ilyfa.cc/INBOX/")
+      display-time-use-mail-icon t)
+(display-time-mode t)
 
 (setq frame-title-format
       '("%m "
@@ -99,19 +105,18 @@
         " %+ "
         (:eval (frame-title-prefix))
         " %+ "
-        (:eval display-time-string)
         " ["
-        (:eval (ype/mail-count))
-        "]"
+        (:eval (ype:mail-unread-message-count))
+        "] "
+        " %+ "
+        (:eval (ype:show-tabbar-groups-in-gui-frame))
         ))
+
 ;;,-----------------------------------------------------------------
 ;;| Non-zero values for `line-spacing' can mess up ansi-term and co,
 ;;| so we zero it explicitly in those cases.
 ;;`-----------------------------------------------------------------
-(add-hook 'term-mode-hook
-          (lambda ()
-            (set (make-local-variable 'line-spacing)
-                 0)))
+(add-hook 'term-mode-hook (lambda () (set (make-local-variable 'line-spacing) 0)))
 
 
 (provide 'init-gui-frames)
