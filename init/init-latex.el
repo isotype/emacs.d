@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-04-2014                                            ;;;
-;; Last-Updated: 08-10-2014                                         ;;
+;; Last-Updated: 03-11-2014                                         ;;
 ;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-latex                                           ;;;
@@ -26,10 +26,10 @@
 ;; set XeTeX mode in TeX/LaTeX
 (add-hook 'LaTeX-mode-hook
           (lambda()
-             (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
-             (setq TeX-command-default "XeLaTeX")
-             (setq TeX-save-query nil)
-             (setq TeX-show-compilation t)))
+            (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+            (setq TeX-command-default "XeLaTeX")
+            (setq TeX-save-query nil)
+            (setq TeX-show-compilation t)))
 
 ;;Spell Check for LaTeX
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
@@ -54,8 +54,8 @@
 
 (defun ac-latex-mode-setup ()
   (setq ac-sources
-     (append '(ac-source-math-unicode ac-source-latex-commands)
-               ac-sources)))
+        (append '(ac-source-math-unicode ac-source-latex-commands)
+                ac-sources)))
 (add-hook 'latex-mode-hook 'ac-latex-mode-setup)
 (ac-flyspell-workaround)
 
@@ -73,15 +73,15 @@
 (setq org-html-postamble nil)
 (setq org-html-doctype "html5")
 (setq org-html-html5-fancy t)
-(setq org-html-head-extra (concat
-                           "<style type=\"text/css\">\n"
-                           "body { font-family: sans-serif; font-size: 1em; line-height: 1.5; color: #222222 }"
-                           "table { border: 1px solid black; }"
-                           "td { padding: 2px 4px; }"
-                           "</style>\n"))
+(setq org-html-head-extra
+      (concat
+       "<style type=\"text/css\">\n"
+       "body { font-family: sans-serif; font-size: 1em; line-height: 1.5; color: #222222 }"
+       "table { border: 1px solid black; }"
+       "td { padding: 2px 4px; }"
+       "</style>\n"))
 
-(setq org-html-mathjax-options (quote (
-                                       (path "http://cdn.mathjax.org/mathjax/latest/MathJax.js")
+(setq org-html-mathjax-options (quote ((path "http://cdn.mathjax.org/mathjax/latest/MathJax.js")
                                        (scale "100")
                                        (align "center")
                                        (indent "2em")
@@ -96,34 +96,68 @@
 (setq org-latex-pdf-process
       '("xelatex -shell-escape -interaction nonstopmode %f; bibtex %f; xelatex -shell-escape -interaction nonstopmode %f; xelatex -shell-escape -interaction nonstopmode %f"))
 
-(setq org-latex-listings 'minted
-      org-latex-minted-options
-      '(("mathescape" "")
-        ("linenos" "")
-        ("frame" "lines")
-        ("fontsize" "\\scriptsize")))
-(add-to-list 'org-latex-classes
-             '("ypaper"
-               "\\documentclass[11pt,a4paper,titlepage]{article}
-\\usepackage{fontspec}
-\\setmainfont{Droid Serif}
-\\setsansfont{Droid Sans}
-\\setmonofont{Droid Sans Mono}
-\\usepackage{graphicx}
-\\usepackage{hyperref}
-\\usepackage{minted}
-\\usemintedstyle{github}
+(setq org-latex-listings 'listings
+      org-latex-listings-options
+      '(("basicstyle" "\\listingsfont")
+        ("xleftmargin" "0.7cm")
+        ("xrightmargin" "0.5cm")
+        ("showstringspaces" "false")
+        ("keepspaces" "true")
+        ("numbers" "left")
+        ("numberstyle" "\\scriptsize")
+        ("stepnumber" "1")
+        ("frame" "leftline")
+        ("rulesepcolor" "\\color{gray}")))
 
+(add-to-list 'org-latex-classes
+             '("yarticle"
+               "\\documentclass[11pt,a4paper, titlepage]{article}
+\\usepackage[math-style=TeX,vargreek-shape=unicode]{unicode-math}
+\\newfontfamily\\setmainfont[%
+Mapping=tex-text,
+Color=textcolor,
+Path=/Users/anton/Documents/Fonts/a2d/B/OpenType/]{BaskervilleBook-Regular.otf}
+\\newfontfamily\\listingsfont[Scale=0.8, Path=/Users/anton/Library/Fonts/]{FiraMonoOT-Regular.otf}
+\\setmathfont{xits-math.otf}
+\\usepackage{tikz}
+\\usepackage{graphicx}
+\\usepackage{geometry}
+\\usepackage{color}
+\\usepackage{xcolor}
+\\definecolor{lightgrey}{gray}{0.8}
+
+\\usepackage{algorithm}
+\\usepackage[noend]{algpseudocode}
+
+\\usepackage{listings}
+\\usepackage{hyperref}
 \\usepackage{enumitem}
 \\setitemize{noitemsep}
+
 \\setlist[itemize,1]{label=\\textbullet}
 \\setlist[itemize,2]{label=\\textopenbullet}
 \\setlist[itemize,3]{label=\\textbullet}
 \\setlist[itemize,4]{label=\\textopenbullet}
 
-\\usepackage{geometry}
-\\geometry{a4paper, textwidth=6.5in, textheight=10in,
-            marginparsep=7pt, marginparwidth=.6in}
+\\usepackage{fancyhdr}
+\\setlength{\\headheight}{15pt}
+\\pagestyle{fancy}
+\\renewcommand{\\sectionmark}[1]{ \\markright{#1}{} }
+\\fancyhf{}
+\\fancyhead[LE,RO]{\\thepage}
+\\fancyhead[RE]{\\textit{ \\nouppercase{\\leftmark}} }
+\\fancyhead[LO]{\\textit{ \\nouppercase{\\rightmark}} }
+
+\\fancypagestyle{plain}{ %
+  \\fancyhf{} % remove everything
+  \\renewcommand{\\headrulewidth}{0pt} % remove lines as well
+  \\renewcommand{\\footrulewidth}{0pt}
+}
+
+\\usepackage{caption}
+\\DeclareCaptionFont{white}{\\color{white}}
+\\DeclareCaptionFormat{listing}{\\colorbox{gray}{\\parbox{\\textwidth}{#1#2#3}}}
+\\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
 
 [NO-PACKAGES]
 [NO-DEFAULT-PACKAGES]"
@@ -132,6 +166,8 @@
 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
 ("\\paragraph{%s}" . "\\paragraph*{%s}")
 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+
 
 (provide 'init-latex)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

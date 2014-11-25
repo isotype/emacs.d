@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 23-04-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;; Last-Updated: 03-11-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-literate-clojure                                ;;;
 ;;; Version:                                                       ;;;
@@ -48,11 +48,11 @@
   (interactive "sEnter Org Template CLJ export name: ")
   (message "CLJ: %s" filename)
   (after-load 'org
-  '(progn
-     (add-to-list 'org-structure-template-alist
-                  `("m"
-                    ,(concat "#+BEGIN_SRC clojure :exports none :tangle ../src/" filename " :padline no :results silent :noweb yes\n?\n#+END_SRC")
-                    "")))))
+    '(progn
+       (add-to-list 'org-structure-template-alist
+                    `("m"
+                      ,(concat "#+BEGIN_SRC clojure :exports none :tangle ../src/" filename " :padline no :results silent :noweb yes\n?\n#+END_SRC")
+                      "")))))
 
 (after-load 'org
   '(progn

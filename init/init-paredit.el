@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 03-04-2014                                            ;;;
-;; Last-Updated: 07-09-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 16-11-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-paredit                                         ;;;
 ;;; Description: Config for Paredit (From: github:purcell)         ;;;
@@ -64,6 +64,52 @@
   (if (memq this-command paredit-minibuffer-commands)
       (enable-paredit-mode)))
 
+;; Use paredit with autopair
+;; (require-package 'autopair)
+;; (add-hook 'python-mode-hook
+;;           #'(lambda ()
+;;               (setq autopair-handle-action-fns
+;;                     (list #'autopair-default-handle-action
+;;                           #'autopair-python-triple-quote-action))))
+
+;; (defvar autopair-modes '(r-mode ruby-mode python-mode))
+;; (defun turn-on-autopair-mode () (autopair-mode 1))
+;; (dolist (mode autopair-modes) (add-hook (intern (concat (symbol-name mode) "-hook")) 'turn-on-autopair-mode))
+
+;; (defadvice paredit-mode (around disable-autopairs-around (arg))
+;;   "Disable autopairs mode if paredit-mode is turned on"
+;;   ad-do-it
+;;   (if (null ad-return-value)
+;;       (autopair-mode 1)
+;;     (autopair-mode 0)
+;;     ))
+
+;; (ad-activate 'paredit-mode)
+
+;;,-----------
+;;| TOGGLE KEY
+;;`-----------
+;; Toggle Between Paredit-Mode and autopair-mode using single key
+;; TODO: turn into function to use elsewhere
+;; (global-set-key (kbd "C-\,")
+;;                 (lambda ()
+;;                   (interactive)
+;;                   (if (or (null paredit-mode)
+;;                          (not (null autopair-mode)))
+;;                       (progn
+;;                         (paredit-mode 1)
+;;                         (autopair-mode -1))
+;;                     (progn
+;;                       (paredit-mode -1)
+;;                       (autopair-mode 1)))))
+
+(global-set-key (kbd "C-\, q")
+                (lambda ()
+                  (interactive)
+                  (if (null paredit-mode)
+                      (paredit-mode 1)
+                    (paredit-mode -1))))
+
 ;; ----------------------------------------------------------------------------
 ;; Enable some handy paredit functions in all prog modes
 ;; ----------------------------------------------------------------------------
@@ -78,5 +124,7 @@
 (global-set-key (kbd "M-\[") 'paredit-backward-slurp-sexp)
 (global-set-key (kbd "s-\]") 'paredit-forward-barf-sexp)
 (global-set-key (kbd "s-\[") 'paredit-backward-barf-sexp)
+
+
 
 (provide 'init-paredit)

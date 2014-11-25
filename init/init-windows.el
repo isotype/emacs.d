@@ -3,9 +3,9 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 30-06-2014                                              ;;
-;; Last-Updated: 09-10-2014                                         ;;
-;;  Update #: 17                                                    ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 16-11-2014                                         ;;
+;;  Update #: 19                                                    ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;                                                                  ;;
 ;; Filename: init-windows                                           ;;
 ;; Description: From @purcell with minor modifications              ;;
@@ -110,6 +110,10 @@ Call a second time to restore the original window configuration."
 
 ;; Press [pause] key in each window you want to "freeze"
 (global-set-key (kbd "H-x w l") 'toggle-window-dedicated)
+
+;; Golden Ratio Frames
+(require-package 'golden-ratio)
+(golden-ratio-mode 1)
 
 
 (provide 'init-windows)

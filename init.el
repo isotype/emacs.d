@@ -1,31 +1,24 @@
-;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Author: Anton Strilchuk <ype@env.sh>                             ;;
-;; URL: http://ype.env.sh                                           ;;
-;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 01-11-2014                                         ;;
-;;  Update #: 109                                                   ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
-;;                                                                  ;;
-;; Filename: init                                                   ;;
-;; Version: 0.0.0.0.0.1                                             ;;
-;; Description: ype'S emacs conf                                    ;;
-;;                                                                  ;;
+;;; Author: Anton Strilchuk <anton@env.sh>                         ;;;
+;;; URL: http://ype.env.sh                                         ;;;
+;;; Created: 16-06-2014                                            ;;;
+;;; Last-Updated: 24-11-2014                                       ;;;
+;;;  Update #: 135                                                 ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
+;;;                                                                ;;;
+;;; Filename: init                                                 ;;;
+;;; Version: 0.1.1.1                                               ;;;
+;;; Description: ype'S emacs conf                                  ;;;
+;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Code:
 
-(let ((minver 23))
+(let ((minver 24))
   (unless (>= emacs-major-version minver)
-    (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
+    (error "UPDATE TIME! This Emacs requires v%s or higher" minver)))
 
 (defconst *is-a-mac* (eq system-type 'darwin))
 (defconst *is-x-toolkit* (eq window-system 'x))
 (defconst *is-ns-toolkit* (eq window-system 'ns))
-
-;; Test to check if we are using XQuartz, to set correct .emacs.d
-(when *is-x-toolkit*
-  (setq user-emacs-directory "/opt/xwindows/emacs24/share/.emacs.d/"))
 
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "init-tools" user-emacs-directory))
@@ -42,6 +35,7 @@
 (require 'init-compat)
 (require 'init-utils)
 (require 'oVr-mode)
+(require 'init-prefix-keys)
 (require 'init-site-lisp)
 (require 'init-elpa)
 (require 'init-exec-path)
@@ -55,8 +49,7 @@
 
 (setq temporary-file-directory (expand-file-name "backup" user-emacs-directory))
 ;;Buffer Backups (files in ~/.emacs.d/backup)
-(setq backup-directory-alist `((".*" . ,temporary-file-directory))
-      auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
       backup-by-copying t    ; Don't delink hardlinks
       version-control t      ; Use version numbers on backups
       delete-old-versions t  ; Automatically delete excess backups
@@ -71,11 +64,12 @@
 (require 'init-frame-hooks)
 (require 'init-xterm)
 (require-package 'fold-dwim)
+(require-package 'dash)
 ;;Appearance Setup
 (require 'init-theme)
 (require 'init-gui-frames)
 (require 'init-appearance)
-(unless *is-x-toolkit*
+(when *is-a-mac*
   (require 'init-font))
 
 ;;Customizations
@@ -109,6 +103,7 @@
 (require 'init-clojure)
 (require 'init-literate-clojure)
 (require 'init-python)
+(require 'init-go)
 (require 'init-ruby)
 (require 'init-oascript)
 
@@ -118,11 +113,15 @@
 ;;Jump to Page
 (require 'init-webjump)
 
+;;HELM
+(require 'init-helm)
+
 ;;Tabs
 ;; Currently Disabled due to display lag issues
 (require 'init-tabbar)
 
 ;;Auto Header
+(require 'header2)
 (require 'init-headers)
 
 ;;Clean up modeline
@@ -195,6 +194,8 @@
 
 ;; News and Reading
 (require 'init-feeds)
+(require 'el-pocket)
+(el-pocket-load-auth)
 ;;(require 'init-spritz)
 
 ;; Slack
@@ -253,7 +254,8 @@
 ;; Clock in default task (Daily Dose)
 ;; Jump: [[file:init/init-org.el::%3B%3B|%20DEFAULT%20TASK%20IDs][Default task ID function]]
 ;;(ype/clock-in-default-task-as-default)
-(run-at-time "30 min" 3600 'org-agenda-list)
+(run-at-time "60 min" 3600 'org-agenda-list)
+;;(type-break-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
@@ -261,5 +263,6 @@
 ;; coding: utf-8
 ;; no-byte-compile: t
 ;; End:
+
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)

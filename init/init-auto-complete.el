@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;; Last-Updated: 10-10-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 11-11-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-auto-complete                                   ;;;
 ;;; Version:                                                       ;;;
@@ -17,10 +17,10 @@
 (global-auto-complete-mode t)
 (diminish 'auto-complete-mode " ⌦")
 (setq-default ac-expand-on-auto-complete nil)
-(setq-default ac-auto-start 2)
+(setq-default ac-auto-start nil)
 (setq-default ac-dwim nil) ; To get pop-ups with docs even if a word is uniquely completed
-(define-key ac-complete-mode-map "\r" nil)
-(define-key ac-complete-mode-map [return] nil)
+;;(define-key ac-complete-mode-map "\r" nil)
+;;(define-key ac-complete-mode-map [return] nil)
 
 ;;----------------------------------------------------------------------------
 ;; Use Emacs' built-in TAB completion hooks to trigger AC (Emacs >= 23.2)
@@ -28,7 +28,7 @@
 (setq tab-always-indent 'complete)  ;; use 't when auto-complete is disabled
 (add-to-list 'completion-styles 'initials t)
 ;; Stop completion-at-point from popping up completion buffers so eagerly
-(setq completion-cycle-threshold 5)
+(setq completion-cycle-threshold 3)
 
 ;; TODO: find solution for php, haskell and other modes where TAB always does something
 
@@ -52,13 +52,13 @@
 
 (add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
 
-
 (set-default 'ac-sources
              '(ac-source-imenu
                ac-source-dictionary
                ac-source-words-in-buffer
                ac-source-words-in-same-mode-buffers
-               ac-source-words-in-all-buffer))
+               ;; ac-source-words-in-all-buffer
+               ))
 
 (dolist (mode '(magit-log-edit-mode
                 log-edit-mode
@@ -87,6 +87,9 @@
                 sql-interactive-mode
                 inferior-emacs-lisp-mode))
   (add-to-list 'ac-modes mode))
+
+(require-package 'ac-anaconda)
+(add-hook 'python-mode-hook 'ac-anaconda-setup)
 
 ;; Exclude very large buffers from dabbrev
 (defun sanityinc/dabbrev-friend-buffer (other-buffer)

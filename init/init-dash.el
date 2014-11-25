@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 20-05-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;;; Last-Updated: 17-11-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-dash                                            ;;;
 ;;; Version:                                                       ;;;
@@ -16,13 +16,22 @@
 
 (defun elisp-doc()
   (interactive)
-  (setq-local helm-dash-docset '("Emacs Lisp")))
+  (setq-local helm-dash-docset '("Emacs_Lisp")))
 (add-hook 'emacs-lisp-mode 'elisp-doc)
 
 (defun clisp-doc ()
   (interactive)
-  (setq-local helm-dash-docset '("Common Lisp")))
+  (setq-local helm-dash-docset '("Common_Lisp")))
 (add-hook 'common-lisp-mode 'clisp-doc)
+
+(defun ype/helm-pydocs ()
+  (interactive)
+  (setq-local helm-dash-docsets '("Python_3")))
+(add-hook 'python-mode-hook 'ype/helm-pydocs)
+
+(after-load 'helm-dash
+  (define-key ctrl-apos (kbd "h d") 'helm-dash)
+  (define-key ctrl-apos (kbd "d") 'helm-dash-at-point))
 
 (defun sanityinc/dash-installed-p ()
   "Return t if Dash is installed on this machine, or nil otherwise."

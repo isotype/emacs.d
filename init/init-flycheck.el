@@ -1,19 +1,18 @@
-;;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-  ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-04-2014                                            ;;;
-;; Last-Updated: 13-08-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;;; Last-Updated: 16-11-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-flycheck                                        ;;;
 ;;; Version:                                                       ;;;
 ;;; Description:                                                   ;;;
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require-package 'flycheck)
+(require-package 'flycheck-pos-tip)
 (add-hook 'after-init-hook 'global-flycheck-mode)
 
 ;; Override default flycheck triggers
@@ -25,8 +24,8 @@
   (let (found-flycheck-errors-buf)
     (walk-window-tree (lambda (w)
                         (when (string-equal "*Flycheck errors*"
-                          (buffer-name (window-buffer w)))
-        (setq found-flycheck-errors-buf t))))
+                                            (buffer-name (window-buffer w)))
+                          (setq found-flycheck-errors-buf t))))
     (selected-frame)
     found-flycheck-errors-buf))
 
@@ -34,9 +33,43 @@
   (unless (sanityinc/flycheck-errors-visible-p)
     (flycheck-display-error-messages errors)))
 
-(setq flycheck-display-errors-function 'sanityinc/flycheck-maybe-display-errors)
+(setq flycheck-display-errors-function 'flycheck-pos-tip-error-messages)
 
 (global-set-key (kbd "M-2") 'flycheck-next-error)
 (global-set-key (kbd "M-1") 'flycheck-previous-error)
+
+;; Add virtualenv support for checkers
+(defadvice flycheck-check-executable
+    (around python-flycheck-check-executable (checker)
+            activate compile)
+  "`flycheck-check-executable' with virtualenv support."
+  (if (eq major-mode 'python-mode)
+      (let* ((process-environment (python-shell-calculate-process-environment))
+             (exec-path (python-shell-calculate-exec-path)))
+        ad-do-it)
+    ad-do-it))
+
+(defadvice flycheck-start-checker
+    (around python-flycheck-start-checker (checker)
+            activate compile)
+  "`flycheck-start-checker' with virtualenv support."
+  (if (eq major-mode 'python-mode)
+      (let* ((process-environment (python-shell-calculate-process-environment))
+             (exec-path (python-shell-calculate-exec-path)))
+        ad-do-it)
+    ad-do-it))
+
+(add-hook 'python-mode-hook 'flycheck-mode)
+;;(add-to-list 'flycheck-disabled-checkers 'python-flake8)
+(add-hook 'python-mode-hook #'(lambda () (setq flycheck-checker 'python-pylint)))
+
+
+;;,------------------
+;;| DISABLED WARNINGS
+;;`------------------
+(after-load 'flycheck
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+
+
 
 (provide 'init-flycheck)

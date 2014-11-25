@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;; Last-Updated: 16-10-2014                                         ;;
+;; Last-Updated: 16-11-2014                                         ;;
 ;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-appearance                                      ;;;
@@ -20,7 +20,7 @@
 (global-hl-line-mode 1)
 
 ;;Highlight matching parens
-(setq show-paren-style 'parenthesis)
+(setq show-paren-style 'mixed)
 (show-paren-mode 1)
 
 ;;; Column Numbers

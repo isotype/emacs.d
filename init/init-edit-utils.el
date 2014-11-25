@@ -3,9 +3,9 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 30-10-2014                                         ;;
-;;  Update #: 95                                                    ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 22-11-2014                                       ;;;
+;;;  Update #: 121                                                 ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-edit-utils                                        ;;
 ;; Version:                                                         ;;
@@ -18,7 +18,9 @@
 (require-package 'whole-line-or-region)
 
 (when (fboundp 'electric-pair-mode)
-  (setq-default electric-pair-mode 1))
+  (electric-pair-mode))
+(when (fboundp 'electric-indent-mode)
+  (electric-indent-mode))
 
 (setq-default blink-cursor-delay 0
               blink-cursor-interval 0.4
@@ -41,29 +43,31 @@
 ;; Set Backtab
 (define-key function-key-map [S-tab] [backtab])
 
-(when *is-a-mac*
-  (setq-default locate-command "mdfind"))
+(transient-mark-mode t)
 
 (global-auto-revert-mode)
 (setq global-auto-revert-non-file-buffers t
       auto-revert-verbose nil)
 
+;;; Whitespace
+(defun sanityinc/no-trailing-whitespace ()
+  "Turn off display of trailing whitespace in this buffer."
+  (setq show-trailing-whitespace nil))
+
 ;; But don't show trailing whitespace in SQLi, inf-ruby etc.
 (dolist (hook '(special-mode-hook
-                eww-mode
+                eww-mode-hook
                 term-mode-hook
                 comint-mode-hook
                 compilation-mode-hook
                 twittering-mode-hook
                 minibuffer-setup-hook))
-  (add-hook hook
-            (lambda () (setq show-trailing-whitespace nil))))
+  (add-hook hook #'sanityinc/no-trailing-whitespace))
+
 
 (require-package 'whitespace-cleanup-mode)
 (global-whitespace-cleanup-mode t)
 (diminish 'whitespace-cleanup-mode " ⌴")
-
-(transient-mark-mode t)
 
 (global-set-key (kbd "RET") 'newline-and-indent)
 (defun sanityinc/newline-at-end-of-line ()
@@ -73,6 +77,9 @@
   (newline-and-indent))
 
 (global-set-key (kbd "S-<return>") 'sanityinc/newline-at-end-of-line)
+
+(require-package 'aggressive-indent)
+;;(global-aggressive-indent-mode 1)
 
 (after-load 'subword
   (diminish 'subword-mode))
@@ -127,8 +134,8 @@
 ;; C-u C-c SPC => ace-jump-char-mode
 ;; C-u C-u C-c SPC => ace-jump-line-mode
 (require-package 'ace-jump-mode)
-(oVr-set-key "C-\'" 'ace-jump-char-mode)
-(global-set-key (kbd "C-\`") 'ace-jump-line-mode)
+(define-key ctrl-apos (kbd "c") 'ace-jump-char-mode)
+(define-key ctrl-apos (kbd "l") 'ace-jump-char-mode)
 
 (global-set-key (kbd "C-c J") (lambda () (interactive) (join-line 1)))
 (global-set-key (kbd "C-.") 'set-mark-command)
@@ -196,7 +203,7 @@
   (defadvice popup-delete (after restore-fci-mode activate)
     "Restore fci-mode when all popups have closed"
     (when (and sanityinc/fci-mode-suppressed
-             (null popup-instances))
+               (null popup-instances))
       (setq sanityinc/fci-mode-suppressed nil)
       (turn-on-fci-mode)))
 
@@ -308,12 +315,15 @@ With arg N, insert N newlines."
 
 (require-package 'guide-key)
 (require-package 'guide-key-tip)
-(setq guide-key/guide-key-sequence '("C-x" "C-c" "C-h" "H-x" "M-g"))
-(setq guide-key/recursive-key-sequence-flag t)
-(setq guide-key/idle-delay 1.0)
-(setq guide-key/highlight-command-regexp "rectangle\\|register")
+(setq guide-key/guide-key-sequence '("C-x" "C-c" "C-h" "C-\'" "H-x" "M-g" "<escape>" "C-\,")
+      guide-key/recursive-key-sequence-flag t
+      guide-key/idle-delay 1.0
+      guide-key/highlight-command-regexp "rectangle\\|register"
+      guide-key/popup-window-position 'bottom)
 (guide-key-mode 1)
-(setq guide-key-tip/enabled nil)
+(setq guide-key-tip/toggle-enable nil)
+
+
 (diminish 'guide-key-mode)
 
 (require-package 'rebox2)
@@ -522,6 +532,7 @@ With arg N, insert N newlines."
 (define-key endless:toggle-map "g" 'git-gutter+-toggle-fringe)
 (define-key endless:toggle-map "t" 'endless/toggle-theme)
 (define-key endless:toggle-map "f" 'flycheck-mode)
+(define-key endless:toggle-map "a" 'aggressive-indent-mode)
 
 ;; init.el
 ;; C-x r j e
@@ -551,6 +562,10 @@ With arg N, insert N newlines."
                                (downcase (match-string 2))
                                (match-string 3))
                        t nil)))))
+
+(require-package 'hideshow-org)
+;;(require 'hideshow-org)
+;;(global-set-key (kbd "C-c s") 'hs-org/minor-mode)
 
 
 (provide 'init-edit-utils)

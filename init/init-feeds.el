@@ -3,9 +3,9 @@
 ;; Author: Anton Strilchuk <anton@env.sh>                           ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 23-10-2014                                              ;;
-;; Last-Updated: 23-10-2014                                         ;;
-;;  Update #: 1                                                     ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 25-11-2014                                       ;;;
+;;;  Update #: 3                                                   ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-feeds                                             ;;
 ;; Version:                                                         ;;

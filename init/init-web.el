@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 20-05-2014                                            ;;;
-;; Last-Updated: 05-09-2014                                         ;;
-;;   By: Anton Strilchuk <anton@ilyfa.cc>                           ;;
+;; Last-Updated: 16-11-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-web                                             ;;;
 ;;; Version:                                                       ;;;
@@ -48,6 +48,7 @@
 ;;`---------------
 (require-package 'know-your-http-well)
 (require-package 'restclient)
+(add-to-list 'auto-mode-alist '("\\.rest\\'" . restclient-mode))
 
 
 

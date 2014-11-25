@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;; Last-Updated: 03-10-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 16-10-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-theme                                           ;;;
 ;;; Description: Setup for: Color-theme, Powerline, and tabbars    ;;;
@@ -15,15 +15,18 @@
 (require-git-submodule 'powerline t)
 (powerline-vim-theme)
 
-(require-package 'zenburn-theme)
+(add-to-list 'load-path (expand-file-name "~/Dropbox/ype/emacs-packages/36-symbols-theme/"))
+(require '36-symbols-theme)
 
+;;(require '36-symbols)
+;;(setq 36-symbols-high-contrast-mode-line nil)
 ;; Change Light Based on OSX Ambient Light Sensor Values
 (setq direct-sun 44000000)
 
 (setq ambient-light 1)
 
-(setq light-theme 'solarized-light)
-(setq dark-theme 'zenburn)
+;;(setq light-theme '36-symbols-light)
+(setq dark-theme '36-symbols)
 
 (defun light-level ()
   "Access the level of light detected by the LMU sensor on Macbook Pros"

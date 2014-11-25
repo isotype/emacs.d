@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 03-04-2014                                            ;;;
-;; Last-Updated: 01-09-2014                                         ;;
+;; Last-Updated: 14-09-2014                                         ;;
 ;;   By: Anton Strilchuk <ype@env.sh>                               ;;
 ;;;                                                                ;;;
 ;;; Filename: init-blog-post                                       ;;;
@@ -11,8 +11,14 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Template insert options
 
+;;,-----------------
+;;| Set Some Default
+;;`-----------------
+(setq ype/blog-posts-directory "~/Dropbox/ype/blog/posts4review/"
+      ype/blog-media-directory "~/Dropbox/ype/blog/ypeblog/media/")
+
+;;; Template insert options
 (defun ype/insert-options-template (&optional title subtitle tags image video filetype)
   "Ask a series of simple questions to quickly prep blog post front matter"
   (interactive

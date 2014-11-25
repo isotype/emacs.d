@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 17-04-2014                                            ;;;
-;; Last-Updated: 29-09-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;; Last-Updated: 06-11-2014                                         ;;
+;;   By: Anton Strilchuk <anton@env.sh>                             ;;
 ;;;                                                                ;;;
 ;;; Filename: init-locales                                         ;;;
 ;;; Description:                                                   ;;;
@@ -24,12 +24,14 @@
 
 (when (or window-system (locale-is-utf8-p))
   (setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
-  (set-language-environment "UTF-8")
-  (setq locale-coding-system 'utf-8)
-  (set-default-coding-systems 'utf-8)
+  (set-language-environment 'utf-8)
+  (prefer-coding-system 'utf-8)
   (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (setq locale-coding-system 'utf-8)
   (unless (eq system-type 'windows-nt)
-    (set-selection-coding-system 'utf-8))
-  (prefer-coding-system 'utf-8))
+    (set-selection-coding-system 'utf-8)))
+
 
 (provide 'init-locales)

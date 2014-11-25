@@ -13,7 +13,7 @@
 ;; (global-unset-key (kbd "<M-down>"))
 
 ;;Key modifiers
-(unless *is-x-toolkit*
+(when *is-a-mac*
   (setq ns-command-modifier 'meta)
   (setq ns-option-modifier 'super)
   (setq ns-right-command-modifier 'hyper)

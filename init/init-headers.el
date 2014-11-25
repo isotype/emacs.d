@@ -1,19 +1,17 @@
-;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Author: Anton Strilchuk <ype@env.sh>                             ;;
-;; URL: http://ype.env.sh                                           ;;
-;; Created: 16-06-2014                                              ;;
-;; Last-Updated: 15-08-2014                                         ;;
-;;  Update #: 2                                                     ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
-;;                                                                  ;;
-;; Filename: init-headers                                           ;;
-;; Version:                                                         ;;
-;; Description: Do not byte-compile this file                       ;;
-;;                                                                  ;;
-;; Package Requires: ()                                             ;;
+;;; Filename: init-headers                                         ;;;
+;;; Created: 16-11-2014                                            ;;;
+;;; Author: Anton Strilchuk <anton@env.sh>                         ;;;
+;;; URL: http://ype.env.sh                                         ;;;
+;;; Version:                                                       ;;;
+;;; Last-Updated: 16-11-2014                                       ;;;
+;;;  Update #: 5                                                   ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
+;;;                                                                ;;;
+;;; Description:                                                   ;;;
+;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (require-package 'header2)
 (require 'fold-dwim)
 (require 'header2)
@@ -49,24 +47,20 @@
       header-url-str "http://ype.env.sh"
       make-header-hook '(
                          ype/header-prefix-string
-                         ype/header-mode-line
                          ype/header-end-line
+                         ype/header-file-name
+                         ype/header-creation-date
                          ype/header-author
                          ype/header-url
-                         header-copyright
-                         ype/header-creation-date
+                         ype/header-version
                          ype/header-modification-date
                          ype/header-update-count
                          ype/header-modification-author
                          ype/header-blank
-                         ype/header-file-name
-                         ype/header-version
                          ype/header-description
-                         header-lib-requires
-                         ype/header-pkg-requires
                          ype/header-end-line
                          ;;TODO header-license
-                         ype/header-end-line
+                         header-eof
                          ))
 ;;; From: https://github.com/ahilsend/dotfiles/blob/master/.emacs.d/rc/rc-header2.el
 (defun ype/header-prefix-string ()
@@ -79,12 +73,12 @@
           (`conf-colon-mode  "##")
           (`conf-space-mode  "##")
           (`conf-unix-mode   "##")
-          (`emacs-lisp-mode  ";;")
+          (`emacs-lisp-mode  ";;;")
           (`erlang-mode      "%%")
           (`gitconfig-mode   "###")
           (`gitignore-mode   "##")
           (`haskell-mode     "---")
-          (`python-mode      "#")
+          (`python-mode      "###")
           (`js2-mode         "//")
           (`lua-mode         "---")
           (`sh-mode          "##")
@@ -129,9 +123,12 @@
   (ype/insert-aligned "Package Requires: (" (ype/find-req-pkg) ")"))
 
 (defun ype/header-description ()
-  (ype/insert-aligned "Description:")
+  (ype/insert-aligned " Description:")
   (setq return-to (+ 2 (point)))
   (ype/insert-aligned))
+
+(defun ype/vc-root-dir ()
+  (ype/insert-aligned " package: --- git root: " (vc-root-dir)))
 
 (defun ype/url-str ()
   (concat "URL: " header-url-str))
@@ -141,44 +138,19 @@
 (defun ype/header-version ()
   (ype/insert-aligned "Version: "))
 
+(defun ype/header-license ()
+  (ype/insert-aligned "License: See included LICENSE file for details")
+  (with-temp-buffer
+    (async-shell-command (concat "/usr/bin/licgen mit \'" user-full-name "\' \'<" user-mail-address ">\'") nil nil)))
+
+(defun ype/header-code ()
+  (ype/insert-aligned " Code:\n"))
+
 (defun ype/header-blank ()
   (ype/insert-aligned))
 
 (defun ype/header-end-line ()
   (insert (ype/fill-str (nth 0 (string-to-list header-prefix-string))) "\n"))
-
-;;;FIXME custom header license
-(setq header-license
-      "Distributed under an [MIT-style][license] license.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files \(the \"Software\"), to deal with
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-- Redistributions of source code must retain the above copyright notice, this
-  list of conditions and the following disclaimers.
-- Redistributions in binary form must reproduce the above copyright notice, this
-  list of conditions and the following disclaimers in the documentation and/or
-  other materials provided with the distribution.
-- Neither the names of the copyright holders, nor the names of the authors, nor
-  the names of other contributors may be used to endorse or promote products
-  derived from this Software without specific prior written permission.
-
-THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE CONTRIBUTORS
-OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
-
-\[license]: http://www.opensource.org/licenses/ncsa")
-
-(defun ype/header-license ()
-  "Insert license"
-  (ype/insert-aligned (split-string header-license)))
 
 ;;; Update header
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -219,5 +191,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
 (add-hook 'write-file-hooks 'auto-update-file-header)
 (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
 (add-hook 'c-mode-common-hook   'auto-make-header)
+
 
 (provide 'init-headers)
