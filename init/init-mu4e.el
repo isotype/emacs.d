@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 11-06-2014                                              ;;
-;; Last-Updated: 01-11-2014                                         ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 25-11-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-mu4e                                              ;;
 ;; Version:                                                         ;;
@@ -16,10 +16,11 @@
 (add-to-list 'load-path "/usr/local/Cellar/mu/HEAD/share/emacs/site-lisp/mu4e")
 (require-package 'offlineimap)
 (require 'mu4e)
+(require 'mu4e-contrib)
 
 ;; Needs Emacs Async Package from Github
 ;; for smtpmail-async
-(require-git-submodule 'emacs-async)
+;;(require-git-submodule 'emacs-async)
 
 ;; Not Working Yet
 ;; (require 'ype-network-manager)
@@ -31,6 +32,7 @@
 ;;`--------------------------
 
 (setq mail-user-agent 'mu4e-user-agent                           ; mu4e as default mail agent
+      read-mail-command 'mu4e
       mu4e-maildir "~/.mail/ilyfa.cc"                            ; set mu4e mail directory
       mu4e-drafts-folder "/drafts"                               ; set drafts folder
       mu4e-sent-folder   "/sent"                                 ; set sent folder
@@ -41,11 +43,12 @@
       mu4e-headers-skip-duplicates t                             ; skip duplicate email, great for gmail
       mu4e-headers-date-format "%A at %H:%M"                     ; date format
       mu4e-headers-leave-behavior 'apply                         ; apply all marks at quit
-      mu4e-html2text-command "w3m -dump -T text/html -cols 72"   ; html to text
+      mu4e-html2text-command 'mu4e-shr2text                      ; html to text
       mu4e-view-prefer-html nil                                    ; if text version available prefer it
-      mu4e-view-wrap-lines t                                     ; wrap long lines
       mu4e-compose-dont-reply-to-self t                          ; don't reply to myself
-      mail-signature ""                                           ; kill default signature
+      mail-signature nil                                           ; kill default signature
+      mu4e-compose-signature nil
+      mu4e-compose-signature-auto-include nil
       org-mu4e-convert-to-html t                                 ; automatic convert org-mode => html
       mu4e-sent-messages-behavior 'delete                        ; don't delete messages
       mu4e-compose-complete-only-personal t                      ; only personal messages get in the address book
@@ -54,13 +57,12 @@
       mu4e-html-renderer 'w3m                                    ; use w3m to render html in mail
       mu4e-view-show-images nil                                   ; auto show images
       mu4e-view-image-max-width 450                              ; set max image width
-      mu4e-compose-signature ""
-      mu4e-user-mail-address-list (list "anton@env.sh"           ;my email addresses
-                                        "ype@env.sh"
-                                        "anton@ilyfa.cc"
-                                        "anton@ilyfa.com"
-                                        "antonstrilchuk@gmail.com"
-                                        "anton@homeroom.org.uk"))
+      mu4e-user-mail-address-list '("anton@env.sh"
+                                    "ype@env.sh"
+                                    "anton@ilyfa.cc"
+                                    "anton@ilyfa.com"
+                                    "antonstrilchuk@gmail.com"
+                                    "anton@homeroom.org.uk"))
 
 (add-hook 'mu4e-compose-mode-hook 'turn-off-auto-fill)
 (remove-hook 'text-mode-hook 'turn-on-auto-fill)
@@ -90,7 +92,7 @@
                          (t "anton@env.sh")))))))
 
 ;; reply attribution line
-(setq message-citation-line-format "> On %A \[%d/%m/%y\]\n> %N wrote:"
+(setq message-citation-line-format "On %A \[%d/%m/%y\]\n%N wrote:"
       message-citation-line-function 'message-insert-formatted-citation-line)
 
 ;; headers in the overview
@@ -122,17 +124,20 @@
 (add-to-list 'mu4e-bookmarks '("flag:flagged"   "Flagged messages"           ?f) t)
 
 ;; See http://www.emacswiki.org/emacs/GnusGmail for more details
+(require-git-submodule 'emacs-async)
+(require 'async)
 (require 'smtpmail-async)
 (setq message-send-mail-function 'async-smtpmail-send-it
-      ;; message-send-mail-function 'smtpmail-send-it
-      smtpmail-starttls-credentials '(("smtp.mandrillapp.com" 587 nil nil))
-      smtpmail-auth-credentials '(("smtp.mandrillapp.com" 587 "anton@ilyfa.cc" nil))
+      send-mail-function 'async-smtpmail-send-it
+      smtpmail-stream-type 'starttls
+      ;;smtpmail-starttls-credentials '(("smtp.mandrillapp.com" 587 nil nil))
+      ;;smtpmail-auth-credentials '(("smtp.mandrillapp.com" 587 "anton@ilyfa.cc" nil))
       smtpmail-default-smtp-server "smtp.mandrillapp.com"
       smtpmail-smtp-server "smtp.mandrillapp.com"
       smtpmail-smtp-service 587
       smtpmail-debug-info t
       smtpmail-local-domain "ilyfa.cc"
-      sendmail-coding-system 'UTF-8
+      sendmail-coding-system 'utf-8
       smtpmail-queue-mail t
       smtpmail-queue-dir "/Users/anton/.mail/queue/cur")
 
@@ -234,8 +239,7 @@
           (defun ype/add-mandrill-tags ()
             "Add Mandrill tags to header."
             (save-excursion (message-add-header
-                             (concat "X-MC-Tags: mu4e\n"
-                                     "X-MC-Tags: \n")))))
+                             (concat "X-MC-Tags: mu4e\n")))))
 
 
 ;;,------------------------------
@@ -324,7 +328,6 @@
 ;;|  This file is not included with config
 ;;|  Not Required by Config
 ;;`---------------------------------------
-
 (require 'init-mu4e-sr)
 
 
@@ -333,10 +336,25 @@
 (require 'external-abook)
 (setq external-abook-command "contacts -lSf '%%e\t\"%%n\"' '%s'")
 (eval-after-load "message"
-      '(progn
-         (add-to-list 'message-mode-hook
-                      '(lambda ()
-                         (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))
+  '(progn
+     (add-to-list 'message-mode-hook
+                  '(lambda ()
+                     (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))
+
+
+;;HELM-MU, git fork:ype/helm-mu
+;; (require-git-submodule 'helm-mu t)
+;; (after-load 'helm-mu
+;;   (setq helm-mu-default-search-string "maildir:/INBOX")
+;;   (define-key ctrl-apos (kbd "m") 'helm-mu))
+
+
+;; Send HTML and Plain Text
+(defun mimedown ()
+  (interactive)
+  (save-excursion
+    (message-goto-body)
+    (shell-command-on-region (point) (point-max) "mimedown" nil t)))
 
 
 (provide 'init-mu4e)
