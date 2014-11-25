@@ -88,3 +88,10 @@ offlineimap.*
 /submodules/zenburn-theme
 /abbrev_defs
 /eproject.lst
+/backupEmacs_Lisp-docset.tgz
+/backupEmacs_Lisp-feed.xml
+/backupPython_3-docset.tgz
+/backupPython_3-feed.xml
+/.python-environments/
+/.elpa.bak/
+/helper-scripts/
