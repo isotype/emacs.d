@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;; Last-Updated: 31-10-2014                                         ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 17-11-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
 ;; Version: 0.0.1                                                   ;;
@@ -79,8 +79,8 @@
                                (sql . nil)
                                (sqlite . t)))
 
-;; (setq org-plantuml-jar-path
-;;       (expand-file-name "/Users/anton/.emacs.d/plantuml.jar"))
+(setq org-plantuml-jar-path
+      (expand-file-name "/usr/local/Cellar/plantuml/8002/plantuml.8002.jar"))
 
 
 ;;,-----------------------------------------------------------
@@ -337,13 +337,13 @@
 ;;| TODO Conf
 ;;`----------
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "NEXT(n)" "REVIEW(r@/!)" "WAITING(w@/!)" "|" "DONE(d)") ;; NORMAL
+      '((sequence "TODO(t)" "NEXT(n)" "REVIEW(r@/!)" "|" "DONE(d)" "WAITING(w@/!)") ;; NORMAL
         (sequence "BUG(B@/!)" "HOTFIX(H@/!)" "|" "FIXED(F@/!)" "STUCK(S@/!)")
         (sequence "OPEN(o)" "CLOSED(c)") ;; GitHub Issues
-        (sequence "EVENT(e)" "|" "ATTENDED(a)" "SKIPPED(u)")
-        (sequence "CALL(p)" "|" "CALLED(f)")
-        (sequence "REPLY(R@/!)" "|" "REPLIED(s@/!)")
-        (sequence "INVOICE(I@/!)" "PENDING(P@/!)" "|" "INVOICED(i@/!)" "CANCELLED(C@/!)")))
+        (sequence "EVENT(e)" "|" "WENT(a)" "SKIPPED(u)")
+        (sequence "CALL(k)" "|" "CALLED(l)")
+        (sequence "REPLY(R@/!)" "|" "SENT(s@/!)")
+        (sequence "INVOICE(i@/!)" "PENDING(p@/!)" "|" "FILED(f@/!)")))
 
 (setq org-todo-keyword-faces
       '(("TODO" . (:foreground "#a6ff99" :weight bold))
@@ -358,42 +358,52 @@
         ("OPEN" . (:foreground "#00FF7F" :weight bold))
         ("CLOSED" . (:foreground "#FF4500" :weight bold))
         ("EVENT" . (:foreground "#82CA82" :weight bold))
-        ("ATTENDED" . (:foreground "#8477AE" :weight bold))
+        ("WENT" . (:foreground "#8477AE" :weight bold))
         ("SKIPPED" . (:foreground "#FDEEA3" :weight bold))
         ("CALL" . (:foreground "#C71585" :weight bold))
         ("CALLED" . (:foreground "#FF4500" :weight bold))
         ("REPLY" . (:foreground "#FFC0CB" :weight bold))
-        ("REPLIED" . (:foreground "#B0C4DE" :weight bold))
+        ("SENT" . (:foreground "#B0C4DE" :weight bold))
         ("INVOICE" . (:foreground "#FFA07A" :weight bold))
         ("PENDING" . (:foreground "#FF6347" :weight bold))
-        ("INVOICED" . (:foreground "#40E0D0" :weight bold))
-        ("CANCELLED" . (:foreground "#FDA3A3" :weight bold))))
+        ("FILED" . (:foreground "#40E0D0" :weight bold))))
 
 ;; TAGS
 (setq org-tag-alist '((:startgroup . nil)
-                      ("@work" . ?W)
-                      ("@home" . ?H)
-                      ("@env" . ?E)
+                      ("@work" . ?q)
+                      (:grouptags . nil)
+                      ("admin" . ?w)
+                      ("past" . ?e)
+                      ("upcoming" . ?r)
+                      ("meeting" . ?t)
+                      ("flagged" . ?y)
+                      ("invoice" .?u)
+                      ("needs_reply" . ?i)
                       (:endgroup . nil)
 
-                      ;; GENERAL
-                      ("EVENT" . ?e)
-                      ("HABIT" . ?h)
-                      ("MEETING" . ?m)
-                      ("REPLY" . ?r)
-                      ("FLAGGED" . ?f)
-                      ("ADMIN" . ?a)
-                      ("NOTE" . ?n)
+                      (:startgroup . nil)
+                      ("@home" . ?a)
+                      (:grouptags . nil)
+                      ("note" . ?s)
+                      ("ledger" . ?d)
+                      ("health" . ?f)
+                      ("important" . ?g)
+                      ("URGENT" . ?h)
+                      (:endgroup . nil)
 
-                      ;; WORK
-                      ("HOMER" . ?1)
-                      ("CODA" . ?3)
-                      ("INVOICE" .?i)
+                      (:startgroup . nil)
+                      ("@habit" . ?z)
+                      (:grouptags . nil)
+                      ("notebook" . ?x)
+                      ("maths" . ?c)
+                      ("reading" . ?v)
+                      ("life" . ?b)
+                      (:endgroup . nil)
 
-                      ;; OTHER
-                      ("CRYPT" . ?C)
-                      ("PERSONAL" . ?p)
-                      ("MAJ_PROJ" . ?j)))
+                      (:startgroup . nil)
+                      ("@gcal" . nil)
+                      (:endgroup . nil)
+                      ))
 
 (setq org-fast-tag-selection-single-key (quote expert))
 (setq org-agenda-tags-todo-honor-ignore-options t)
@@ -479,14 +489,7 @@
 ;;`---------------------------
 
 (setq org-agenda-custom-commands
-      '(("c" . "Custom queries")
-        ("cd" "Upcoming deadlines" agenda ""
-         ((org-agenda-entry-types '(:deadline))
-          (org-agenda-ndays 1)
-          (org-deadline-warning-days 60)
-          (org-agenda-time-grid nil)))
-
-        ("n" "Next Task" todo "NEXT"
+      '(("n" "Next Task" todo "NEXT"
          ((org-agenda-files '("~/Dropbox/ORGS/gtd.org"))
           (org-agenda-overriding-header "Next Tasks")
           (org-agenda-overriding-columns-format "%55ITEM %35SCHEDULED %25DEADLINE")
@@ -495,11 +498,9 @@
           (org-agenda-todo-ignore-deadlines nil)
           (org-agenda-todo-ignore-with-date nil)
           (org-tags-match-list-sublevels t)
-          (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp "\\(:HABIT:\\)"))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp "\\(:habit:\\)"))
           (org-agenda-sorting-strategy
-           '(scheduled-up deadline-down todo-state-up category-keep))
-          ))
-
+           '(scheduled-up deadline-down todo-state-up category-keep))))
         ("u" "Meetings" todo "MEETING"
          ((org-agenda-overriding-header "Meeting")
           (org-agenda-overriding-columns-format "%30ITEM %SCHEDULED")
@@ -510,57 +511,50 @@
           (org-tags-match-list-sublevels t)
           (org-agenda-sorting-strategy
            '(scheduled-up todo-state-up category-keep))))
-
-        ("p" "Pending Payments" todo "PENDING"
-         ((org-agenda-overriding-header "Next Tasks")
-          (org-agenda-todo-ignore-scheduled nil)
-          (org-agenda-todo-ignore-deadlines nil)
-          (org-agenda-todo-ignore-with-date nil)
-          (org-tags-match-list-sublevels t)
-          (org-agenda-sorting-strategy
-           '(scheduled-up todo-state-up effort-up category-keep))))
-
         ("w" "Waiting Tasks" todo "WAITING"
          ((org-agenda-overriding-header "Waiting")
           (org-tags-match-list-sublevels nil)
           (org-agenda-sorting-strategy '(priority-down))))
-
+        ("g" "Google Calendar" alltodo ""
+         ((org-agenda-files '("~/Dropbox/ORGS/gcal.org"))
+          (org-agenda-ndays 31)
+          (org-agenda-time-grid nil)))
+        ("r" "Tasks to Refile" tags "@refile"
+         ((org-agenda-files '("~/Dropbox/ORGS/gcal.org" "~/Dropbox/ORGS/refile.org"))
+          (org-agenda-overriding-header "Tasks to Refile")
+          (org-tags-match-list-sublevels nil)))
+        ("c" . "Custom queries")
+        ("cd" "Upcoming deadlines" agenda ""
+         ((org-agenda-entry-types '(:deadline))
+          (org-agenda-ndays 1)
+          (org-deadline-warning-days 60)
+          (org-agenda-time-grid nil)))
         ("cx" "With deadline columns" todo "TODO"
          ((org-agenda-overriding-columns-format "%20ITEM %DEADLINE")
           (org-agenda-view-columns-initially t)))
-
-        ("r" "Tasks to Refile" tags "REFILE"
-         ((org-agenda-overriding-header "Tasks to Refile")
-          (org-tags-match-list-sublevels nil)))
-
         ("cc" "ALL WORK"
          ((tags-todo "@work"))
          ((org-agenda-compact-blocks t)))
-
-        ("ce" "ALL ENV"
-         ((tags-todo "@env"))
+        ("ce" "ALL HABITS"
+         ((tags-todo "@habits"))
          ((org-agenda-compact-blocks t)))
-
         ("cr" "ALL HOME"
          ((tags-todo "@home"))
          ((org-agenda-compact-blocks t)))
-
-        ("ca" "All Tasks" todo "NEXT"
+        ("cn" "ALL TASKS" todo "NEXT"
          ((org-agenda-todo-ignore-scheduled nil)
           (org-agenda-todo-ignore-deadlines nil)
           (org-agenda-todo-ignore-with-date nil)))
-
-        ("cN" "Notes" tags "NOTE"
+        ("ca" "Notes" tags "notes"
          ((org-agenda-overriding-header "Notes")
           (org-tags-match-list-sublevels t)))
-
         ("ch" "Daily habits"
          ((agenda ""))
          ((org-agenda-show-log t)
           (org-agenda-ndays 7)
           (org-agenda-log-mode-items '(state))
-          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":HABIT:"))))
-        ))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":habit:"))))))
+
 
 ;;,------
 ;;| DIARY
@@ -726,9 +720,39 @@
 ;; (require 'ox-opml)
 
 
+;;,----------
+;;| Org Drill
+;;`----------
+(require 'org-drill)
+(setq org-drill-use-visible-cloze-face-p t
+      org-drill-maximum-items-per-session 20
+      org-drill-maximum-duration 10
+      org-drill-scope `("~/Dropbox/ORGS/drill.org")
+      org-drill-save-buffers-after-drill-sessions-p nil
+      org-drill-spaced-repetition-algorithm 'sm5
+      org-drill-add-random-noise-to-intervals-p t
+      org-drill-adjust-intervals-for-early-and-late-repetitions-p t)
+
+(defun ype/ask-for-drill ()
+  (interactive)
+  (if (y-or-n-p "Drill me?")
+      (progn
+        (org-drill))
+    (progn
+      ;;FIXME: How do you set a named timer?
+      (if (y-or-n-p "Want me to ask you again in 20 mins?")
+          (progn
+            (message "Okay! I'll ask you again in 20 minutes"))
+        (progn
+          (cancel-timer 'ype/ask-for-drill)))
+      )))
+(run-at-time "20 min" 1800 'ype/ask-for-drill)
+
 ;;Save all org buffers 1 minute before every hour
 (run-at-time "00:59" 3600 'org-save-all-org-buffers)
 
+;;Disable C-\' Key
+(define-key org-mode-map (kbd "C-\'") nil)
 
 (provide 'init-org)
 ;;; init-org.el ends here
