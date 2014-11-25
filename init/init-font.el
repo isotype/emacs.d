@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 08-04-2014                                            ;;;
-;; Last-Updated: 01-11-2014                                         ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 25-11-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-font                                            ;;;
 ;;; Version:                                                       ;;;
@@ -62,9 +62,9 @@ by the :height face attribute."
 (global-set-key (kbd "H-\=") 'ype/increase-default-font-height)
 (global-set-key (kbd "H-\-") 'ype/decrease-default-font-height)
 
-(set-frame-font "PT Mono-15")
+(set-frame-font "Bitstream Vera Sans Mono-15")
 ;;(set-frame-font "Bitstream Vera Sans Mono-15")
-(setq default-frame-alist '((font . "PT Mono-15")))
+(setq default-frame-alist '((font . "Bitstream Vera Sans Mono-15")))
 
 
 
