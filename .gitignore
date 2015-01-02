@@ -95,3 +95,8 @@ offlineimap.*
 /.python-environments/
 /.elpa.bak/
 /helper-scripts/
+/newsticker/
+/init/textlint.log
+/init/textlint.st
+/projectile.cache
+/snippets
