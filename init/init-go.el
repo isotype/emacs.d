@@ -3,9 +3,9 @@
 ;; Author: Anton Strilchuk <anton@env.sh>                           ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-11-2014                                              ;;
-;; Last-Updated: 16-11-2014                                         ;;
-;;  Update #: 10                                                    ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 12-12-2014                                       ;;;
+;;;  Update #: 12                                                  ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-go                                                ;;
 ;; Version:                                                         ;;
@@ -35,6 +35,9 @@
 
 (require-package 'go-eldoc)
 (add-hook 'go-mode-hook 'go-eldoc-setup)
+
+;; Org-Mode GOlang
+(require-git-submodule 'ob-go t)
 
 
 (provide 'init-go)

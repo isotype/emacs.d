@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 25-05-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;;; Last-Updated: 30-11-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-javascript                                      ;;;
 ;;; Version:                                                       ;;;
@@ -41,7 +41,7 @@
 
 ;; js2-mode
 (after-load 'js2-mode
-  (add-hook 'js2-mode-hook '(lambda () (setq mode-name "JS2"))))
+  (add-hook 'js2-mode-hook (lambda () (setq mode-name "JS2"))))
 
 (setq js2-use-font-lock-faces t
       js2-mode-must-byte-compile nil

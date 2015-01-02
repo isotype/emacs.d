@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 25-05-2014                                            ;;;
-;; Last-Updated: 13-08-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;;; Last-Updated: 08-12-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-elpa                                            ;;;
 ;;; Version:                                                       ;;;
@@ -12,29 +12,11 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Find and load the correct package.el
-;; When switching between Emacs 23 and 24, we always use the bundled package.el in Emacs 24
-(let ((package-el-site-lisp-dir
-       (expand-file-name "site-lisp/package" user-emacs-directory)))
-  (when (and (file-directory-p package-el-site-lisp-dir)
-             (> emacs-major-version 23))
-    (message "Removing local package.el from load-path to avoid shadowing bundled version")
-    (setq load-path (remove package-el-site-lisp-dir load-path))))
-
 (require 'package)
-;;; Standard package repositories
-;;(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-
-;; We include the org repository for completeness, but don't normally
-;; use it.
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-
-(when (< emacs-major-version 24)
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-
-;;; Also use Melpa for most packages
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
 ;; If gpg cannot be found, signature checking will fail, so we
 ;; conditionally enable it according to whether gpg is available. We
@@ -63,6 +45,7 @@ re-downloaded in order to locate PACKAGE."
 (package-initialize)
 
 (require-package 'fullframe)
+(require 'fullframe)
 (fullframe list-packages quit-window t)
 
 (provide 'init-elpa)

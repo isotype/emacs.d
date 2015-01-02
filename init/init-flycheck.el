@@ -2,7 +2,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-04-2014                                            ;;;
-;;; Last-Updated: 16-11-2014                                       ;;;
+;;; Last-Updated: 17-12-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-flycheck                                        ;;;
@@ -10,9 +10,7 @@
 ;;; Description:                                                   ;;;
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (require-package 'flycheck)
-(require-package 'flycheck-pos-tip)
 (add-hook 'after-init-hook 'global-flycheck-mode)
 
 ;; Override default flycheck triggers
@@ -32,11 +30,6 @@
 (defun sanityinc/flycheck-maybe-display-errors (errors)
   (unless (sanityinc/flycheck-errors-visible-p)
     (flycheck-display-error-messages errors)))
-
-(setq flycheck-display-errors-function 'flycheck-pos-tip-error-messages)
-
-(global-set-key (kbd "M-2") 'flycheck-next-error)
-(global-set-key (kbd "M-1") 'flycheck-previous-error)
 
 ;; Add virtualenv support for checkers
 (defadvice flycheck-check-executable
@@ -61,7 +54,7 @@
 
 (add-hook 'python-mode-hook 'flycheck-mode)
 ;;(add-to-list 'flycheck-disabled-checkers 'python-flake8)
-(add-hook 'python-mode-hook #'(lambda () (setq flycheck-checker 'python-pylint)))
+(add-hook 'python-mode-hook (lambda () (setq flycheck-checker 'python-pylint)))
 
 
 ;;,------------------
@@ -70,6 +63,11 @@
 (after-load 'flycheck
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
-
+(require-package 'flycheck-tip)
+
+(after-load 'flycheck
+  (require 'flycheck-tip)
+  (setq flycheck-tip-avoid-show-func nil)
+  (global-set-key (kbd "M-1") 'flycheck-tip-cycle))
 
 (provide 'init-flycheck)

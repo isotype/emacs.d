@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-04-2014                                            ;;;
-;; Last-Updated: 03-11-2014                                         ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 29-12-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-latex                                           ;;;
 ;;; Version:                                                       ;;;
@@ -66,22 +66,23 @@
 (require 'ox-latex)
 (require 'ox-html)
 
-(setq org-export-with-sub-superscripts '{})
-(setq org-export-with-smart-quotes t)
+(setq org-export-with-sub-superscripts '{}
+      org-export-with-smart-quotes t
+      org-latex-create-formula-image-program 'imagemagick
+      org-latex-image-default-width "")
 
-(setq org-html-preamble nil)
-(setq org-html-postamble nil)
-(setq org-html-doctype "html5")
-(setq org-html-html5-fancy t)
-(setq org-html-head-extra
-      (concat
-       "<style type=\"text/css\">\n"
-       "body { font-family: sans-serif; font-size: 1em; line-height: 1.5; color: #222222 }"
-       "table { border: 1px solid black; }"
-       "td { padding: 2px 4px; }"
-       "</style>\n"))
+(setq org-html-preamble nil
+      org-html-postamble nil
+      org-html-doctype "html5"
+      org-html-html5-fancy t
+      org-html-head-extra
+      (concat "<style type=\"text/css\">\n"
+              "body { font-family: sans-serif; font-size: 1em; line-height: 1.5; color: #222222 }"
+              "table { border: 1px solid black; }"
+              "td { padding: 2px 4px; }"
+              "</style>\n")
 
-(setq org-html-mathjax-options (quote ((path "http://cdn.mathjax.org/mathjax/latest/MathJax.js")
+      org-html-mathjax-options (quote ((path "http://cdn.mathjax.org/mathjax/latest/MathJax.js")
                                        (scale "100")
                                        (align "center")
                                        (indent "2em")
@@ -96,8 +97,9 @@
 (setq org-latex-pdf-process
       '("xelatex -shell-escape -interaction nonstopmode %f; bibtex %f; xelatex -shell-escape -interaction nonstopmode %f; xelatex -shell-escape -interaction nonstopmode %f"))
 
-(setq org-latex-listings 'listings
-      org-latex-listings-options
+(setq org-latex-listings 'minted)
+
+(setq org-latex-listings-options
       '(("basicstyle" "\\listingsfont")
         ("xleftmargin" "0.7cm")
         ("xrightmargin" "0.5cm")
@@ -109,9 +111,23 @@
         ("frame" "leftline")
         ("rulesepcolor" "\\color{gray}")))
 
-(add-to-list 'org-latex-classes
-             '("yarticle"
-               "\\documentclass[11pt,a4paper, titlepage]{article}
+(setq org-latex-minted-options
+      '(("mathescape" "")
+        ("linenos" "")
+        ("numbersep" "6pt")
+        ("frame" "lines")
+        ("framesep" "2mm")
+        ("xleftmargin" "0.7cm")
+        ("xrightmargin" "0.5cm")
+        ("numberblanklines" "false")
+        ("style" "native")
+        ("python3" "true")
+        ))
+
+(customize-set-variable
+ 'org-latex-classes
+ '(("article"
+    "\\documentclass[11pt,a4paper, titlepage]{article}
 \\usepackage[math-style=TeX,vargreek-shape=unicode]{unicode-math}
 \\newfontfamily\\setmainfont[%
 Mapping=tex-text,
@@ -119,6 +135,7 @@ Color=textcolor,
 Path=/Users/anton/Documents/Fonts/a2d/B/OpenType/]{BaskervilleBook-Regular.otf}
 \\newfontfamily\\listingsfont[Scale=0.8, Path=/Users/anton/Library/Fonts/]{FiraMonoOT-Regular.otf}
 \\setmathfont{xits-math.otf}
+\\usepackage{amssymb,amsmath}
 \\usepackage{tikz}
 \\usepackage{graphicx}
 \\usepackage{geometry}
@@ -165,9 +182,67 @@ Path=/Users/anton/Documents/Fonts/a2d/B/OpenType/]{BaskervilleBook-Regular.otf}
 ("\\subsection{%s}" . "\\subsection*{%s}")
 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
-
+;;TODO: MINTED Fancy Caption
+("article-minted"
+ "\\documentclass[11pt,a4paper, titlepage]{article}
+\\usepackage[math-style=TeX,vargreek-shape=unicode]{unicode-math}
+\\newfontfamily\\setmainfont[%
+Mapping=tex-text,
+Color=textcolor,
+Path=/Users/anton/Documents/Fonts/a2d/B/OpenType/]{BaskervilleBook-Regular.otf}
+\\setmathfont{xits-math.otf}
+\\usepackage{amssymb,amsmath}
+\\usepackage{tikz}
+\\usepackage{graphicx}
+\\usepackage{geometry}
+\\usepackage{color}
+\\usepackage{xcolor}
+\\definecolor{lightgrey}{gray}{0.8}
+
+\\usepackage{minted}
+\makeatletter
+\minted@define@extra{label}
+\makeatother
+
+\\usepackage{hyperref}
+\\usepackage{enumitem}
+\\setitemize{noitemsep}
+
+\\setlist[itemize,1]{label=\\textbullet}
+\\setlist[itemize,2]{label=\\textopenbullet}
+\\setlist[itemize,3]{label=\\textbullet}
+\\setlist[itemize,4]{label=\\textopenbullet}
+
+\\usepackage{fancyhdr}
+\\setlength{\\headheight}{15pt}
+\\pagestyle{fancy}
+\\renewcommand{\\sectionmark}[1]{ \\markright{#1}{} }
+\\fancyhf{}
+\\fancyhead[LE,RO]{\\thepage}
+\\fancyhead[RE]{\\textit{ \\nouppercase{\\leftmark}} }
+\\fancyhead[LO]{\\textit{ \\nouppercase{\\rightmark}} }
+
+\\fancypagestyle{plain}{ %
+  \\fancyhf{} % remove everything
+  \\renewcommand{\\headrulewidth}{0pt} % remove lines as well
+  \\renewcommand{\\footrulewidth}{0pt}
+}
+
+\\usepackage{caption}
+\\DeclareCaptionFont{white}{\\color{white}}
+\\DeclareCaptionFormat{minted}{\\colorbox{gray}{\\parbox{\\textwidth}{#1#2#3}}}
+\\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+
+[NO-PACKAGES]
+[NO-DEFAULT-PACKAGES]"
+ ("\\section{%s}" . "\\section*{%s}")
+ ("\\subsection{%s}" . "\\subsection*{%s}")
+ ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+ ("\\paragraph{%s}" . "\\paragraph*{%s}")
+ ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+
 
 (provide 'init-latex)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

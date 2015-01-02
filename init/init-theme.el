@@ -3,18 +3,19 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;; Last-Updated: 16-10-2014                                         ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 02-01-2015                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-theme                                           ;;;
 ;;; Description: Setup for: Color-theme, Powerline, and tabbars    ;;;
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'init-theme)
 ;;;Powerline
 (require-git-submodule 'powerline t)
 (powerline-vim-theme)
-
+(package-install 'sublime-themes)
 (add-to-list 'load-path (expand-file-name "~/Dropbox/ype/emacs-packages/36-symbols-theme/"))
 (require '36-symbols-theme)
 
@@ -27,6 +28,7 @@
 
 ;;(setq light-theme '36-symbols-light)
 (setq dark-theme '36-symbols)
+(setq light-theme 'mccarthy)
 
 (defun light-level ()
   "Access the level of light detected by the LMU sensor on Macbook Pros"
@@ -37,10 +39,10 @@
   (cond ((= ambient-light 1)
          (if (> (light-level) direct-sun)
              (progn
-               (load-theme light-theme t)
+               (enable-theme light-theme)
                (disable-theme dark-theme))
            (progn
-             (load-theme dark-theme t)
+             (enable-theme dark-theme)
              (disable-theme light-theme))))
         ((= ambient-light 0)
          (message "LMU Theme Switcher Disabled"))))
@@ -54,14 +56,10 @@
   (interactive)
   (setq ambient-light 0))
 
-(load-theme dark-theme t)
 ;;,-------------------------------------------------
 ;;| Change theme based on OSX ambient light sensor
 ;;| BUG: Occasionally Crashes Emacs
 ;;|
 ;;| eg. check light sensor every hour
-;;| (run-at-time 0 (* 60 60) 'adjust-theme-to-light)
 ;;`-------------------------------------------------
-
-
-(provide 'init-theme)
+(run-at-time 0 (* 60 60) 'adjust-theme-to-light)

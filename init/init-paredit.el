@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 03-04-2014                                            ;;;
-;; Last-Updated: 16-11-2014                                         ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 30-11-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-paredit                                         ;;;
 ;;; Description: Config for Paredit (From: github:purcell)         ;;;
@@ -67,7 +67,7 @@
 ;; Use paredit with autopair
 ;; (require-package 'autopair)
 ;; (add-hook 'python-mode-hook
-;;           #'(lambda ()
+;;           #(lambda ()
 ;;               (setq autopair-handle-action-fns
 ;;                     (list #'autopair-default-handle-action
 ;;                           #'autopair-python-triple-quote-action))))

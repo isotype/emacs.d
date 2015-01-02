@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;;; Last-Updated: 17-11-2014                                       ;;;
+;;; Last-Updated: 27-12-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
@@ -13,11 +13,11 @@
 ;; Package Requires: ()                                             ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;,---------
-;;| PACKAGES
-;;`---------
+(provide 'init-org)
 
+;;-------------------
+;; PACKAGES
+;;-------------------
 ;; ELPA Check if Installed and Require
 (require-package 'org)
 (require-package 'org-plus-contrib)
@@ -31,7 +31,7 @@
 (require 'org-location-google-maps)
 (require 'org-habit)
 (require 'ox-pandoc)
-
+
 ;;Give buffers in different major-modes
 ;;the 'look-and-feel' of Org-mode buffers
 ;;Org-style comment editing
@@ -82,7 +82,7 @@
 (setq org-plantuml-jar-path
       (expand-file-name "/usr/local/Cellar/plantuml/8002/plantuml.8002.jar"))
 
-
+
 ;;,-----------------------------------------------------------
 ;;| Let Emacs Find Org-files on multiple systems
 ;;| Sets different directory location depending on system-name
@@ -93,11 +93,12 @@
 (setq org-directory "~/Dropbox/ORGS/"
       org-agenda-files '("~/Dropbox/ORGS/gtd.org"
                          "~/Dropbox/ORGS/gcal.org"
-                         "~/Dropbox/ORGS/refile.org")
+                         "~/Dropbox/ORGS/refile.org"
+                         "~/Dropbox/org-project-todos/projects.org")
       org-archive-location (concat org-directory "archive/%s_archive::")
       org-default-notes-file (concat org-directory "refile.org"))
 
-
+
 ;;,------------------------
 ;;| Global File Preferences
 ;;`------------------------
@@ -132,7 +133,7 @@
       org-lowest-priority ?E)
 
 (setq org-habit-graph-column 50)
-(run-at-time "06:00" 86400 '(lambda () (setq org-habit-show-habits t)))
+(run-at-time "06:00" 86400 (lambda () (setq org-habit-show-habits t)))
 
 ;;Change Org Bullets
 (font-lock-add-keywords
@@ -148,7 +149,7 @@
 
 ;;Custom Defaults
 (setq org-upcoming-deadline '(:foreground "blue" :weight bold))
-
+
 ;;,-------
 ;;| AGENDA
 ;;`-------
@@ -190,7 +191,7 @@
       org-agenda-skip-scheduled-if-done t  ;; Remove completed scheduled tasks from the agenda view
       org-agenda-skip-timestamp-if-done t) ;; Remove completed items from search results
 
-
+
 
 (setq org-id-method 'uuid                          ;;UIDs
       org-show-following-heading t                 ;;SEARCH
@@ -205,7 +206,7 @@
       org-reverse-note-order nil                     ;;show notes at top
       org-agenda-log-mode-items '(closed state))
 
-
+
 ;;,------
 ;;| CLOCK
 ;;`------
@@ -234,7 +235,7 @@
                        :max-gap 0
                        :gap-ok-around ("4:00"))))
 
-
+
 ;;,-----------------
 ;;| DEFAULT TASK IDs
 ;;`-----------------
@@ -242,7 +243,7 @@
 (defvar ype/default-email-id "AC4B5743-4FDC-4886-9084-D2F1AA29047E")
 (defvar ype/default-elisp-id "8FE1162A-C5E3-4B7C-B0B6-9B3EDED7B477")
 
-
+
 
 (defun ype/clock-in-default-task-as-default ()
   (interactive)
@@ -264,7 +265,7 @@
   (interactive)
   (org-map-entries 'org-archive-subtree "/DONE" 'file))
 
-
+
 ;;,----------
 ;;| iCalendar
 ;;`----------
@@ -280,7 +281,7 @@
 ;;       org-icalendar-use-plain-timestamp nil
 ;;       org-icalendar-timezone "Europe/London")
 
-
+
 ;;,----------------
 ;;| REFILE Settings
 ;;`----------------
@@ -308,7 +309,7 @@
 ;; Use the current window for indirect buffer display
 (setq org-indirect-buffer-display 'current-window)
 
-
+
 ;;Change List Bullets
 (setq org-list-demote-modify-bullet (quote (("+" . "-")
                                             ("*" . "-")
@@ -332,7 +333,7 @@
       '(("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
         ("STYLE_ALL" . "habit")))
 
-
+
 ;;,----------
 ;;| TODO Conf
 ;;`----------
@@ -408,7 +409,7 @@
 (setq org-fast-tag-selection-single-key (quote expert))
 (setq org-agenda-tags-todo-honor-ignore-options t)
 
-
+
 ;;,-------------
 ;;| Capture Conf
 ;;`-------------
@@ -483,7 +484,7 @@
          "* %^{Title}\n1. *What did you code*\n%^{What did you code?}\n2. *How long did you code for*\n%^{How long did you code for?}\n3. *Where did you code*\n%^{Where did you code?}\n4. *Why did you code this*\n%^{Why did you code this?}")
         ))
 ;;END Templates
-
+
 ;;,---------------------------
 ;;| ORG AGENDA CUSTOM COMMANDS
 ;;`---------------------------
@@ -555,7 +556,7 @@
           (org-agenda-log-mode-items '(state))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":habit:"))))))
 
-
+
 ;;,------
 ;;| DIARY
 ;;`------
@@ -575,14 +576,14 @@
               (save-excursion
                 (re-search-backward "^[0-9]+:[0-9]+-[0-9]+:[0-9]+ " nil t))
               (insert (match-string 0)))))
-
+
 ;;,----------
 ;;| AUTOFILLS
 ;;`----------
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
-
+
 ;;,---------------------------------------
 ;;| CUSTOM Functions by Bernt Hansen (bh/)
 ;;`---------------------------------------
@@ -619,9 +620,16 @@
 
 (setq org-export-with-timestamps nil)
 
-
-;;,---------
-;;| ORG GCAL
+
+;;Org Structure Blocks
+(add-to-list 'org-structure-template-alist '("cp" "#+BEGIN_SRC python :results output both :session\n?\n#+END_SRC" "<src lang=\"python\">\n?\n</src>"))
+(add-to-list 'org-structure-template-alist '("eq" "\\begin{equation}\n?\n\\end{equation}"))
+(add-to-list 'org-structure-template-alist '("eqa" "\\begin{equation}\n \\begin{array}{}\n?\n \\end{array}\n\\end{equation}"))
+
+
+;;
+;; ;;,---------
+;; ;;| ORG GCAL
 ;;`---------
 ;; NOTE: ORG-GCAL Needs the occasional refresh, use org-gcal-refresh-token
 (require-package 'org-gcal)
@@ -636,7 +644,7 @@
 ;;           (string-equal system-name "fennec.lan")))
 (setq org-gcal-file-alist '(("anton@ilyfa.cc" .  "~/Dropbox/ORGS/gcal.org")))
 (run-at-time "30 min" 3600 'org-gcal-fetch)
-
+
 ;;,------------
 ;;| TaskJuggler
 ;;`------------
@@ -647,14 +655,14 @@
 ;; :weekstarts: monday
 ;; :workinghours: mon - fri 9:00 - 13:00, 14:00 - 18:00
 ;; :workinghours: sat, sun off
-
+
 ;;,---------
 ;;| RevealJS
 ;;`---------
 ;; DISABLE: Use Seldom
 ;; (require-package 'ox-reveal)
 ;; (setq org-reveal-root "file:///Users/anton/git_repos/reveal.js")
-
+
 ;;,-----------------------
 ;;| APPT and Notifications
 ;;`-----------------------
@@ -696,13 +704,14 @@
 
 ;; ;; This is at the end of my .emacs - so appointments are set up when Emacs starts
 ;; (org-agenda-to-appt)
-
+
 ;;,-------------
 ;;| Org Mac Link
 ;;`-------------
 (require-package 'org-mac-link)
-;;(global-set-key (kbd "\C-x l g") 'org-mac-grab-link)
-
+(require 'org-mac-link)
+(define-key ctrl-apos (kbd "a") 'org-mac-grab-link)
+
 ;;,----------------
 ;;| Org Box
 ;;| [[https://github.com/yasuhito/orgbox][yasuhito/orgbox]]
@@ -710,7 +719,7 @@
 (require-package 'orgbox)
 (require 'orgbox)
 
-
+
 ;; ;;,---------
 ;; ;;| Org OPML
 ;; ;;`---------
@@ -719,7 +728,6 @@
 ;; (load-library "org-opml")
 ;; (require 'ox-opml)
 
-
 ;;,----------
 ;;| Org Drill
 ;;`----------
@@ -746,13 +754,62 @@
         (progn
           (cancel-timer 'ype/ask-for-drill)))
       )))
-(run-at-time "20 min" 1800 'ype/ask-for-drill)
-
+;;(run-at-time "20 min" 1800 'ype/ask-for-drill)
+
+;; Jump to Org Agenda when Idle
+(defun jump-to-org-agenda ()
+  (interactive)
+  (let ((buf (get-buffer "*Org Agenda*"))
+        wind)
+    (if buf
+        (if (setq wind (get-buffer-window buf))
+            (select-window wind)
+          (if (called-interactively-p 'any)
+              (progn
+                (select-window (display-buffer buf t t))
+                (org-fit-window-to-buffer)
+                ;; (org-agenda-redo)
+                )
+            (with-selected-window (display-buffer buf)
+              (org-fit-window-to-buffer)
+              ;; (org-agenda-redo)
+              )))
+      (call-interactively 'org-agenda-list))))
+
+(run-with-idle-timer 300 t 'jump-to-org-agenda)
+
+;; Send to bottom of list
+(defun ype:org-send-to-bottom-of-list ()
+  "Send the current line to the bottom of the list."
+  (interactive)
+  (beginning-of-line)
+  (let ((kill-whole-line t))
+    (save-excursion
+      (kill-line 1)
+      (org-end-of-item-list)
+      (yank))))
+
 ;;Save all org buffers 1 minute before every hour
 (run-at-time "00:59" 3600 'org-save-all-org-buffers)
 
 ;;Disable C-\' Key
 (define-key org-mode-map (kbd "C-\'") nil)
-
-(provide 'init-org)
+(define-key global-map (kbd "H-a") 'org-agenda)
+(define-key global-map (kbd "H-i") 'org-clock-in)
+(define-key global-map (kbd "H-o") 'org-clock-out)
+(define-key global-map (kbd "H-f") 'org-refile)
+(define-key global-map (kbd "H-c l") 'org-store-link)
+(define-key global-map (kbd "H-c i") 'org-insert-link)
+(define-key global-map (kbd "H-c a") 'org-archive-set-tag)
+(define-key global-map (kbd "H-c o") 'org-refile-goto-last-stored)
+(define-key global-map (kbd "H-c c") 'org-capture)
+(define-key global-map (kbd "H-c p") 'ype/phone-call)
+(define-key global-map (kbd "H-c d") 'ype/clock-in-default-task-as-default)
+(define-key global-map (kbd "H-c m") 'ype/clock-in-default-email)
+(define-key global-map (kbd "H-c E") 'ype/clock-in-default-elisp)
+(define-key global-map (kbd "H-c s") 'ype/clock-in-default-school)
+(define-key global-map (kbd "H-c t") 'org-clock-select-task)
+(define-key global-map (kbd "H-c e") 'org-set-effort)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init-org.el ends here

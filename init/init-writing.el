@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 03-05-2014                                            ;;;
-;; Last-Updated: 18-09-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;;; Last-Updated: 15-12-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-writing                                         ;;;
 ;;; Version:                                                       ;;;
@@ -31,7 +31,7 @@
 ;;`---------
 (require-git-submodule 'textlint t)
 (setq textlint-location-textlint "~/.emacs.d/submodules/textlint/")
-(global-set-key (kbd "<f2>") 'textlint-run)
+(define-key ctrl-apos [?t ?l] 'textlint-run)
 
 ;;,--------------------------------------------------
 ;;| Requires: LanguageTool from http://bit.ly/1yihDih
@@ -48,5 +48,21 @@
 (global-set-key "\C-x44" 'langtool-show-message-at-point)
 (global-set-key "\C-x4c" 'langtool-correct-buffer)
 
-
+;;Syntax analysis - Emacs minor mode
+(require-package 'wordsmith-mode)
+;;(add-hook 'mu4e-compose-mode-hook 'wordsmith-mode)
+
+;; Predictive Text
+(require-git-submodule 'predictive t)
+(require 'predictive)
+(set-default 'predictive-auto-add-to-dict t)
+(setq predictive-main-dict 'rpg-dictionary
+      predictive-auto-learn t
+      predictive-add-to-dict-ask nil
+      predictive-use-auto-learn-cache nil
+      predictive-which-dict t)
+
+(when 'predictive-mode
+  (define-key ctrl-apos [?t ?p] 'complete-predictive-ispell))
+
 (provide 'init-writing)

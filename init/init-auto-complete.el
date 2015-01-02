@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;; Last-Updated: 11-11-2014                                         ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 17-12-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-auto-complete                                   ;;;
 ;;; Version:                                                       ;;;
@@ -12,12 +12,14 @@
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'popup)
 (require-package 'auto-complete)
 (require 'auto-complete-config)
 (global-auto-complete-mode t)
 (diminish 'auto-complete-mode " ⌦")
+(setq-default ac-quick-help-prefer-pos-tip nil)
 (setq-default ac-expand-on-auto-complete nil)
-(setq-default ac-auto-start nil)
+(setq-default ac-auto-start t)
 (setq-default ac-dwim nil) ; To get pop-ups with docs even if a word is uniquely completed
 ;;(define-key ac-complete-mode-map "\r" nil)
 ;;(define-key ac-complete-mode-map [return] nil)
@@ -38,8 +40,8 @@
 ;; hook AC into completion-at-point
 (defun sanityinc/auto-complete-at-point ()
   (when (and (not (minibufferp))
-       (fboundp 'auto-complete-mode)
-       auto-complete-mode)
+             (fboundp 'auto-complete-mode)
+             auto-complete-mode)
     (auto-complete)))
 
 (defun sanityinc/never-indent ()
@@ -55,14 +57,13 @@
 (set-default 'ac-sources
              '(ac-source-imenu
                ac-source-dictionary
+               ac-source-yasnippet
                ac-source-words-in-buffer
                ac-source-words-in-same-mode-buffers
-               ;; ac-source-words-in-all-buffer
-               ))
+               ac-source-semantic))
 
 (dolist (mode '(magit-log-edit-mode
                 log-edit-mode
-                org-mode
                 text-mode
                 haml-mode
                 git-commit-mode
@@ -88,9 +89,6 @@
                 inferior-emacs-lisp-mode))
   (add-to-list 'ac-modes mode))
 
-(require-package 'ac-anaconda)
-(add-hook 'python-mode-hook 'ac-anaconda-setup)
-
 ;; Exclude very large buffers from dabbrev
 (defun sanityinc/dabbrev-friend-buffer (other-buffer)
   (< (buffer-size other-buffer) (* 1 1024 1024)))
@@ -108,9 +106,9 @@
   (let* ((thing (symbol-at-point))
          (help-xref-following t)
          (description (with-temp-buffer
-                           (help-mode)
-                           (help-xref-interned thing)
-                           (buffer-string))))
+                        (help-mode)
+                        (help-xref-interned thing)
+                        (buffer-string))))
     (popup-tip description
                :point (point)
                :around t
@@ -119,5 +117,38 @@
                :margin t)))
 
 (global-set-key (kbd "H-x h") 'describe-thing-in-popup)
+
+;;,----
+;;| YAS
+;;`----
+(require-package 'yasnippet)
+
+(defun yas-popup-isearch-prompt (prompt choices &optional display-fn)
+  (when (featurep 'popup)
+    (popup-menu*
+     (mapcar
+      (lambda (choice)
+        (popup-make-item
+         (or (and display-fn (funcall display-fn choice)) choice)
+         :value choice))
+      choices)
+     :prompt prompt
+     ;; start isearch mode immediately
+     :isearch t)))
+
+(add-hook 'prog-mode-hook (lambda () (yas-minor-mode)))
+(setq yas-prompt-functions '(yas-popup-isearch-prompt yas-ido-prompt))
+
+;; -----------------------------------------------------------------------------
+;;| YCMD
+;; -----------------------------------------------------------------------------
+;; (add-to-list 'load-path
+;;              (expand-file-name "submodules/ycmd" user-emacs-directory))
+;; (require 'ycmd)
+;; (require 'company-ycmd)
+;; (ycmd-setup)
+;; (set-variable 'ycmd-server-command '("python" "/Users/anton/.vim/bundle/ycmd"))
+
+;; -----------------------------------------------------------------------------
 
 (provide 'init-auto-complete)

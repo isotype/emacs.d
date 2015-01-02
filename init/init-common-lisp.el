@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 10-04-2014                                            ;;;
-;;; Last-Updated: 25-05-2014                                       ;;;
-;;;   By: Anton Strilchuk <anton@isoty.pe>                         ;;;
+;;; Last-Updated: 18-12-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-common-lisp                                     ;;;
 ;;; Version:                                                       ;;;
@@ -20,6 +20,7 @@
                               (normal-mode))))
 
 (after-load 'slime
+  (load (expand-file-name "~/quicklisp/slime-helper.el"))
   (when (executable-find "sbcl")
     (add-to-list 'slime-lisp-implementations
                  '(sbcl ("sbcl") :coding-system utf-8-unix)))

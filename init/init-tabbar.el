@@ -1,8 +1,7 @@
 ;;Tabs
 (require-package 'tabbar)
-(require-package 'tabbar-ruler)
-(tabbar-install-faces t)
-
+(eval-after-load 'init-appearance
+  (require-package 'tabbar-ruler))
 ;; (defun tabbar-buffer-groups-by-dir ()
 ;;         "Put all files in the same directory into the same tab bar"
 ;;         (with-current-buffer (current-buffer)
@@ -125,7 +124,7 @@ With a prefix arg, changes to grouping by major mode."
             (concat " [" (concat ad-return-value "] "))
           (concat " " (concat ad-return-value " ")))))
 
-(tabbar-ruler-group-user-buffers)
+;;(tabbar-ruler-group-user-buffers)
 
 
 (provide 'init-tabbar)

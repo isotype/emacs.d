@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 07-04-2014                                            ;;;
-;; Last-Updated: 07-10-2014                                         ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 14-12-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-git                                             ;;;
 ;;; Description: Git Setup                                         ;;;
@@ -31,14 +31,13 @@
 ;; quickly open magit on any one of your projects.
 ;;Magit
 (global-set-key (kbd "H-s") 'magit-status)
-(global-set-key (kbd "H-x l") 'magit-log)
+(global-set-key (kbd "H-l") 'magit-log)
 
 (after-load 'magit
   (define-key magit-status-mode-map (kbd "C-M-<up>") 'magit-goto-parent-section))
 
 (global-set-key (kbd "H-x b") 'magit-blame-mode)
 
-(require-package 'fullframe)
 (after-load 'magit
   (defadvice magit-status
       (around magit-fullscreen activate)

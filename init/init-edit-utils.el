@@ -1,32 +1,30 @@
-;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Author: Anton Strilchuk <ype@env.sh>                             ;;
-;; URL: http://ype.env.sh                                           ;;
-;; Created: 16-06-2014                                              ;;
-;;; Last-Updated: 22-11-2014                                       ;;;
-;;;  Update #: 121                                                 ;;;
+;;; Author: Anton Strilchuk <ype@env.sh>                           ;;;
+;;; URL: http://ype.env.sh                                         ;;;
+;;; Created: 16-06-2014                                            ;;;
+;;; Last-Updated: 27-12-2014                                       ;;;
+;;;  Update #: 141                                                 ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
-;;                                                                  ;;
-;; Filename: init-edit-utils                                        ;;
-;; Version:                                                         ;;
-;; Description:                                                     ;;
-;;                                                                  ;;
-;; Package Requires: ()                                             ;;
+;;;                                                                ;;;
+;;; Filename: init-edit-utils                                      ;;;
+;;; Version:                                                       ;;;
+;;; Description:                                                   ;;;
+;;;                                                                ;;;
+;;; Package Requires: ()                                           ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (require-package 'unfill)
 (require-package 'whole-line-or-region)
 
 (when (fboundp 'electric-pair-mode)
   (electric-pair-mode))
-(when (fboundp 'electric-indent-mode)
-  (electric-indent-mode))
 
 (setq-default blink-cursor-delay 0
               blink-cursor-interval 0.4
               bookmark-default-file (expand-file-name ".bookmarks.el" user-emacs-directory)
               buffers-menu-max-size 30
               case-fold-search t
+              tab-width 2
               compilation-scroll-output t
               grep-highlight-matches t
               grep-scroll-output t
@@ -45,9 +43,18 @@
 
 (transient-mark-mode t)
 
+;;Show Marks
+(require-package 'show-marks)
+(global-set-key (kbd "C-1") 'show-marks)
+(global-set-key (kbd "C-2") 'forward-mark)
+(global-set-key (kbd "C-3") 'backward-mark)
+
 (global-auto-revert-mode)
 (setq global-auto-revert-non-file-buffers t
       auto-revert-verbose nil)
+
+(require 'find-dired)
+(setq find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld"))
 
 ;;; Whitespace
 (defun sanityinc/no-trailing-whitespace ()
@@ -135,7 +142,7 @@
 ;; C-u C-u C-c SPC => ace-jump-line-mode
 (require-package 'ace-jump-mode)
 (define-key ctrl-apos (kbd "c") 'ace-jump-char-mode)
-(define-key ctrl-apos (kbd "l") 'ace-jump-char-mode)
+(define-key ctrl-apos (kbd "L") 'ace-jump-char-mode)
 
 (global-set-key (kbd "C-c J") (lambda () (interactive) (join-line 1)))
 (global-set-key (kbd "C-.") 'set-mark-command)
@@ -285,6 +292,24 @@ With arg N, insert N newlines."
 
 (global-set-key (kbd "C-o") 'sanityinc/open-line-with-reindent)
 
+;; Move to beginning of line
+;; Source: [[http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/][Smarter Beginning of Line]]
+
+(defun ype:smart-move-beginning-of-line (arg)
+  (interactive "^p")
+  (setq arg (or arg 1))
+  ;; Move lines first
+  (when (/= arg 1)
+    (let ((line-move-visual nil))
+      (forward-line (1- arg))))
+  (let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
+
+;; remap C-a to smarter-move-beginning-of-line
+(oVr-set-key "C-a" 'ype:smart-move-beginning-of-line)
+
 ;;----------------------------------------------------------------------------
 ;; Random line sorting
 ;;----------------------------------------------------------------------------
@@ -314,7 +339,6 @@ With arg N, insert N newlines."
 (hes-mode)
 
 (require-package 'guide-key)
-(require-package 'guide-key-tip)
 (setq guide-key/guide-key-sequence '("C-x" "C-c" "C-h" "C-\'" "H-x" "M-g" "<escape>" "C-\,")
       guide-key/recursive-key-sequence-flag t
       guide-key/idle-delay 1.0
@@ -327,7 +351,7 @@ With arg N, insert N newlines."
 (diminish 'guide-key-mode)
 
 (require-package 'rebox2)
-(setq rebox-style-loop '(17 27 21))
+(setq rebox-style-loop '(17 27 16 26 21))
 (global-set-key [(meta q)] 'rebox-dwim)
 (global-set-key [(hyper r)] 'rebox-cycle)
 
@@ -400,6 +424,7 @@ With arg N, insert N newlines."
 
 ;;Reveal Stuff in OSX Finder
 (require-package 'reveal-in-finder)
+(define-key ctrl-apos (kbd "r") 'reveal-in-finder)
 
 ;;,-----------------------
 ;;| Quick Conversion tools
@@ -534,9 +559,15 @@ With arg N, insert N newlines."
 (define-key endless:toggle-map "f" 'flycheck-mode)
 (define-key endless:toggle-map "a" 'aggressive-indent-mode)
 
-;; init.el
-;; C-x r j e
-(set-register ?e (cons 'file "~/.emacs.d/init.el"))
+;; FreqAccessFiles
+;; C-x r j
+(mapc (lambda (r) (set-register (car r) (cons 'file (cdr r))))
+      '((?e . "~/.emacs.d/init.el")
+        (?l . "~/Dropbox/Finances/ledgers/ledger-2014-2015.ledger")
+        (?y . "~/Dropbox/ype")
+        (?d . "~/Dev")
+        (?n . "~/Dev/notebooks/org/notes.org")
+        (?p . "~/Dev/practice")))
 
 ;; Ledger
 (set-register ?l (cons 'file "~/Dropbox/Finances/ledgers/ledger-2014-2015.ledger"))

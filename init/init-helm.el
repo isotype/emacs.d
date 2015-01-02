@@ -4,8 +4,8 @@
 ;;; Author: Anton Strilchuk <anton@env.sh>                         ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Version:                                                       ;;;
-;;; Last-Updated: 17-11-2014                                       ;;;
-;;;  Update #: 6                                                   ;;;
+;;; Last-Updated: 15-12-2014                                       ;;;
+;;;  Update #: 7                                                   ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Description:                                                   ;;;
@@ -17,7 +17,7 @@
 (require-package 'helm-flycheck)
 (require-package 'helm-projectile)
 
-(define-key ctrl-apos (kbd "t") 'helm-timers)
+(define-key ctrl-apos (kbd "h t") 'helm-timers)
 (define-key ctrl-apos (kbd "o") 'helm-multi-occur)
 (after-load 'flycheck (define-key ctrl-apos (kbd "h f") 'helm-flycheck))
 

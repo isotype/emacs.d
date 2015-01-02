@@ -2,7 +2,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 17-04-2014                                            ;;;
-;;; Last-Updated: 16-11-2014                                       ;;;
+;;; Last-Updated: 30-11-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-gui-frames                                      ;;;
@@ -51,9 +51,9 @@
   ;; Hint: Customize `ns-use-native-fullscreen'
   (global-set-key (kbd "M-s-f") 'toggle-frame-fullscreen))
 
-(global-set-key (kbd "A-\-") '(lambda () (interactive) (adjust-opacity nil -5)))
-(global-set-key (kbd "A-\=") '(lambda () (interactive) (adjust-opacity nil 5)))
-(global-set-key (kbd "A-\+") '(lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
+(global-set-key (kbd "A-\-") (lambda () (interactive) (adjust-opacity nil -5)))
+(global-set-key (kbd "A-\=") (lambda () (interactive) (adjust-opacity nil 5)))
+(global-set-key (kbd "A-\+") (lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
 
 (add-hook 'after-make-frame-functions
           (lambda (frame)

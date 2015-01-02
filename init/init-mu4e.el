@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 11-06-2014                                              ;;
-;;; Last-Updated: 25-11-2014                                       ;;;
+;;; Last-Updated: 17-12-2014                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-mu4e                                              ;;
@@ -13,8 +13,7 @@
 ;; Package Requires: ()                                             ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-to-list 'load-path "/usr/local/Cellar/mu/HEAD/share/emacs/site-lisp/mu4e")
-(require-package 'offlineimap)
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 (require 'mu4e)
 (require 'mu4e-contrib)
 
@@ -43,13 +42,11 @@
       mu4e-headers-skip-duplicates t                             ; skip duplicate email, great for gmail
       mu4e-headers-date-format "%A at %H:%M"                     ; date format
       mu4e-headers-leave-behavior 'apply                         ; apply all marks at quit
-      mu4e-html2text-command 'mu4e-shr2text                      ; html to text
       mu4e-view-prefer-html nil                                    ; if text version available prefer it
       mu4e-compose-dont-reply-to-self t                          ; don't reply to myself
       mail-signature nil                                           ; kill default signature
       mu4e-compose-signature nil
       mu4e-compose-signature-auto-include nil
-      org-mu4e-convert-to-html t                                 ; automatic convert org-mode => html
       mu4e-sent-messages-behavior 'delete                        ; don't delete messages
       mu4e-compose-complete-only-personal t                      ; only personal messages get in the address book
       mu4e-use-fancy-chars t                                     ; use fancy characters
@@ -123,6 +120,25 @@
 (add-to-list 'mu4e-bookmarks '("size:5M..500M"  "Big messages"               ?b) t)
 (add-to-list 'mu4e-bookmarks '("flag:flagged"   "Flagged messages"           ?f) t)
 
+;; Message view
+(defun mu4e-shr2text ()
+  (let ((dom (libxml-parse-html-region (point-min) (point-max))))
+    (erase-buffer)
+    (shr-insert-document dom)
+    (goto-char (point-min))))
+
+(defun oni:shr-colorize-remove-last-arg (args)
+  "If ARGS has more than 3 items, remove the last one."
+  (if (> (length args) 3)
+      (butlast args)
+    args))
+
+(with-eval-after-load 'shr
+  (advice-add #'shr-colorize-region :filter-args
+              #'oni:shr-colorize-remove-last-arg))
+
+(setq mu4e-html2text-command 'mu4e-shr2text)
+
 ;; See http://www.emacswiki.org/emacs/GnusGmail for more details
 (require-git-submodule 'emacs-async)
 (require 'async)
@@ -130,12 +146,10 @@
 (setq message-send-mail-function 'async-smtpmail-send-it
       send-mail-function 'async-smtpmail-send-it
       smtpmail-stream-type 'starttls
-      ;;smtpmail-starttls-credentials '(("smtp.mandrillapp.com" 587 nil nil))
-      ;;smtpmail-auth-credentials '(("smtp.mandrillapp.com" 587 "anton@ilyfa.cc" nil))
       smtpmail-default-smtp-server "smtp.mandrillapp.com"
       smtpmail-smtp-server "smtp.mandrillapp.com"
       smtpmail-smtp-service 587
-      smtpmail-debug-info t
+      smtpmail-debug-info nil
       smtpmail-local-domain "ilyfa.cc"
       sendmail-coding-system 'utf-8
       smtpmail-queue-mail t
@@ -164,6 +178,8 @@
 
 (add-to-list 'mu4e-view-actions
              '("View in browser" . mu4e-msgv-action-view-in-browser) t)
+
+
 
 (require 'gnus-dired)
 ;; make the `gnus-dired-mail-buffers' function also work on
@@ -217,13 +233,8 @@
 ;;| Org MU4E
 ;;`---------
 (require 'org-mu4e)
-(require 'ox)
-
+(setq org-mu4e-convert-to-html t)
 (defalias 'org-mail 'org-mu4e-compose-org-mode)
-(defun org-export-string (data &rest rest)
-  (let ((org-html-with-latex 'imagemagick))
-    (org-export-string-as
-     data 'html t)))
 
 
 
@@ -259,7 +270,6 @@
     (insert
      (url-unhex-string (format "\n%s\n" body)))))
 
-
 ;;,------------------------------
 ;;| Queue Connection Check & Send
 ;;`------------------------------
@@ -316,11 +326,10 @@
   (insert "X-MC-SendAt: ")
   (insert-manual-day-and-time date time))
 
-
 ;;,------------------------------------------
-;;| FIX: Use MU4E as default OS X Mail Client
+;;| TODO: Use MU4E as default OS X Mail Client
 ;;`------------------------------------------
-
+
 ;;,---------------------------------------
 ;;| ,---------------
 ;;| | Smart Refiling
@@ -338,7 +347,7 @@
 (eval-after-load "message"
   '(progn
      (add-to-list 'message-mode-hook
-                  '(lambda ()
+                  (lambda ()
                      (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))
 
 

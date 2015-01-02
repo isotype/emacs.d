@@ -3,9 +3,9 @@
 ;; Author: Anton Strilchuk <anton@ilyfa.cc>                         ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 23-07-2014                                              ;;
-;; Last-Updated: 12-11-2014                                         ;;
-;;  Update #: 42                                                    ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 22-12-2014                                       ;;;
+;;;  Update #: 93                                                  ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-python                                            ;;
 ;; Version:                                                         ;;
@@ -15,71 +15,50 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Code:
-;;,-------------------------------------------
-;;| Elpy: Emacs Python Development Environment
-;;`-------------------------------------------
-;;(require-package 'yasnippet)
 (require 'python)
-
-(require-package 'virtualenvwrapper)
-(setq venv-location "~/.virtualenvs/")
-(setq-default mode-line-format (cons '(:exec venv-current-name) mode-line-format))
-
+(require-package 'elpy)
+(require-package 'python-environment)
 (require-package 'jedi)
-(setq jedi:complete t)
-(remove-hook 'python-mode-hook 'wisent-python-default-setup)
+(require-package 'nose)
+(require-package 'pydoc-info)
+(require-package 'python-info)
+
+(when (require 'elpy nil t)
+  (elpy-enable))
+
+;; enable flycheck instead of flymake
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+;; disable some elpy modes
+(setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
+
+;; set default virtualenv
+(add-hook 'python-mode-hook (lambda () (setq pyvenv-workon "ypesci")))
+
+;; Jedi
+(setq jedi:complete t
+      jedi:complete-on-dot t)
 (add-hook 'python-mode-hook 'jedi:setup)
 
-(require-package 'pip-requirements)
+;; Nose
+(add-hook 'python-mode-hook (lambda () (require 'nose) (nose-mode t)))
 
-(require-package 'nose)
-(require 'nose)
-(add-hook 'python-mode-hook (lambda () (nose-mode t)))
-
-
-
-
-;;,---------------------------------------------------------------------------
-;;|  Anaconda: Code navigation, documentation lookup and completion for Python
-;;|  Link: [[https://github.com/proofit404/anaconda-mode][proofit404/anaconda-mode]]
-;;`---------------------------------------------------------------------------
-;; (require-package 'anaconda-mode)
-
-;; (add-hook 'python-mode-hook 'anaconda-mode)
-;; (add-hook 'python-mode-hook 'eldoc-mode)
-
-;; ;; [[https://github.com/proofit404/pyenv-mode][pyenv-mode]]
-;; (require-package 'pyenv-mode)
-;; (defun projectile-pyenv-mode-set ()
-;;   "Set pyenv version matching project name.
-;; Version must be already installed."
-;;   (pyenv-mode-set (projectile-project-name)))
-
-;; (add-hook 'projectile-switch-project-hook 'projectile-pyenv-mode-set)
-
-;; PyFlakes
-;;(require-package 'flycheck-pyflakes)
-;;(add-hook 'python-mode-hook 'flycheck-mode)
-;;(add-to-list 'flycheck-disabled-checkers 'python-flake8)
-;;(add-to-list 'flycheck-disabled-checker 'python-pylint)
-
-
-;;,-----------------------
-;;| Emacs iPython Notebook
-;;`-----------------------
+;;+=============================+;;
+;;| EIN: Emacs iPython Notebook |;;
+;;+=============================+;;
 (require-package 'ein)
 (setq ein:use-auto-complete t)
 (setq ein:use-smartrep nil)
 
-;; Indentation
-;; Ignoring electric indentation
-;; (defun electric-indent-ignore-python (char)
-;;   "Ignore electric indentation for python-mode"
-;;   (if (equal major-mode 'python-mode)
-;;       `no-indent'
-;;     nil))
-;; (add-hook 'electric-indent-functions 'electric-indent-ignore-python)
+;; Pip-requirements
+(require-package 'pip-requirements)
+(add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup)
 
-
+;; Add Python Library Documentation to Emacs Info
+(add-to-list 'Info-default-directory-list "~/Dev/py/info-docs")
+
 (provide 'init-python)
+;;;------------------------------------------------------------------------------
 ;;; init-python.el ends here

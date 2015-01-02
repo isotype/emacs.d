@@ -3,9 +3,9 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 23-09-2014                                              ;;
-;; Last-Updated: 24-09-2014                                         ;;
-;;  Update #: 13                                                    ;;
-;;   By: Anton Strilchuk <antonstrilchuk@gmail.com>                 ;;
+;;; Last-Updated: 06-12-2014                                       ;;;
+;;;  Update #: 15                                                  ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-markdown                                          ;;
 ;; Version:                                                         ;;
@@ -16,8 +16,8 @@
 (require-package 'markdown-mode)
 (require-package 'pandoc-mode)
 
-(setq auto-mode-alist
-      (cons '("\\.\\(md\\|markdown\\)\\'" . markdown-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.\\(md\\|markdown\\)\\'" . markdown-mode) auto-mode-alist))
+(setq markdown-open-command "/usr/local/bin/mark")
 
 (add-hook 'markdown-mode-hook 'turn-on-pandoc)
 (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)

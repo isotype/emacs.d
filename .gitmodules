@@ -1,6 +1,3 @@
-[submodule "submodules/org-sync"]
-	path = submodules/org-sync
-	url = git://github.com/emacsmirror/org-sync.git
 [submodule "submodules/rebox2"]
 	path = submodules/rebox2
 	url = git://github.com/lewang/rebox2.git
@@ -49,3 +46,15 @@
 [submodule "submodules/emacs-async"]
 	path = submodules/emacs-async
 	url = git://github.com/ype/emacs-async.git
+[submodule "submodules/org-sync"]
+	path = submodules/org-sync
+	url = git://github.com/ype/org-sync.git
+[submodule "submodules/ycmd"]
+	path = submodules/ycmd
+	url = git://github.com/abingham/emacs-ycmd.git
+[submodule "submodules/ob-go"]
+	path = submodules/ob-go
+	url = git://github.com/pope/ob-go.git
+[submodule "submodules/predictive"]
+	path = submodules/predictive
+	url = http://www.dr-qubit.org/git/predictive.git

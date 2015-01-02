@@ -2,8 +2,8 @@
 ;;; Author: Anton Strilchuk <anton@env.sh>                         ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 16-06-2014                                            ;;;
-;;; Last-Updated: 24-11-2014                                       ;;;
-;;;  Update #: 135                                                 ;;;
+;;; Last-Updated: 02-01-2015                                       ;;;
+;;;  Update #: 146                                                 ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -32,12 +32,17 @@
 ;; ---------------- ;;
 ;; Bootstrap Config ;;
 ;; ---------------- ;;
-(require 'init-compat)
+;;(require 'init-compat)
 (require 'init-utils)
 (require 'oVr-mode)
 (require 'init-prefix-keys)
-(require 'init-site-lisp)
+
+;; Package.el
 (require 'init-elpa)
+;; Paradox Package Rankings from GitHub
+(require 'init-paradox-github)
+
+;; $PATH
 (require 'init-exec-path)
 
 ;; wgrep needed for init-edit-utils
@@ -67,6 +72,7 @@
 (require-package 'dash)
 ;;Appearance Setup
 (require 'init-theme)
+(require 'init-tabbar)
 (require 'init-gui-frames)
 (require 'init-appearance)
 (when *is-a-mac*
@@ -90,7 +96,6 @@
 
 ;;Project management
 (require-package 'ack-and-a-half)
-(require 'init-proj-manage)
 
 ;;Git
 (require 'init-git)
@@ -116,10 +121,6 @@
 ;;HELM
 (require 'init-helm)
 
-;;Tabs
-;; Currently Disabled due to display lag issues
-(require 'init-tabbar)
-
 ;;Auto Header
 (require 'header2)
 (require 'init-headers)
@@ -137,6 +138,7 @@
 ;;The Big Giant Org
 (require 'init-org)
 (require 'init-org-publish)
+(require 'init-proj-manage)
 
 (when (executable-find "google")
   (require 'init-gcal))
@@ -157,9 +159,6 @@
 ;;MU4E
 (require 'init-contacts)
 (require 'init-mu4e)
-
-;; Paradox Package Rankings from GitHub
-(require 'init-paradox-github)
 
 ;;Dash
 (require 'init-dash)
@@ -186,9 +185,6 @@
 ;; Web
 (require 'init-web)
 
-;; Time Tracking
-;;(require 'init-wakatime)
-
 ;; Health
 (require 'init-rsi)
 
@@ -202,7 +198,7 @@
 ;;(require 'init-slack)
 
 ;;IRC
-(require 'init-irc)
+;;(require 'init-irc)
 
 ;; OSX Browse
 ;;(require 'init-browse)
@@ -245,16 +241,24 @@
 
 ;;(set-frame-font (ype/font-name-replace-size (face-font 'default) 14) t)
 
+;; Update info docs
+(add-hook 'Info-mode-hook		; After Info-mode has started
+          (lambda ()
+            (setq Info-additional-directory-list Info-default-directory-list)))
+
 (require 'init-locales)
 (add-hook 'after-init-hook
           (lambda ()
             (message "init completed in %.2fms"
                      (sanityinc/time-subtract-millis after-init-time before-init-time))))
 
+;; Time Tracking
+(require 'init-wakatime)
+
 ;; Clock in default task (Daily Dose)
 ;; Jump: [[file:init/init-org.el::%3B%3B|%20DEFAULT%20TASK%20IDs][Default task ID function]]
 ;;(ype/clock-in-default-task-as-default)
-(run-at-time "60 min" 3600 'org-agenda-list)
+;;(run-at-time "60 min" 3600 'org-agenda-list)
 ;;(type-break-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -266,3 +270,4 @@
 
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+(put 'dired-find-alternate-file 'disabled nil)

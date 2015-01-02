@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 15-04-2014                                            ;;;
-;; Last-Updated: 13-10-2014                                         ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 30-11-2014                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-irc                                             ;;;
 ;;; Version:                                                       ;;;
@@ -117,7 +117,7 @@ erc-modified-channels-alist. Should be executed on window change."
         (erc-display-line (erc-make-notice "Untracked targets list is empty") 'active)
 
       (erc-display-line (erc-make-notice "Untracked targets list:") 'active)
-      (mapc #'(lambda (item)
+      (mapc #(lambda (item)
                 (erc-display-line (erc-make-notice item) 'active))
             (erc-with-server-buffer erc-track-exclude))))
   t)
@@ -144,7 +144,7 @@ erc-modified-channels-alist. Should be executed on window change."
 ;; From: Emacs Wiki
                                         ; Auto-reconnect
 (add-hook 'erc-server-376-hook
-          '(lambda (&rest args)
+          (lambda (&rest args)
              (keep-alive)))
 (setq erc-auto-reconnect nil)
 

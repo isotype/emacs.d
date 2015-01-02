@@ -74,11 +74,11 @@
 (define-key global-map (kbd "H-x e") 'org-set-effort)
 
 ;;MAP SET/JUMP Bookmarks fast nav
-(global-set-key (kbd "A-q") '(lambda () (interactive) (bookmark-set "SAVED")))
-(global-set-key (kbd "A-w") '(lambda () (interactive) (bookmark-jump "SAVED")))
+(global-set-key (kbd "A-q") (lambda () (interactive) (bookmark-set "SAVED")))
+(global-set-key (kbd "A-w") (lambda () (interactive) (bookmark-jump "SAVED")))
 
 ;;Helm
-(global-set-key (kbd "C-c c") 'ac-complete-with-helm)
+;;(global-set-key (kbd "C-c c") 'ac-complete-with-helm)
 ;;Helm projectile
 (global-set-key (kbd "C-c h") 'helm-projectile)
 
