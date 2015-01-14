@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;;; Last-Updated: 27-12-2014                                       ;;;
+;;; Last-Updated: 13-01-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
@@ -211,6 +211,9 @@
 ;;| CLOCK
 ;;`------
 
+;; [[https://github.com/lolownia/org-pomodoro][Org Pomodoro]]
+(require-package 'org-pomodoro)
+
 ;;ORG CLOCK IDLE
 (setq org-clock-idle-time 2)
 (org-clock-persistence-insinuate)
@@ -338,7 +341,7 @@
 ;;| TODO Conf
 ;;`----------
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "NEXT(n)" "REVIEW(r@/!)" "|" "DONE(d)" "WAITING(w@/!)") ;; NORMAL
+      '((sequence "TODO(t)" "NEXT(n)" "REVIEW(r@/!)" "|" "DONE(d)" "WAITING(w@/!)" "KILLED(K@/!)")
         (sequence "BUG(B@/!)" "HOTFIX(H@/!)" "|" "FIXED(F@/!)" "STUCK(S@/!)")
         (sequence "OPEN(o)" "CLOSED(c)") ;; GitHub Issues
         (sequence "EVENT(e)" "|" "WENT(a)" "SKIPPED(u)")
@@ -352,6 +355,7 @@
         ("REVIEW" . (:foreground "#ffff99" :weight bold))
         ("DONE" . (:foreground "#99b6ff" :weight bold))
         ("WAITING" . (:foreground "#ffce99" :weight bold))
+        ("KILLED" . (:foreground "#c3c3c3" :weight bold))
         ("BUG" . (:foreground "#990000" :weight bold))
         ("HOTFIX" . (:foreground "#663300" :weight bold))
         ("FIXED" . (:foreground "#336600" :weight bold))
@@ -795,7 +799,8 @@
 ;;Disable C-\' Key
 (define-key org-mode-map (kbd "C-\'") nil)
 (define-key global-map (kbd "H-a") 'org-agenda)
-(define-key global-map (kbd "H-i") 'org-clock-in)
+(define-key global-map (kbd "H-i") 'org-pomodoro)
+(define-key global-map (kbd "H-I") 'org-clock-in)
 (define-key global-map (kbd "H-o") 'org-clock-out)
 (define-key global-map (kbd "H-f") 'org-refile)
 (define-key global-map (kbd "H-c l") 'org-store-link)
@@ -810,6 +815,13 @@
 (define-key global-map (kbd "H-c s") 'ype/clock-in-default-school)
 (define-key global-map (kbd "H-c t") 'org-clock-select-task)
 (define-key global-map (kbd "H-c e") 'org-set-effort)
+
+;; Experimental
+;; [[https://github.com/tmarble/timesheet.el][tmarble/timesheet.el]]
+(require-package 'timesheet)
+
+;; [[https://github.com/tbanel/orgaggregate][tbanel/orgaggregate]]
+(require-package 'orgtbl-aggregate)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init-org.el ends here

@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 11-06-2014                                              ;;
-;;; Last-Updated: 17-12-2014                                       ;;;
+;;; Last-Updated: 02-01-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-mu4e                                              ;;
@@ -13,6 +13,8 @@
 ;; Package Requires: ()                                             ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'init-mu4e)
+
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 (require 'mu4e)
 (require 'mu4e-contrib)
@@ -198,7 +200,7 @@
 (setq gnus-dired-mail-mode 'mu4e-user-agent)
 (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 
-
+
 ;;,-------------------------
 ;;| MU4E Maildirs Extentions
 ;;`-------------------------
@@ -228,7 +230,7 @@
                                                   "/C_misc" "/flagged" "/drafts"
                                                   "/sent" "/archive" "/trash")))
 
-
+
 ;;,---------
 ;;| Org MU4E
 ;;`---------
@@ -236,7 +238,7 @@
 (setq org-mu4e-convert-to-html t)
 (defalias 'org-mail 'org-mu4e-compose-org-mode)
 
-
+
 
 (global-set-key (kbd "H-c") 'mu4e)
 
@@ -252,7 +254,7 @@
             (save-excursion (message-add-header
                              (concat "X-MC-Tags: mu4e\n")))))
 
-
+
 ;;,------------------------------
 ;;| External MAILTO Links Handler
 ;;`------------------------------
@@ -292,7 +294,7 @@
 
 (defvar monitor-timer (mail-monitor "/Users/anton/.offlineimap/Account-anton-ilyfa/LocalStatus-sqlite/inbox" 60))
 
-
+
 ;;,---------
 ;;| Contacts
 ;;`---------
@@ -307,7 +309,7 @@
 (add-to-list 'mu4e-view-actions
              '("org-contact-add" . mu4e-action-add-org-contact) t)
 
-
+
 ;;,---------------------------
 ;;| Send Mail At Specific Time
 ;;`---------------------------
@@ -339,7 +341,7 @@
 ;;`---------------------------------------
 (require 'init-mu4e-sr)
 
-
+
 ;; Import OSX Addressbook
 (add-to-list 'load-path (expand-file-name "init-tools" user-emacs-directory))
 (require 'external-abook)
@@ -348,16 +350,16 @@
   '(progn
      (add-to-list 'message-mode-hook
                   (lambda ()
-                     (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))
+                    (define-key message-mode-map "\C-c\t" 'external-abook-try-expand)))))
 
-
+
 ;;HELM-MU, git fork:ype/helm-mu
 ;; (require-git-submodule 'helm-mu t)
 ;; (after-load 'helm-mu
 ;;   (setq helm-mu-default-search-string "maildir:/INBOX")
 ;;   (define-key ctrl-apos (kbd "m") 'helm-mu))
 
-
+
 ;; Send HTML and Plain Text
 (defun mimedown ()
   (interactive)
@@ -365,5 +367,6 @@
     (message-goto-body)
     (shell-command-on-region (point) (point-max) "mimedown" nil t)))
 
-
-(provide 'init-mu4e)
+(add-hook 'kill-emacs-query-functions
+          (lambda ()
+            (if (y-or-n-p "Flush queued mail?") (progn (smtpmail-send-queued-mail) nil) t)))

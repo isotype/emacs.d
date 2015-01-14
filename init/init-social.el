@@ -3,14 +3,20 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;; Last-Updated: 30-10-2014                                         ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 14-01-2015                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-social                                          ;;;
 ;;; Description: Setup for social networks                         ;;;
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'init-social)
+
+;; FIXME:
+;; (require-package 'skype)
+;; (when (require 'skype)
+;;   (setq skype--my-user-handle "antonstrilchuk"))
 
 ;;; TWITTER
 ;; Configurations for twittering-mode
@@ -31,7 +37,3 @@
           (lambda ()
             (ispell-minor-mode)
             (flyspell-mode)))
-
-
-
-(provide 'init-social)

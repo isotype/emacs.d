@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 07-04-2014                                            ;;;
-;;; Last-Updated: 14-12-2014                                       ;;;
+;;; Last-Updated: 13-01-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-git                                             ;;;
@@ -138,8 +138,8 @@
 ;; Org-Sync Github
 (require-git-submodule 'org-sync)
 (require 'os)
-(mapc 'load
-      '("os" "os-github"))
+;; (mapc 'load
+;;       '("os" "os-github"))
 
 ;; Git Clone the easy way
 (defun git-clone (user repo directory)

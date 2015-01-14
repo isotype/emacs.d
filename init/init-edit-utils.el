@@ -2,8 +2,8 @@
 ;;; Author: Anton Strilchuk <ype@env.sh>                           ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 16-06-2014                                            ;;;
-;;; Last-Updated: 27-12-2014                                       ;;;
-;;;  Update #: 141                                                 ;;;
+;;; Last-Updated: 13-01-2015                                       ;;;
+;;;  Update #: 144                                                 ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-edit-utils                                      ;;;
@@ -480,15 +480,12 @@ With arg N, insert N newlines."
 ;;`-------------------------------------------------------------------
 
 (require-git-submodule 'org-link-minor-mode t)
-
-(after-load 'org-link-minor-mode
-  (diminish 'org-link-minor-mode " ☌")
-
-  (defun ype/toggle-OLMM-1 () (interactive) (org-link-minor-mode 1))
-  (defun ype/toggle-OLMM-0 () (interactive) (org-link-minor-mode 0))
-
-  (global-set-key (kbd "A-x 1") 'ype/toggle-OLMM-1)
-  (global-set-key (kbd "A-x 2") 'ype/toggle-OLMM-0))
+(diminish 'org-link-minor-mode " ☌")
+(defun ype/toggle-OLMM-1 () (interactive) (org-link-minor-mode 1))
+(defun ype/toggle-OLMM-0 () (interactive) (org-link-minor-mode 0))
+(global-set-key (kbd "A-x 1") 'ype/toggle-OLMM-1)
+(global-set-key (kbd "A-x 2") 'ype/toggle-OLMM-0)
+(add-hook 'prog-mode-hook 'org-link-minor-mode)
 
 
 ;;Linum Mode

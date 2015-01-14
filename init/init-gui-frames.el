@@ -2,7 +2,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 17-04-2014                                            ;;;
-;;; Last-Updated: 30-11-2014                                       ;;;
+;;; Last-Updated: 13-01-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-gui-frames                                      ;;;
@@ -62,8 +62,8 @@
                 (set-frame-parameter nil 'menu-bar-lines 0)))))
 
 (defun frame-title-prefix()
-  (cond (multiple-frames (buffer-name))
-        (t (abbreviate-file-name (file-name-sans-extension (buffer-name))))))
+  (when (buffer-file-name)
+    (abbreviate-file-name (file-name-sans-extension (buffer-file-name)))))
 
 (defun ype:mail-unread-message-count ()
   (setq unread
@@ -103,12 +103,12 @@
         (:eval (ype:vc-check))
         " %+ "
         (:eval (frame-title-prefix))
+        ;; " %+ "
+        ;; " ["
+        ;; (:eval (ype:mail-unread-message-count))
+        ;; "] "
         " %+ "
-        " ["
-        (:eval (ype:mail-unread-message-count))
-        "] "
-        " %+ "
-        (:eval (ype:show-tabbar-groups-in-gui-frame))
+        ;;(:eval (ype:show-tabbar-groups-in-gui-frame))
         ))
 
 ;;,-----------------------------------------------------------------

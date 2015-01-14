@@ -3,14 +3,15 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;; Last-Updated: 03-08-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;;; Last-Updated: 13-01-2015                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-search                                          ;;;
 ;;; Description: Search Modes                                      ;;;
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'init-search)
 
 ;;; Anzu
 ;; Show number of matches while searching
@@ -94,14 +95,24 @@ This is useful when followed by an immediate kill."
 (defun recentf-ido-find-file ()
   "Find a recent file using ido."
   "Use ido to select a recently opened file from the `recentf-list'"
-   (interactive)
-   (if (and ido-use-virtual-buffers (fboundp 'ido-toggle-virtual-buffers))
-       (ido-switch-buffer)
-     (find-file (ido-completing-read "Open file: "
-                                     (mapcar 'abbreviate-file-name recentf-list)
-                                     nil t))))
+  (interactive)
+  (if (and ido-use-virtual-buffers (fboundp 'ido-toggle-virtual-buffers))
+      (ido-switch-buffer)
+    (find-file (ido-completing-read "Open file: "
+                                    (mapcar 'abbreviate-file-name recentf-list)
+                                    nil t))))
 (global-set-key (kbd "C-c f") 'recentf-ido-find-file)
-
 (diminish 'isearch-mode)
 
-(provide 'init-search)
+;; [[https://github.com/tam17aki/ace-isearch][tam17aki/ace-isearch]]
+(require-package 'ace-isearch)
+(require 'ace-isearch)
+(custom-set-variables
+ '(ace-isearch-input-length 6)
+ '(ace-isearch-input-idle-delay 0.2)
+ '(ace-isearch-submode 'ace-jump-char-mode)
+ '(ace-isearch-use-ace-jump 'printing-char))
+(ace-isearch-set-ace-jump-after-isearch-exit t)
+
+(after-load 'ace-isearch
+  (global-ace-isearch-mode +1))

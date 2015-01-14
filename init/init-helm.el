@@ -11,7 +11,7 @@
 ;;; Description:                                                   ;;;
 ;;;                                                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+(provide 'init-helm)
 (require-package 'helm)
 (require-package 'helm-swoop)
 (require-package 'helm-flycheck)
@@ -24,7 +24,3 @@
 (after-load 'projectile
   (define-key ctrl-apos (kbd "p") 'helm-projectile)
   (define-key ctrl-apos (kbd "h p") 'helm-projectile-switch-project))
-
-(provide 'init-helm)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;init-helm.el ends here

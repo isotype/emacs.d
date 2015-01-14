@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <anton@ilyfa.cc>                         ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 23-07-2014                                              ;;
-;;; Last-Updated: 22-12-2014                                       ;;;
-;;;  Update #: 93                                                  ;;;
+;;; Last-Updated: 12-01-2015                                       ;;;
+;;;  Update #: 96                                                  ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-python                                            ;;
@@ -23,16 +23,14 @@
 (require-package 'pydoc-info)
 (require-package 'python-info)
 
-(when (require 'elpy nil t)
-  (elpy-enable))
-
+(require 'elpy nil t)
 ;; enable flycheck instead of flymake
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 ;; disable some elpy modes
-(setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
+;;(setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
 
 ;; set default virtualenv
 (add-hook 'python-mode-hook (lambda () (setq pyvenv-workon "ypesci")))
