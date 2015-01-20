@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;;; Last-Updated: 13-01-2015                                       ;;;
+;;; Last-Updated: 16-01-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
@@ -637,7 +637,7 @@
 ;;`---------
 ;; NOTE: ORG-GCAL Needs the occasional refresh, use org-gcal-refresh-token
 (require-package 'org-gcal)
-(require-git-submodule 'emacs-request)
+(el-get-bundle tkf/emacs-request)
 (require 'org-gcal)
 ;; Client ID and Secret kept in seperate file: init-keys.el
 ;; (after-load 'org-gcal
@@ -822,6 +822,9 @@
 
 ;; [[https://github.com/tbanel/orgaggregate][tbanel/orgaggregate]]
 (require-package 'orgtbl-aggregate)
+
+;; Time Clocks
+(el-get-bundle roman/clocker.el)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init-org.el ends here

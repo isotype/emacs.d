@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 15-04-2014                                            ;;;
-;;; Last-Updated: 30-11-2014                                       ;;;
+;;; Last-Updated: 15-01-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-irc                                             ;;;
@@ -17,7 +17,7 @@
 (require 'erc)
 
 ;;ERC Terminal Notifier
-;;(require-git-submodule 'erc-terminal-notifier t)
+;;(el-get-bundle emacsmirror/erc-terminal-notifier)
 
 ;;ERC Tabs
 (add-to-list 'load-path (expand-file-name "init-tools/erc-tab" user-emacs-directory))
@@ -117,7 +117,7 @@ erc-modified-channels-alist. Should be executed on window change."
         (erc-display-line (erc-make-notice "Untracked targets list is empty") 'active)
 
       (erc-display-line (erc-make-notice "Untracked targets list:") 'active)
-      (mapc #(lambda (item)
+      (mapc (lambda (item)
                 (erc-display-line (erc-make-notice item) 'active))
             (erc-with-server-buffer erc-track-exclude))))
   t)

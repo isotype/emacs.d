@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 03-05-2014                                            ;;;
-;;; Last-Updated: 15-12-2014                                       ;;;
+;;; Last-Updated: 15-01-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-writing                                         ;;;
@@ -22,14 +22,14 @@
 ;;,---------------
 ;;| Writegood mode
 ;;`---------------
-(require-git-submodule 'writegood-mode)
+(el-get-bundle bnbeckwith/writegood-mode)
 (global-set-key "\C-cg" 'writegood-mode)
 (global-set-key (kbd "C-c q") 'refill-mode)
 
 ;;,---------
 ;;| TextLint
 ;;`---------
-(require-git-submodule 'textlint t)
+(el-get-bundle DamienCassou/textlint)
 (setq textlint-location-textlint "~/.emacs.d/submodules/textlint/")
 (define-key ctrl-apos [?t ?l] 'textlint-run)
 

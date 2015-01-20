@@ -2,8 +2,8 @@
 ;;; Author: Anton Strilchuk <ype@env.sh>                           ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 16-06-2014                                            ;;;
-;;; Last-Updated: 13-01-2015                                       ;;;
-;;;  Update #: 144                                                 ;;;
+;;; Last-Updated: 15-01-2015                                       ;;;
+;;;  Update #: 146                                                 ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-edit-utils                                      ;;;
@@ -479,7 +479,8 @@ With arg N, insert N newlines."
 ;;| enabled.
 ;;`-------------------------------------------------------------------
 
-(require-git-submodule 'org-link-minor-mode t)
+(el-get-bundle seanohalpin/org-link-minor-mode
+  (require 'org-link-minor-mode))
 (diminish 'org-link-minor-mode " ☌")
 (defun ype/toggle-OLMM-1 () (interactive) (org-link-minor-mode 1))
 (defun ype/toggle-OLMM-0 () (interactive) (org-link-minor-mode 0))

@@ -2,8 +2,8 @@
 ;;; Author: Anton Strilchuk <anton@env.sh>                         ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 16-06-2014                                            ;;;
-;;; Last-Updated: 02-01-2015                                       ;;;
-;;;  Update #: 146                                                 ;;;
+;;; Last-Updated: 20-01-2015                                       ;;;
+;;;  Update #: 151                                                 ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -23,7 +23,6 @@
 (add-to-list 'load-path (expand-file-name "init" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "init-tools" user-emacs-directory))
 
-;; Add function for requiring git submodules
 (require 'init-git-submodules)
 
 ;; Measure startup time
@@ -39,6 +38,10 @@
 
 ;; Package.el
 (require 'init-elpa)
+
+;; Add function for requiring git submodules
+(require-package 'el-get)
+(setq el-get-notify 'growl)
 ;; Paradox Package Rankings from GitHub
 (require 'init-paradox-github)
 

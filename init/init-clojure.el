@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 12-04-2014                                            ;;;
-;; Last-Updated: 15-10-2014                                         ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 15-01-2015                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-clojure                                         ;;;
 ;;; Description: Clojure config                                    ;;;
@@ -70,7 +70,7 @@
             (lambda () (setq show-trailing-whitespace nil))))
 
 ;; Learning
-;;(require-git-submodule '4clj-el)
+;;(el-get-bundle dcluna/4clj-el)
 
 ;; Trace
 ;;(require-package 'cider-tracing)

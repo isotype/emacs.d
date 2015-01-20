@@ -100,3 +100,5 @@ offlineimap.*
 /init/textlint.st
 /projectile.cache
 /snippets
+/init/init-org copy.el
+init/init-org-jekyll.el

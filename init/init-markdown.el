@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 23-09-2014                                              ;;
-;;; Last-Updated: 06-12-2014                                       ;;;
-;;;  Update #: 15                                                  ;;;
+;;; Last-Updated: 15-01-2015                                       ;;;
+;;;  Update #: 16                                                  ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-markdown                                          ;;
@@ -22,7 +22,7 @@
 (add-hook 'markdown-mode-hook 'turn-on-pandoc)
 (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
 
-;;(require-git-submodule 'realtime-markdown-viewer t)
+;;(el-get-bundle syohex/emacs-realtime-markdown-viewer)
 ;;(setq rtmv:lang 'ruby)
 
 

@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 07-04-2014                                            ;;;
-;;; Last-Updated: 13-01-2015                                       ;;;
+;;; Last-Updated: 16-01-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-git                                             ;;;
@@ -136,8 +136,8 @@
 (add-hook 'prog-mode-hook 'bug-reference-prog-mode)
 
 ;; Org-Sync Github
-(require-git-submodule 'org-sync)
-(require 'os)
+(el-get-bundle daimrod/org-sync
+  (require 'os))
 ;; (mapc 'load
 ;;       '("os" "os-github"))
 

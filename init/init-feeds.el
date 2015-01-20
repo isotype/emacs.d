@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <anton@env.sh>                           ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 23-10-2014                                              ;;
-;;; Last-Updated: 01-01-2015                                       ;;;
-;;;  Update #: 14                                                  ;;;
+;;; Last-Updated: 20-01-2015                                       ;;;
+;;;  Update #: 17                                                  ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-feeds                                             ;;
@@ -14,6 +14,7 @@
 ;; Package Requires: ()                                             ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'init-feeds)
 
 (require-package 'elfeed)
 (require-package 'elfeed-web)
@@ -22,6 +23,7 @@
       '(("https://news.ycombinator.com/rss" technews bloat)
         ("http://careers.stackoverflow.com/jobs/feed?type=any&location=SW129HW&range=20&distanceUnits=Miles" jobs)
         ("http://www.datatau.com/rss" datasci technews bloat)
+        ("http://mix.chimpfeedr.com/ce98c-investopedia" inves)
         ("http://blog.echen.me/feeds/all.rss.xml" datasci technews)
         ("http://www.kdnuggets.com/tags/top-stories/feed" datasci dm ml technews bloat)
         ("http://simplystatistics.org/feed/" stats)
@@ -79,7 +81,3 @@
 ;;                               :remove 'unread))
 
 (global-set-key (kbd "C-x w") 'elfeed)
-
-
-(provide 'init-feeds)
-;;; init-feeds.el ends here

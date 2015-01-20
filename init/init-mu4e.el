@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 11-06-2014                                              ;;
-;;; Last-Updated: 02-01-2015                                       ;;;
+;;; Last-Updated: 15-01-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-mu4e                                              ;;
@@ -21,7 +21,7 @@
 
 ;; Needs Emacs Async Package from Github
 ;; for smtpmail-async
-;;(require-git-submodule 'emacs-async)
+;;(el-get-bundle jwiegley/emacs-async)
 
 ;; Not Working Yet
 ;; (require 'ype-network-manager)
@@ -142,7 +142,7 @@
 (setq mu4e-html2text-command 'mu4e-shr2text)
 
 ;; See http://www.emacswiki.org/emacs/GnusGmail for more details
-(require-git-submodule 'emacs-async)
+(el-get-bundle jwiegley/emacs-async)
 (require 'async)
 (require 'smtpmail-async)
 (setq message-send-mail-function 'async-smtpmail-send-it
