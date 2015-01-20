@@ -102,3 +102,4 @@ offlineimap.*
 /snippets
 /init/init-org copy.el
 init/init-org-jekyll.el
+/el-get/
