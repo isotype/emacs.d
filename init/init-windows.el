@@ -1,11 +1,11 @@
-;; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-    ;;
+';; -*- mode: Emacs-Lisp; tab-width: 2; indent-tabs-mode:nil; -*-    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 30-06-2014                                              ;;
-;; Last-Updated: 16-11-2014                                         ;;
-;;  Update #: 19                                                    ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 26-02-2015                                       ;;;
+;;;  Update #: 26                                                  ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-windows                                           ;;
 ;; Description: From @purcell with minor modifications              ;;
@@ -21,11 +21,12 @@
 ;; Make "M-`" prompt for a target window when there are more than 2
 (require-package 'switch-window)
 (require 'switch-window)
+(global-set-key (kbd "M-\`") 'switch-window)
 
 ;; Ace Window
-(require-package 'ace-window)
-(global-set-key (kbd "M-\`") 'ace-window)
-(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+;;(require-package 'ace-window)
+;;(global-set-key (kbd "M-\`") 'ace-select-window)
+;;(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
 ;;,-------------------------------------------------------------
 ;;| When splitting window, show (other-buffer) in the new window
@@ -88,8 +89,31 @@ Call a second time to restore the original window configuration."
                   (interactive)
                   (switch-to-buffer nil)))
 
-(global-set-key (kbd "M-\'") 'select-frame-by-name)
-
+(require-package 'ace-jump-buffer)
+(global-set-key (kbd "M-\'") 'ace-jump-buffer)
+;; (print (let ((this-frame-buffer nil)
+;;              (other-frame-buffer nil))
+;;          (setq this-frame-buffer (car (frame-parameter nil 'buffer-list)))
+;;          (other-frame 1)
+
+;;          (mouse-autoselect-window)
+;;          (setq other-frame-buffer (car (frame-parameter nil 'buffer-list)))
+;;          (other-frame 1)
+;;          (switch-to-buffer other-frame-buffer))
+;;        )
+(setq focus-follows-mouse nil)
+(setq mouse-autoselect-window nil)
+(defun switch-buffers-between-frames ()
+  "switch-buffers-between-frames switches the buffers between the two last frames"
+  (interactive)
+  (let ((this-frame-buffer nil)
+  (other-frame-buffer nil))
+    (setq this-frame-buffer (car (frame-parameter nil 'buffer-list)))
+    (other-frame 1)
+    (setq other-frame-buffer (car (frame-parameter nil 'buffer-list)))
+    (switch-to-buffer this-frame-buffer)
+    (other-frame 1)
+    (switch-to-buffer other-frame-buffer)))
 
 ;; Sticky Windows
 (defadvice pop-to-buffer (before cancel-other-window first)
@@ -113,7 +137,10 @@ Call a second time to restore the original window configuration."
 
 ;; Golden Ratio Frames
 (require-package 'golden-ratio)
-(golden-ratio-mode 1)
+(when (require 'golden-ratio)
+  (setq golden-ratio-exclude-buffer-names '("*Sauron*"))
+  (setq golden-ratio-extra-commands '("ace-select-window" "switch-window"))
+  (golden-ratio-mode 1))
 
 
 (provide 'init-windows)

@@ -3,9 +3,9 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 01-10-2014                                              ;;
-;; Last-Updated: 23-10-2014                                         ;;
-;;  Update #: 65                                                    ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 22-01-2015                                       ;;;
+;;;  Update #: 66                                                  ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-org-publish                                       ;;
 ;; Version:                                                         ;;
@@ -19,9 +19,9 @@
          :components ("quadriv-notes"
                       "quadriv-static"))
         ("quadriv-notes"
-         :base-directory "~/Dropbox/ype/quadriv/base/"
+         :base-directory "~/Dev/ype/quadriv/base/"
          :base-extension "org"
-         :publishing-directory "~/Dropbox/ype/quadriv/html/"
+         :publishing-directory "~/Dev/ype/quadriv/html/"
          :recursive t
          :publishing-function org-html-publish-to-html
          :export-with-tags nil
@@ -73,9 +73,9 @@
          :html-extension "html"
          )
         ("quadriv-static"
-         :base-directory "~/Dropbox/ype/quadriv/base/"
+         :base-directory "~/Dev/ype/quadriv/base/"
          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|eot\\|ttf\\|woff\\|svg"
-         :publishing-directory "~/Dropbox/ype/quadriv/html/"
+         :publishing-directory "~/Dev/ype/quadriv/html/"
          :recursive t
          :publishing-function org-publish-attachment
          )

@@ -2,8 +2,8 @@
 ;;; Author: Anton Strilchuk <ype@env.sh>                           ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 16-06-2014                                            ;;;
-;;; Last-Updated: 15-01-2015                                       ;;;
-;;;  Update #: 146                                                 ;;;
+;;; Last-Updated: 26-02-2015                                       ;;;
+;;;  Update #: 155                                                 ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-edit-utils                                      ;;;
@@ -42,6 +42,11 @@
 (define-key function-key-map [S-tab] [backtab])
 
 (transient-mark-mode t)
+
+;; Prev Buffer
+(global-set-key (kbd "H-[") (lambda () (interactive) (previous-buffer)))
+(global-set-key (kbd "H-]") (lambda () (interactive) (next-buffer)))
+;;(global-set-key (kbd "H-]") (lambda () (interactive) (switch-to-buffer (buffer-name (last-buffer)))))
 
 ;;Show Marks
 (require-package 'show-marks)
@@ -117,12 +122,13 @@
   (diminish 'rainbow-blocks-mode))
 
 (add-hook 'prog-mode-hook 'rainbow-blocks-mode)
-(add-hook 'lisp-mode-hook 'rainbow-blocks-mode)
-(add-hook 'emacs-lisp-mode-hook 'rainbow-blocks-mode)
 (global-set-key (kbd "H-d") 'rainbow-blocks-mode)
 
 (autoload 'zap-up-to-char "misc" "Kill up to, but not including ARGth occurrence of CHAR.")
 (global-set-key (kbd "A-z") 'zap-up-to-char)
+
+(require-package 'ace-jump-zap)
+(global-set-key (kbd "A-Z") 'ace-jump-zap-up-to-char)
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
@@ -339,11 +345,18 @@ With arg N, insert N newlines."
 (hes-mode)
 
 (require-package 'guide-key)
-(setq guide-key/guide-key-sequence '("C-x" "C-c" "C-h" "C-\'" "H-x" "M-g" "<escape>" "C-\,")
+(setq guide-key/guide-key-sequence '("C-x" "C-c" "C-h" "C-\'" "H-x" "M-g" "<escape>" "C-\," "H-a")
       guide-key/recursive-key-sequence-flag t
       guide-key/idle-delay 1.0
-      guide-key/highlight-command-regexp "rectangle\\|register"
-      guide-key/popup-window-position 'bottom)
+      guide-key/popup-window-position 'right)
+(setq guide-key/highlight-command-regexp
+      '("rectangle" ("register" . font-lock-type-face)
+        ("undo-tree" . "HotPink1")
+        ("org-pomodoro" . "cyan")
+        ("org-capture" . "DeepPink1")
+        ("pop" . "DeepSkyBlue1")
+        ))
+(remove-hook 'guide-key-mode 'rainbow-blocks-mode)
 (guide-key-mode 1)
 (setq guide-key-tip/toggle-enable nil)
 
@@ -394,8 +407,8 @@ With arg N, insert N newlines."
 ;;|  Drag Stuff
 ;;| it possible to drag stuff (words, region, lines) around in Emacs
 ;;`-----------------------------------------------------------------
-(require-package 'drag-stuff)
-(drag-stuff-mode t)
+;; (require-package 'drag-stuff)
+;; (drag-stuff-mode t)
 
 ;; No annoy emacs beep
 (setq ring-bell-function #'ignore)
@@ -452,11 +465,11 @@ With arg N, insert N newlines."
 ;;| initially disables recording undo information
 ;;`-------------------------------------------------------------------
 
-(defun hide-boring-buffer ()
-  "Rename the current buffer to begin with a space"
-  (interactive)
-  (unless (string-match-p "^ " (buffer-name))
-    (rename-buffer (concat " " (buffer-name)))))
+;; (defun hide-boring-buffer ()
+;;   "Rename the current buffer to begin with a space"
+;;   (interactive)
+;;   (unless (string-match-p "^ " (buffer-name))
+;;     (rename-buffer (concat " " (buffer-name)))))
 
 
 
@@ -561,14 +574,14 @@ With arg N, insert N newlines."
 ;; C-x r j
 (mapc (lambda (r) (set-register (car r) (cons 'file (cdr r))))
       '((?e . "~/.emacs.d/init.el")
-        (?l . "~/Dropbox/Finances/ledgers/ledger-2014-2015.ledger")
-        (?y . "~/Dropbox/ype")
+        (?l . "/Volumes/ype/finances/ledgers/ledger-monthly.ledger")
+        (?y . "~/Dev/AVSTSUP")
         (?d . "~/Dev")
-        (?n . "~/Dev/notebooks/org/notes.org")
-        (?p . "~/Dev/practice")))
+        (?n . "~/Dev/OrgFiles/")
+        (?v . "~/Dev/vendor")))
 
 ;; Ledger
-(set-register ?l (cons 'file "~/Dropbox/Finances/ledgers/ledger-2014-2015.ledger"))
+(set-register ?l (cons 'file "/Volumes/ype/finances/ledgers/ledger-monthly.ledger"))
 
 ;; Reformat Buffer
 (defun indent-buffer ()
@@ -592,11 +605,10 @@ With arg N, insert N newlines."
                                (match-string 3))
                        t nil)))))
 
-(require-package 'hideshow-org)
+;;(require-package 'hideshow-org)
 ;;(require 'hideshow-org)
 ;;(global-set-key (kbd "C-c s") 'hs-org/minor-mode)
 
-
 (provide 'init-edit-utils)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

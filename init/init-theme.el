@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;;; Last-Updated: 02-01-2015                                       ;;;
+;;; Last-Updated: 25-02-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-theme                                           ;;;
@@ -15,20 +15,16 @@
 ;;;Powerline
 (require-git-submodule 'powerline t)
 (powerline-vim-theme)
-(package-install 'sublime-themes)
-(add-to-list 'load-path (expand-file-name "~/Dropbox/ype/emacs-packages/36-symbols-theme/"))
-(require '36-symbols-theme)
 
-;;(require '36-symbols)
-;;(setq 36-symbols-high-contrast-mode-line nil)
+(require-package 'sublime-themes)
+(require-package 'leuven-theme)
+(add-to-list 'load-path (expand-file-name "ype-emacs-packages/36-symbols-theme/" user-emacs-directory))
+
 ;; Change Light Based on OSX Ambient Light Sensor Values
-(setq direct-sun 44000000)
-
-(setq ambient-light 1)
-
-;;(setq light-theme '36-symbols-light)
-(setq dark-theme '36-symbols)
-(setq light-theme 'mccarthy)
+(defvar direct-sun 20000000)
+(defvar ambient-light 1)
+(defvar dark-theme '36-symbols)
+(defvar light-theme 'leuven)
 
 (defun light-level ()
   "Access the level of light detected by the LMU sensor on Macbook Pros"
@@ -39,9 +35,11 @@
   (cond ((= ambient-light 1)
          (if (> (light-level) direct-sun)
              (progn
+               (require 'leuven-theme nil t)
                (enable-theme light-theme)
                (disable-theme dark-theme))
            (progn
+             (require '36-symbols-theme nil t)
              (enable-theme dark-theme)
              (disable-theme light-theme))))
         ((= ambient-light 0)
@@ -62,4 +60,6 @@
 ;;|
 ;;| eg. check light sensor every hour
 ;;`-------------------------------------------------
-(run-at-time 0 (* 60 60) 'adjust-theme-to-light)
+(after-load 'init-theme
+  (adjust-theme-to-light)
+  (run-at-time 180 (* 60 3) 'adjust-theme-to-light))

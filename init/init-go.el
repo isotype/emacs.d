@@ -14,7 +14,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setenv "GOPATH" "/Users/anton/dev/go")
+(setenv "GOPATH" "~/Dev/go")
 
 (require-package 'go-mode)
 (add-hook 'before-save-hook 'gofmt-before-save)

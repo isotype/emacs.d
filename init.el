@@ -2,8 +2,8 @@
 ;;; Author: Anton Strilchuk <anton@env.sh>                         ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 16-06-2014                                            ;;;
-;;; Last-Updated: 20-01-2015                                       ;;;
-;;;  Update #: 151                                                 ;;;
+;;; Last-Updated: 02-03-2015                                       ;;;
+;;;  Update #: 192                                                 ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -75,7 +75,7 @@
 (require-package 'dash)
 ;;Appearance Setup
 (require 'init-theme)
-(require 'init-tabbar)
+;;(require 'init-tabbar) ;; Tanks CPUs
 (require 'init-gui-frames)
 (require 'init-appearance)
 (when *is-a-mac*
@@ -83,12 +83,15 @@
 
 ;;Customizations
 (add-to-list 'load-path (expand-file-name "custom" user-emacs-directory))
-(require-git-submodule 'terminal-notifier t)
-
+(el-get-bundle 'emacsmirror/terminal-notifier)
+(add-to-list 'load-path (expand-file-name "init-tools/notify.el" user-emacs-directory))
+(require 'notify)
 ;;Search Modes
 (require 'init-search)
 (require 'init-ido)
-(require 'init-auto-complete)
+;;(require 'init-auto-complete)
+(require 'init-company)
+(require 'init-sauron)
 (require 'init-windows)
 (require 'init-sessions)
 
@@ -100,8 +103,14 @@
 ;;Project management
 (require-package 'ack-and-a-half)
 
+;; Org-Sync
+(el-get-bundle daimrod/org-sync)
+(require 'os)
 ;;Git
 (require 'init-git)
+
+;; Tramp SSH
+(require 'init-tramp)
 
 ;; Code Modes
 (require 'init-javascript)
@@ -133,10 +142,6 @@
 
 ;;Markdown mode
 (require 'init-markdown)
-
-;; Org-Sync
-(require-git-submodule 'org-sync)
-(require 'os)
 
 ;;The Big Giant Org
 (require 'init-org)
@@ -170,12 +175,11 @@
 (require 'init-ledger)
 
 ;;Social Networking
-(require 'init-social)
+;; (require 'init-social)
 
 ;;Custom Keybindings
 (require 'init-keybindings)
 
-
 ;;,---------------------
 ;;| MISC
 ;;| miscellaneous stuff
@@ -184,7 +188,7 @@
 ;; Writing
 (require 'init-deft)
 (require 'init-writing)
-
+(require 'init-confluence)
 ;; Web
 (require 'init-web)
 
@@ -193,12 +197,12 @@
 
 ;; News and Reading
 (require 'init-feeds)
-(require 'el-pocket)
-(el-pocket-load-auth)
-;;(require 'init-spritz)
+;; (require 'init-evernote)
+;; (require 'init-spritz)
 
 ;; Slack
 ;;(require 'init-slack)
+(require 'init-hipchat)
 
 ;;IRC
 ;;(require 'init-irc)
@@ -217,7 +221,7 @@
 (when *is-a-mac*
   (require-package 'osx-location))
 (require-package 'regex-tool)
-
+
 ;;----------------------------------------------------------------------------
 ;; Byte compile every .el file into a .elc file in the
 ;; given directory. Must go after all init-* require.
@@ -228,6 +232,7 @@
    (list
     (read-file-name "Lisp directory: ")))
   (byte-recompile-directory directory 0 t))
+
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
 ;;----------------------------------------------------------------------------
@@ -256,8 +261,8 @@
                      (sanityinc/time-subtract-millis after-init-time before-init-time))))
 
 ;; Time Tracking
-(require 'init-wakatime)
-
+;;(require 'init-wakatime)
+(sauron-start)
 ;; Clock in default task (Daily Dose)
 ;; Jump: [[file:init/init-org.el::%3B%3B|%20DEFAULT%20TASK%20IDs][Default task ID function]]
 ;;(ype/clock-in-default-task-as-default)

@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 03-05-2014                                            ;;;
-;;; Last-Updated: 15-01-2015                                       ;;;
+;;; Last-Updated: 10-02-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-writing                                         ;;;
@@ -16,8 +16,14 @@
 (require-package 'ispell)
 (after-load "ispell"
   (progn
-    (setq ispell-dictionary "british"
+    (setq ispell-dictionary "english"
           ispell-silently-savep t)))
+
+;; Synonms
+(require-package 'synosaurus)
+(require 'synosaurus)
+(setq synosaurus-choose-method 'ido
+      synosaurus-backend-wordnet)
 
 ;;,---------------
 ;;| Writegood mode
@@ -30,6 +36,7 @@
 ;;| TextLint
 ;;`---------
 (el-get-bundle DamienCassou/textlint)
+(require 'textlint)
 (setq textlint-location-textlint "~/.emacs.d/submodules/textlint/")
 (define-key ctrl-apos [?t ?l] 'textlint-run)
 
@@ -39,21 +46,23 @@
 (add-to-list 'load-path (expand-file-name "writing-tools" user-emacs-directory))
 (require 'langtool)
 (setq langtool-language-tool-jar "~/.emacs.d/writing-tools/LanguageTool/LanguageTool.jar")
-(setq langtool-mother-tongue "en-GB")
+(setq langtool-mother-tongue "en-US")
 (setq langtool-java-bin "/usr/bin/java")
 
-(global-set-key "\C-x4w" 'langtool-check)
-(global-set-key "\C-x4e" 'langtool-check-done)
-(global-set-key "\C-x4l" 'langtool-switch-default-language)
-(global-set-key "\C-x44" 'langtool-show-message-at-point)
-(global-set-key "\C-x4c" 'langtool-correct-buffer)
+(global-set-key "\C-c11" 'langtool-check)
+(global-set-key "\C-c12" 'langtool-check-done)
+(global-set-key "\C-c13" 'langtool-switch-default-language)
+(global-set-key "\C-c21" 'langtool-show-message-at-point)
+(global-set-key "\C-c22" 'langtool-correct-buffer)
+(global-set-key "\C-c33" 'langtool-goto-next-error)
+(global-set-key "\C-c44" 'langtool-goto-previous-error)
 
 ;;Syntax analysis - Emacs minor mode
 (require-package 'wordsmith-mode)
 ;;(add-hook 'mu4e-compose-mode-hook 'wordsmith-mode)
 
 ;; Predictive Text
-(require-git-submodule 'predictive t)
+(add-to-list 'load-path (expand-file-name "submodules/predictive" user-emacs-directory))
 (require 'predictive)
 (set-default 'predictive-auto-add-to-dict t)
 (setq predictive-main-dict 'rpg-dictionary

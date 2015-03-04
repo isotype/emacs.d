@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;;; Last-Updated: 16-01-2015                                       ;;;
+;;; Last-Updated: 04-03-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
@@ -90,11 +90,12 @@
 
 ;; (when (or (string-equal system-name "fennec.local")
 ;;           (string-equal system-name "fennec.lan")))
-(setq org-directory "~/Dropbox/ORGS/"
-      org-agenda-files '("~/Dropbox/ORGS/gtd.org"
-                         "~/Dropbox/ORGS/gcal.org"
-                         "~/Dropbox/ORGS/refile.org"
-                         "~/Dropbox/org-project-todos/projects.org")
+(setq org-directory "~/Dev/OrgFiles/"
+      org-agenda-files '("~/Dev/OrgFiles/TRIAGE.org"
+                         "~/Dev/OrgFiles/gcal.org"
+                         "~/Dev/OrgFiles/refile.org"
+                         "~/.org-jira/"
+                         "~/Dev/OrgFiles/org-project-todos/projects.org")
       org-archive-location (concat org-directory "archive/%s_archive::")
       org-default-notes-file (concat org-directory "refile.org"))
 
@@ -129,8 +130,10 @@
 ;;If Priority needed
 ;;Priorities A-E where tasks without a specific priority are lowest priority E
 (setq org-enable-priority-commands t
-      org-default-priority ?E
-      org-lowest-priority ?E)
+      org-default-priority ?0
+      org-lowest-priority ?4)
+
+(setq org-use-property-inheritance '("PRIORITY"))
 
 (setq org-habit-graph-column 50)
 (run-at-time "06:00" 86400 (lambda () (setq org-habit-show-habits t)))
@@ -154,7 +157,7 @@
 ;;| AGENDA
 ;;`-------
 
-(setq org-agenda-span 'day                               ;;Show Today in Agenda
+(setq org-agenda-span 'week                               ;;Show Today in Agenda
       org-agenda-sticky t
       org-agenda-include-diary nil
       org-agenda-show-all-dates t
@@ -213,6 +216,9 @@
 
 ;; [[https://github.com/lolownia/org-pomodoro][Org Pomodoro]]
 (require-package 'org-pomodoro)
+(fullframe org-todo-list org-agenda-quit)
+(setq org-pomodoro-finished-hook '((lambda () (org-todo-list "NEXT")))
+      org-pomodoro-killed-hook '((lambda () (org-todo-list "NEXT"))))
 
 ;;ORG CLOCK IDLE
 (setq org-clock-idle-time 2)
@@ -220,6 +226,7 @@
 
 (setq org-clock-history-length 23                               ;; clocking history lenth
       org-clock-in-resume t                                     ;; Resume clocking task on clock-in
+      org-clock-clocked-in-display 'frame-title
       org-drawers '("PROPERTIES" "LOGBOOK")                     ;; Separate drawers for clocking and logs
       org-clock-into-drawer t                                   ;; Save clock data, state changes, notes
       org-clock-out-remove-zero-time-clocks t                   ;; removes 0:00 duration
@@ -233,10 +240,7 @@
 (setq org-time-stamp-rounding-minutes '(1 1))
 
 (setq org-agenda-clock-consistency-checks
-      '((:max-duration "4:00"
-                       :min-duration 0
-                       :max-gap 0
-                       :gap-ok-around ("4:00"))))
+      '((:max-duration "4:00"  :min-duration 0 :max-gap 0 :gap-ok-around ("4:00"))))
 
 
 ;;,-----------------
@@ -312,7 +316,6 @@
 ;; Use the current window for indirect buffer display
 (setq org-indirect-buffer-display 'current-window)
 
-
 ;;Change List Bullets
 (setq org-list-demote-modify-bullet (quote (("+" . "-")
                                             ("*" . "-")
@@ -328,7 +331,7 @@
                                             ("b." . "-"))))
 
 ;; Set default column view headings: Task Effort Clock_Summary
-(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
+(setq org-columns-default-format "%45ITEM %ID %5priority(P) %10assignee(Assignee) %status(Status) %15type(Type) %15updated(Update) %reporter(Reporter)")
                                         ; global Effort estimate values
                                         ; global STYLE property values for completion
 
@@ -341,37 +344,38 @@
 ;;| TODO Conf
 ;;`----------
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "NEXT(n)" "REVIEW(r@/!)" "|" "DONE(d)" "WAITING(w@/!)" "KILLED(K@/!)")
-        (sequence "BUG(B@/!)" "HOTFIX(H@/!)" "|" "FIXED(F@/!)" "STUCK(S@/!)")
-        (sequence "OPEN(o)" "CLOSED(c)") ;; GitHub Issues
-        (sequence "EVENT(e)" "|" "WENT(a)" "SKIPPED(u)")
-        (sequence "CALL(k)" "|" "CALLED(l)")
-        (sequence "REPLY(R@/!)" "|" "SENT(s@/!)")
-        (sequence "INVOICE(i@/!)" "PENDING(p@/!)" "|" "FILED(f@/!)")))
+      '((sequence "OPEN(1)" "WIP(2)" "RESLVD(3)" "REOPND(4)" "|" "DONE(5)")
+        (sequence "TODO(q)" "BUG(w)" "IMPRV(e)" "FTRE(r)" "|" "CLOSED(y)")
+        (sequence "|" "FIXED(a@/!)" "NOFIX(s@/!)" "DUP(d@/!)" "INCOMP(f@/!)" "REPR(g@/!)")
+        (sequence "MEETING(z)" "|" "CANCELLED(x)")
+        (sequence "REPLY(c)" "|" "SENT(v)")
+        (sequence "INVOICE(m)" "PENDING(,)" "|" "PAYED(.)")))
 
 (setq org-todo-keyword-faces
-      '(("TODO" . (:foreground "#a6ff99" :weight bold))
-        ("NEXT" . (:foreground "#ff999f" :weight bold))
-        ("REVIEW" . (:foreground "#ffff99" :weight bold))
-        ("DONE" . (:foreground "#99b6ff" :weight bold))
-        ("WAITING" . (:foreground "#ffce99" :weight bold))
-        ("KILLED" . (:foreground "#c3c3c3" :weight bold))
-        ("BUG" . (:foreground "#990000" :weight bold))
-        ("HOTFIX" . (:foreground "#663300" :weight bold))
-        ("FIXED" . (:foreground "#336600" :weight bold))
-        ("STUCK" . (:foreground "#FF0F00" :weight bold))
-        ("OPEN" . (:foreground "#00FF7F" :weight bold))
+      '(
+        ("OPEN" . (:foreground "#ffce99" :weight bold))
+        ("WIP" . (:foreground "#99b6ff" :weight bold))
+        ("RESLVD" . (:foreground "#c3c3c3" :weight bold))
+        ("REOPND" . (:foreground "#a6ff99" :weight bold))
+        ("DONE" . (:foreground "#c3c3c3" :weight bold))
+        ("TODO" . (:foreground "#ff999f" :weight bold))
+        ("BUG" . (:foreground "#FF6347" :weight bold))
+        ("IMPRV" . (:foreground "#FFA07A" :weight bold))
+        ("FTRE" . (:foreground "#E3F600" :weight bold))
         ("CLOSED" . (:foreground "#FF4500" :weight bold))
-        ("EVENT" . (:foreground "#82CA82" :weight bold))
-        ("WENT" . (:foreground "#8477AE" :weight bold))
-        ("SKIPPED" . (:foreground "#FDEEA3" :weight bold))
-        ("CALL" . (:foreground "#C71585" :weight bold))
-        ("CALLED" . (:foreground "#FF4500" :weight bold))
-        ("REPLY" . (:foreground "#FFC0CB" :weight bold))
-        ("SENT" . (:foreground "#B0C4DE" :weight bold))
-        ("INVOICE" . (:foreground "#FFA07A" :weight bold))
-        ("PENDING" . (:foreground "#FF6347" :weight bold))
-        ("FILED" . (:foreground "#40E0D0" :weight bold))))
+        ("FIXED" . (:foreground "#00FF7F" :weight bold))
+        ("NOFIX" . (:foreground "#82CA82" :weight bold))
+        ("DUP" . (:foreground "#8477AE" :weight bold))
+        ("INCOMP" . (:foreground "#FDEEA3" :weight bold))
+        ("REPR" . (:foreground "#C71585" :weight bold))
+        ("MEETING" . (:foreground "#FFC0CB" :weight bold))
+        ("CANCELLED" . (:foreground "#FF4500" :weight bold))
+        ("INVOICE" . (:foreground "#B0C4DE" :weight bold))
+        ("PENDING" . (:foreground "#AEA300" :weight bold))
+        ("PAYED" . (:foreground "#FFA000" :weight bold))
+        ("REPLY" . (:foreground "#40E0D0" :weight bold))
+        ("SENT" . (:foreground "#FFE0D0" :weight bold))
+        ))
 
 ;; TAGS
 (setq org-tag-alist '((:startgroup . nil)
@@ -444,7 +448,7 @@
 (setq org-capture-templates
       '(("t" "TODO" entry
          (file (concat org-directory "refile.org"))
-         "* NEXT %^{Brief Description} %^G\nDEADLINE: %^t \n%? \nAdded: %U"
+         "* TODO [#0] %^{Brief Description} %^G\nDEADLINE: %^t \n%? \nAdded: %U"
          :clock-in t :clock-resume t)
 
         ("m" "MEETING" entry
@@ -494,16 +498,47 @@
 ;;`---------------------------
 
 (setq org-agenda-custom-commands
-      '(("n" "Next Task" todo "NEXT"
-         ((org-agenda-files '("~/Dropbox/ORGS/gtd.org"))
-          (org-agenda-overriding-header "Next Tasks")
-          (org-agenda-overriding-columns-format "%55ITEM %35SCHEDULED %25DEADLINE")
+      '(
+        ("0" "NEEDS TRIAGE"
+         ((org-agenda-files '("~/Dev/OrgFiles/TRIAGE.org"))
+          (agenda "" ((org-agenda-ndays 1)))
+          (tags-todo "+PRIORITY=\"0\"")))
+        ("1" "CRITICAL"
+         ((org-agenda-files '("~/Dev/OrgFiles/TRIAGE.org"))
+          (agenda "" ((org-agenda-ndays 1)))
+          (tags-todo "+PRIORITY=\"1\"")))
+        ("2" "URGENT"
+         ((org-agenda-files '("~/Dev/OrgFiles/TRIAGE.org"))
+          (agenda "" ((org-agenda-ndays 1)))
+          (tags-todo "+PRIORITY=\"2\"")))
+        ("3" "TWO2FOUR"
+         ((org-agenda-files '("~/Dev/OrgFiles/TRIAGE.org"))
+          (agenda "" ((org-agenda-ndays 1)))
+          (tags-todo "+PRIORITY=\"3\"")))
+        ("4" "HELD"
+         ((org-agenda-files '("~/Dev/OrgFiles/TRIAGE.org"))
+          (agenda "" ((org-agenda-ndays 1)))
+          (tags-todo "+PRIORITY=\"4\"")))
+        ("5" "Tickets" todo "TODO"
+         ((org-agenda-files '("~/.org-jira/"))
+          (org-agenda-overriding-header "Open Tickets")
+          (org-agenda-overriding-columns-format "%55ITEM %ID %type %status %priority %reporter %created %updated %assignee")
           (org-agenda-view-columns-initially t)
           (org-agenda-todo-ignore-scheduled nil)
           (org-agenda-todo-ignore-deadlines nil)
           (org-agenda-todo-ignore-with-date nil)
           (org-tags-match-list-sublevels t)
-          (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp "\\(:habit:\\)"))
+          (org-agenda-sorting-strategy
+           '(scheduled-up deadline-down todo-state-up category-keep))))
+        ("6" "ASSIGNED Tickets" tags "+assignee=\"astrilchuk\""
+         ((org-agenda-files '("~/.org-jira/"))
+          (org-agenda-overriding-header "ASSIGNED TICKETS")
+          (org-agenda-overriding-columns-format "%55ITEM %ID %type %status %priority %reporter %created %updated %assignee")
+          (org-agenda-view-columns-initially t)
+          (org-agenda-todo-ignore-scheduled nil)
+          (org-agenda-todo-ignore-deadlines nil)
+          (org-agenda-todo-ignore-with-date nil)
+          (org-tags-match-list-sublevels t)
           (org-agenda-sorting-strategy
            '(scheduled-up deadline-down todo-state-up category-keep))))
         ("u" "Meetings" todo "MEETING"
@@ -521,11 +556,11 @@
           (org-tags-match-list-sublevels nil)
           (org-agenda-sorting-strategy '(priority-down))))
         ("g" "Google Calendar" alltodo ""
-         ((org-agenda-files '("~/Dropbox/ORGS/gcal.org"))
+         ((org-agenda-files '("~/Dev/OrgFiles/gcal.org"))
           (org-agenda-ndays 31)
           (org-agenda-time-grid nil)))
         ("r" "Tasks to Refile" tags "@refile"
-         ((org-agenda-files '("~/Dropbox/ORGS/gcal.org" "~/Dropbox/ORGS/refile.org"))
+         ((org-agenda-files '("~/Dev/OrgFiles/gcal.org" "~/Dev/OrgFiles/refile.org"))
           (org-agenda-overriding-header "Tasks to Refile")
           (org-tags-match-list-sublevels nil)))
         ("c" . "Custom queries")
@@ -534,31 +569,32 @@
           (org-agenda-ndays 1)
           (org-deadline-warning-days 60)
           (org-agenda-time-grid nil)))
-        ("cx" "With deadline columns" todo "TODO"
-         ((org-agenda-overriding-columns-format "%20ITEM %DEADLINE")
-          (org-agenda-view-columns-initially t)))
-        ("cc" "ALL WORK"
-         ((tags-todo "@work"))
-         ((org-agenda-compact-blocks t)))
-        ("ce" "ALL HABITS"
-         ((tags-todo "@habits"))
-         ((org-agenda-compact-blocks t)))
-        ("cr" "ALL HOME"
-         ((tags-todo "@home"))
-         ((org-agenda-compact-blocks t)))
-        ("cn" "ALL TASKS" todo "NEXT"
-         ((org-agenda-todo-ignore-scheduled nil)
-          (org-agenda-todo-ignore-deadlines nil)
-          (org-agenda-todo-ignore-with-date nil)))
-        ("ca" "Notes" tags "notes"
-         ((org-agenda-overriding-header "Notes")
-          (org-tags-match-list-sublevels t)))
-        ("ch" "Daily habits"
-         ((agenda ""))
-         ((org-agenda-show-log t)
-          (org-agenda-ndays 7)
-          (org-agenda-log-mode-items '(state))
-          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":habit:"))))))
+        ;; ("cx" "With deadline columns" todo "TODO"
+        ;;  ((org-agenda-overriding-columns-format "%20ITEM %DEADLINE")
+        ;;   (org-agenda-view-columns-initially t)))
+        ;; ("cc" "ALL WORK"
+        ;;  ((tags-todo "@work"))
+        ;;  ((org-agenda-compact-blocks t)))
+        ;; ("ce" "ALL HABITS"
+        ;;  ((tags-todo "@habits"))
+        ;;  ((org-agenda-compact-blocks t)))
+        ;; ("cr" "ALL HOME"
+        ;;  ((tags-todo "@home"))
+        ;;  ((org-agenda-compact-blocks t)))
+        ;; ("cn" "ALL TASKS" todo "NEXT"
+        ;;  ((org-agenda-todo-ignore-scheduled nil)
+        ;;   (org-agenda-todo-ignore-deadlines nil)
+        ;;   (org-agenda-todo-ignore-with-date nil)))
+        ;; ("ca" "Notes" tags "notes"
+        ;;  ((org-agenda-overriding-header "Notes")
+        ;;   (org-tags-match-list-sublevels t)))
+        ;; ("ch" "Daily habits"
+        ;;  ((agenda ""))
+        ;;  ((org-agenda-show-log t)
+        ;;   (org-agenda-ndays 7)
+        ;;   (org-agenda-log-mode-items '(state))
+        ;;   (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":habit:"))))
+        ))
 
 
 ;;,------
@@ -639,14 +675,9 @@
 (require-package 'org-gcal)
 (el-get-bundle tkf/emacs-request)
 (require 'org-gcal)
-;; Client ID and Secret kept in seperate file: init-keys.el
-;; (after-load 'org-gcal
-;;   (setq org-gcal-client-id "long numbering thing here"
-;;         org-gcal-client-secret "super secret key"))
-
-;; (when (or (string-equal system-name "fennec.local")
-;;           (string-equal system-name "fennec.lan")))
-(setq org-gcal-file-alist '(("anton@ilyfa.cc" .  "~/Dropbox/ORGS/gcal.org")))
+(setq org-gcal-file-alist
+      '(("astrilchuk@adaptavist.com" .  "~/Dev/OrgFiles/adapt-gcal.org")
+        ("anton@ilyfa.cc" .  "~/Dev/OrgFiles/ilyfa-gcal.org")))
 (run-at-time "30 min" 3600 'org-gcal-fetch)
 
 ;;,------------
@@ -739,7 +770,7 @@
 (setq org-drill-use-visible-cloze-face-p t
       org-drill-maximum-items-per-session 20
       org-drill-maximum-duration 10
-      org-drill-scope `("~/Dropbox/ORGS/drill.org")
+      org-drill-scope `("~/Dev/OrgFiles/drill.org")
       org-drill-save-buffers-after-drill-sessions-p nil
       org-drill-spaced-repetition-algorithm 'sm5
       org-drill-add-random-noise-to-intervals-p t
@@ -780,7 +811,8 @@
               )))
       (call-interactively 'org-agenda-list))))
 
-(run-with-idle-timer 300 t 'jump-to-org-agenda)
+;;(run-with-idle-timer 300 t 'jump-to-org-agenda)
+(fullframe org-agenda-list org-agenda-quit)
 
 ;; Send to bottom of list
 (defun ype:org-send-to-bottom-of-list ()
@@ -797,24 +829,26 @@
 (run-at-time "00:59" 3600 'org-save-all-org-buffers)
 
 ;;Disable C-\' Key
+(global-set-key (kbd "C-x p") 'org-pomodoro)
 (define-key org-mode-map (kbd "C-\'") nil)
-(define-key global-map (kbd "H-a") 'org-agenda)
-(define-key global-map (kbd "H-i") 'org-pomodoro)
-(define-key global-map (kbd "H-I") 'org-clock-in)
-(define-key global-map (kbd "H-o") 'org-clock-out)
-(define-key global-map (kbd "H-f") 'org-refile)
-(define-key global-map (kbd "H-c l") 'org-store-link)
-(define-key global-map (kbd "H-c i") 'org-insert-link)
-(define-key global-map (kbd "H-c a") 'org-archive-set-tag)
-(define-key global-map (kbd "H-c o") 'org-refile-goto-last-stored)
-(define-key global-map (kbd "H-c c") 'org-capture)
-(define-key global-map (kbd "H-c p") 'ype/phone-call)
-(define-key global-map (kbd "H-c d") 'ype/clock-in-default-task-as-default)
-(define-key global-map (kbd "H-c m") 'ype/clock-in-default-email)
-(define-key global-map (kbd "H-c E") 'ype/clock-in-default-elisp)
-(define-key global-map (kbd "H-c s") 'ype/clock-in-default-school)
-(define-key global-map (kbd "H-c t") 'org-clock-select-task)
-(define-key global-map (kbd "H-c e") 'org-set-effort)
+(define-prefix-command 'hyper-org)
+(global-set-key (kbd "H-a") 'hyper-org)
+(define-key hyper-org (kbd "H-a") 'org-agenda)
+(define-key hyper-org (kbd "i") 'org-clock-in)
+(define-key hyper-org (kbd "o") 'org-clock-out)
+(define-key hyper-org (kbd "f") 'org-refile)
+(define-key hyper-org (kbd "l") 'org-store-link)
+(define-key hyper-org (kbd "i") 'org-insert-link)
+(define-key hyper-org (kbd "A") 'org-archive-set-tag)
+(define-key hyper-org (kbd "r") 'org-refile-goto-last-stored)
+(define-key hyper-org (kbd "g") 'org-capture)
+(define-key hyper-org (kbd "P") 'ype/phone-call)
+(define-key hyper-org (kbd "d") 'ype/clock-in-default-task-as-default)
+(define-key hyper-org (kbd "m") 'ype/clock-in-default-email)
+(define-key hyper-org (kbd "E") 'ype/clock-in-default-elisp)
+(define-key hyper-org (kbd "s") 'ype/clock-in-default-school)
+(define-key hyper-org (kbd "t") 'org-clock-select-task)
+(define-key hyper-org (kbd "e") 'org-set-effort)
 
 ;; Experimental
 ;; [[https://github.com/tmarble/timesheet.el][tmarble/timesheet.el]]
@@ -825,6 +859,39 @@
 
 ;; Time Clocks
 (el-get-bundle roman/clocker.el)
+
+;; JIRA
+(require-package 'org-jira)
+(require 'jiralib)
+(setq jiralib-host "adaptavist.com")
+(setq jiralib-wsdl-descriptor-url "https://tracker.adaptavist.com/rpc/soap/jirasoapservice-v2?wsdl")
+(setq jiralib-url "https://tracker.adaptavist.com")
+
+(defun sort-jira (file)
+  (with-temp-buffer
+    (when (file-readable-p file)
+      (find-file file)
+      (org-mode)
+      (goto-char (point-min))
+      (org-sort-entries nil ?R nil nil "ID")
+      (org-shifttab)
+      (when (file-writable-p file)
+        (write-file file nil)))))
+
+(defun get-jira ()
+  (org-jira-get-issues-from-filter "SUPPORT: bigquery")
+  (defvar jiradir (directory-file-name "~/.org-jira/"))
+  (let ((files (directory-files jiradir nil nil t)))
+    (dolist (file files)
+      (unless (member file '("." ".." ".DS_Store" "projects-list.org" "my-ticks.org"))
+        (sort-jira (concat jiradir "/" file))))))
+
+(defun jira-get-issues ()
+  (interactive)
+  (get-jira))
+
+;;(run-with-timer 0 (m2s 30) 'jira-get-issues)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init-org.el ends here

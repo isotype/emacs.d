@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 15-04-2014                                            ;;;
-;;; Last-Updated: 15-01-2015                                       ;;;
+;;; Last-Updated: 25-02-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-irc                                             ;;;
@@ -22,8 +22,8 @@
 ;;ERC Tabs
 (add-to-list 'load-path (expand-file-name "init-tools/erc-tab" user-emacs-directory))
 
-(defvar erc-header-line-uses-tabbar-p t
-  "Use tab instead to display channels")
+;; (defvar erc-header-line-uses-tabbar-p t
+;;   "Use tab instead to display channels")
 
 ;; wrap lines to buffer when typing
 (add-hook 'erc-mode-hook 'visual-line-mode)

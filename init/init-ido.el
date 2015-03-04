@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;; Last-Updated: 06-09-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;;; Last-Updated: 25-02-2015                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-ido                                             ;;;
 ;;; Description: IDO, and IDO smex config                          ;;;
@@ -24,7 +24,7 @@
 (flx-ido-mode 1)
 ;; disable ido faces to see flx highlights.
 (setq ido-use-faces nil)
-(setq flx-ido-threshhold 10000)
+(setq flx-ido-threshhold 1000)
 
 (require-package 'ido-vertical-mode)
 (ido-vertical-mode 1)
@@ -32,6 +32,7 @@
 
 ;; Use ido everywhere
 (require-package 'ido-ubiquitous)
+(require 'ido-ubiquitous)
 (ido-ubiquitous-mode 1)
 (setq ido-ubiquitous-use-new-completing-read 'webjump)
 

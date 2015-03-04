@@ -2,7 +2,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 17-04-2014                                            ;;;
-;;; Last-Updated: 13-01-2015                                       ;;;
+;;; Last-Updated: 27-02-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-gui-frames                                      ;;;
@@ -35,10 +35,8 @@
 ;;----------------------------------------------------------------------------
 ;; Window size and features
 ;;----------------------------------------------------------------------------
-(when (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
-(when (fboundp 'set-scroll-bar-mode)
-  (set-scroll-bar-mode nil))
+(tool-bar-mode -1)
+(set-scroll-bar-mode nil)
 
 (defun adjust-opacity (frame incr)
   (let* ((oldalpha (or (frame-parameter frame 'alpha) 100))
@@ -51,9 +49,9 @@
   ;; Hint: Customize `ns-use-native-fullscreen'
   (global-set-key (kbd "M-s-f") 'toggle-frame-fullscreen))
 
-(global-set-key (kbd "A-\-") (lambda () (interactive) (adjust-opacity nil -5)))
-(global-set-key (kbd "A-\=") (lambda () (interactive) (adjust-opacity nil 5)))
-(global-set-key (kbd "A-\+") (lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
+(global-set-key (kbd "A-1") (lambda () (interactive) (adjust-opacity nil -5)))
+(global-set-key (kbd "A-2") (lambda () (interactive) (adjust-opacity nil 5)))
+(global-set-key (kbd "A-3") (lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
 
 (add-hook 'after-make-frame-functions
           (lambda (frame)
@@ -80,12 +78,6 @@
                      (format " [+%s][-%s]"
                              (match-string 1 plus-minus)
                              (match-string 2 plus-minus)))))))
-
-(defun ype:show-tabbar-groups-in-gui-frame ()
-  (when (tabbar-mode-on-p)
-    (concat (propertize
-             (car (funcall tabbar-buffer-groups-function)) 'face 'font-lock-string-face)
-            " > ")))
 
 (defun ype:vc-check ()
   (if (vc-backend (buffer-file-name))

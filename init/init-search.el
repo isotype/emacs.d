@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 13-01-2015                                       ;;;
+;;; Last-Updated: 03-03-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-search                                          ;;;
@@ -109,10 +109,10 @@ This is useful when followed by an immediate kill."
 (require 'ace-isearch)
 (custom-set-variables
  '(ace-isearch-input-length 6)
- '(ace-isearch-input-idle-delay 0.2)
+ '(ace-isearch-input-idle-delay 0.8)
  '(ace-isearch-submode 'ace-jump-char-mode)
  '(ace-isearch-use-ace-jump 'printing-char))
 (ace-isearch-set-ace-jump-after-isearch-exit t)
 
 (after-load 'ace-isearch
-  (global-ace-isearch-mode +1))
+  (global-ace-isearch-mode 1))

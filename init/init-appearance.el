@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;; Last-Updated: 16-11-2014                                         ;;
-;;   By: Anton Strilchuk <anton@env.sh>                             ;;
+;;; Last-Updated: 26-02-2015                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-appearance                                      ;;;
 ;;; Description: Setup for the look and feel of emacs              ;;;
@@ -32,21 +32,24 @@
 ;;Make things look pretty
 (require-package 'pretty-symbols)
 
+;; Hide OSX Top Menu
+;; (setq ns-auto-hide-menu-bar nil)
+
 ;;Less Flickery Display
-(setq redisplay-dont-pause t)
+;; (setq redisplay-dont-pause t)
 
 ;;Don't display battery life
 (display-battery-mode -1)
 (size-indication-mode -1)
 
-;; Nicer scrolling with mouse wheel/trackpad.
-(unless (and (boundp 'mac-mouse-wheel-smooth-scroll) mac-mouse-wheel-smooth-scroll)
-  (global-set-key [wheel-down] (lambda () (interactive) (scroll-up-command 1)))
-  (global-set-key [wheel-up] (lambda () (interactive) (scroll-down-command 1)))
-  (global-set-key [double-wheel-down] (lambda () (interactive) (scroll-up-command 2)))
-  (global-set-key [double-wheel-up] (lambda () (interactive) (scroll-down-command 2)))
-  (global-set-key [triple-wheel-down] (lambda () (interactive) (scroll-up-command 4)))
-  (global-set-key [triple-wheel-up] (lambda () (interactive) (scroll-down-command 4))))
+;; ;; Nicer scrolling with mouse wheel/trackpad.
+;; (unless (and (boundp 'mac-mouse-wheel-smooth-scroll) mac-mouse-wheel-smooth-scroll)
+;;   (global-set-key [wheel-down] (lambda () (interactive) (scroll-up-command 1)))
+;;   (global-set-key [wheel-up] (lambda () (interactive) (scroll-down-command 1)))
+;;   (global-set-key [double-wheel-down] (lambda () (interactive) (scroll-up-command 2)))
+;;   (global-set-key [double-wheel-up] (lambda () (interactive) (scroll-down-command 2)))
+;;   (global-set-key [triple-wheel-down] (lambda () (interactive) (scroll-up-command 4)))
+;;   (global-set-key [triple-wheel-up] (lambda () (interactive) (scroll-down-command 4))))
 
 (setq-default scroll-up-aggressively 0.01 scroll-down-aggressively 0.01)
 
@@ -60,7 +63,6 @@
 (global-page-break-lines-mode)
 (diminish 'page-break-lines-mode " -")
 "Examples Line below ^L (C-q C-l)"
-
 
 ;;Highlight
 ;;FIXME
@@ -84,6 +86,7 @@
    nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|BUG\\):"
           1 font-lock-warning-face t))))
 (add-hook 'prog-mode-hook 'ype:font-lock-comment-annot)
+(add-hook 'yaml-mode-hook 'ype:font-lock-comment-annot)
 
 
 (provide 'init-appearance)
