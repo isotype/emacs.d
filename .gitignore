@@ -64,3 +64,6 @@ offlineimap.*
 /el-get/
 /jabber-history/
 /eshell/
+/init/init-tabbar.el
+/wakatime/
+/init/init-wakatime.el
