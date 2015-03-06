@@ -2,8 +2,8 @@
 ;;; Author: Anton Strilchuk <anton@env.sh>                         ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 16-06-2014                                            ;;;
-;;; Last-Updated: 02-03-2015                                       ;;;
-;;;  Update #: 192                                                 ;;;
+;;; Last-Updated: 06-03-2015                                       ;;;
+;;;  Update #: 193                                                 ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -188,7 +188,7 @@
 ;; Writing
 (require 'init-deft)
 (require 'init-writing)
-(require 'init-confluence)
+(require 'init-atlassian)
 ;; Web
 (require 'init-web)
 

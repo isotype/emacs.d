@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;;; Last-Updated: 26-02-2015                                       ;;;
+;;; Last-Updated: 08-02-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-appearance                                      ;;;
@@ -14,7 +14,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Wrap Text
 (global-visual-line-mode 1)
-(diminish 'visual-line-mode " ⏎")
+(diminish 'visual-line-mode)
 
 ;;; Highlight Cursor Line
 (global-hl-line-mode 1)
@@ -32,11 +32,8 @@
 ;;Make things look pretty
 (require-package 'pretty-symbols)
 
-;; Hide OSX Top Menu
-;; (setq ns-auto-hide-menu-bar nil)
-
 ;;Less Flickery Display
-;; (setq redisplay-dont-pause t)
+(setq redisplay-dont-pause t)
 
 ;;Don't display battery life
 (display-battery-mode -1)
@@ -61,7 +58,7 @@
 ;;Page break line mode
 (require-package 'page-break-lines)
 (global-page-break-lines-mode)
-(diminish 'page-break-lines-mode " -")
+(diminish 'page-break-lines-mode)
 "Examples Line below ^L (C-q C-l)"
 
 ;;Highlight
@@ -86,7 +83,6 @@
    nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|BUG\\):"
           1 font-lock-warning-face t))))
 (add-hook 'prog-mode-hook 'ype:font-lock-comment-annot)
-(add-hook 'yaml-mode-hook 'ype:font-lock-comment-annot)
 
 
 (provide 'init-appearance)

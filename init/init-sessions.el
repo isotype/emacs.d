@@ -3,9 +3,9 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 20-08-2014                                              ;;
-;; Last-Updated: 14-09-2014                                         ;;
-;;  Update #: 8                                                     ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;;; Last-Updated: 06-03-2015                                       ;;;
+;;;  Update #: 9                                                   ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-sessions                                          ;;
 ;; Version:                                                         ;;
@@ -46,6 +46,7 @@
 ;;,---------------------------------------------
 ;;| Restore histories and registers after saving
 ;;`---------------------------------------------
+(require 'savehist)
 (setq-default history-length 1000)
 (savehist-mode t)
 
