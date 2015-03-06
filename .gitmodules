@@ -1,60 +1,9 @@
-[submodule "submodules/rebox2"]
-	path = submodules/rebox2
-	url = git://github.com/lewang/rebox2.git
-[submodule "submodules/screencast-mode"]
-	path = submodules/screencast-mode
-	url = git://github.com/esbena/screencast-mode.git
-[submodule "submodules/writegood-mode"]
-	path = submodules/writegood-mode
-	url = git://github.com/bnbeckwith/writegood-mode.git
-[submodule "submodules/org-link-minor-mode"]
-	path = submodules/org-link-minor-mode
-	url = git://github.com/seanohalpin/org-link-minor-mode.git
-[submodule "submodules/emacs-request"]
-	path = submodules/emacs-request
-	url = git://github.com/tkf/emacs-request.git
-[submodule "submodules/spray"]
-	path = submodules/spray
-	url = git://github.com/ian-kelling/spray.git
-[submodule "submodules/terminal-notifier"]
-	path = submodules/terminal-notifier
-	url = git://github.com/emacsmirror/terminal-notifier.git
 [submodule "submodules/textlint"]
 	path = submodules/textlint
 	url = git@github.com:DamienCassou/textlint.git
-[submodule "submodules/erc-terminal-notifier.el"]
-	path = submodules/erc-terminal-notifier.el
-	url = git://github.com/julienXX/erc-terminal-notifier.el.git
-[submodule "submodules/org-opml"]
-	path = submodules/org-opml
-	url = git://github.com/edavis/org-opml.git
-[submodule "submodules/websocket"]
-	path = submodules/websocket
-	url = git://github.com/ahyatt/emacs-websocket.git
-[submodule "submodules/realtime-markdown-viewer"]
-	path = submodules/realtime-markdown-viewer
-	url = git://github.com/syohex/emacs-realtime-markdown-viewer.git
-[submodule "submodules/powerline"]
-	path = submodules/powerline
-	url = git://github.com/milkypostman/powerline.git
-[submodule "submodules/ein"]
-	path = submodules/ein
-	url = git://github.com/tkf/emacs-ipython-notebook.git
-[submodule "submodules/helm-mu"]
-	path = submodules/helm-mu
-	url = git://github.com/ype/helm-mu.git
-[submodule "submodules/emacs-async"]
-	path = submodules/emacs-async
-	url = git://github.com/ype/emacs-async.git
-[submodule "submodules/org-sync"]
-	path = submodules/org-sync
-	url = git://github.com/ype/org-sync.git
 [submodule "submodules/ycmd"]
 	path = submodules/ycmd
 	url = git://github.com/abingham/emacs-ycmd.git
-[submodule "submodules/ob-go"]
-	path = submodules/ob-go
-	url = git://github.com/pope/ob-go.git
 [submodule "submodules/predictive"]
 	path = submodules/predictive
 	url = http://www.dr-qubit.org/git/predictive.git
