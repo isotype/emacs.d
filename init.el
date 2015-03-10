@@ -2,8 +2,8 @@
 ;;; Author: Anton Strilchuk <anton@env.sh>                         ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 16-06-2014                                            ;;;
-;;; Last-Updated: 06-03-2015                                       ;;;
-;;;  Update #: 193                                                 ;;;
+;;; Last-Updated: 10-03-2015                                       ;;;
+;;;  Update #: 195                                                 ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -73,9 +73,9 @@
 (require 'init-xterm)
 (require-package 'fold-dwim)
 (require-package 'dash)
+
 ;;Appearance Setup
 (require 'init-theme)
-;;(require 'init-tabbar) ;; Tanks CPUs
 (require 'init-gui-frames)
 (require 'init-appearance)
 (when *is-a-mac*
@@ -86,10 +86,10 @@
 (el-get-bundle 'emacsmirror/terminal-notifier)
 (add-to-list 'load-path (expand-file-name "init-tools/notify.el" user-emacs-directory))
 (require 'notify)
+
 ;;Search Modes
 (require 'init-search)
 (require 'init-ido)
-;;(require 'init-auto-complete)
 (require 'init-company)
 (require 'init-sauron)
 (require 'init-windows)
@@ -100,12 +100,12 @@
 (require 'init-paredit)
 (require 'init-flycheck)
 
-;;Project management
 (require-package 'ack-and-a-half)
 
 ;; Org-Sync
 (el-get-bundle daimrod/org-sync)
 (require 'os)
+
 ;;Git
 (require 'init-git)
 
@@ -132,6 +132,7 @@
 
 ;;HELM
 (require 'init-helm)
+(require 'init-eshell)
 
 ;;Auto Header
 (require 'header2)
@@ -151,13 +152,6 @@
 (when (executable-find "google")
   (require 'init-gcal))
 
-;;; Quick create blog post
-;; set posts directory
-;; (require 'init-blog-post)
-
-;;; Org Custom Macros
-;; (require 'init-org-macros)
-
 ;; R in Emacs
 (require 'init-ess)
 
@@ -174,9 +168,6 @@
 ;; Finances
 (require 'init-ledger)
 
-;;Social Networking
-;; (require 'init-social)
-
 ;;Custom Keybindings
 (require 'init-keybindings)
 
@@ -189,6 +180,7 @@
 (require 'init-deft)
 (require 'init-writing)
 (require 'init-atlassian)
+
 ;; Web
 (require 'init-web)
 
@@ -197,25 +189,9 @@
 
 ;; News and Reading
 (require 'init-feeds)
-;; (require 'init-evernote)
-;; (require 'init-spritz)
 
 ;; Slack
-;;(require 'init-slack)
 (require 'init-hipchat)
-
-;;IRC
-;;(require 'init-irc)
-
-;; OSX Browse
-;;(require 'init-browse)
-
-;;,--------------------------------------------------
-;;| MISC: OSX Printing
-;;| From: http://www.emacswiki.org/emacs/MacPrintMode
-;;`--------------------------------------------------
-(add-to-list 'load-path (expand-file-name "misc" user-emacs-directory))
-;;(require 'mac-print-mode)
 
 (require-package 'gnuplot)
 (when *is-a-mac*
@@ -247,12 +223,12 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
-;;(set-frame-font (ype/font-name-replace-size (face-font 'default) 14) t)
-
 ;; Update info docs
 (add-hook 'Info-mode-hook		; After Info-mode has started
           (lambda ()
             (setq Info-additional-directory-list Info-default-directory-list)))
+
+(sauron-start)
 
 (require 'init-locales)
 (add-hook 'after-init-hook
@@ -260,14 +236,9 @@
             (message "init completed in %.2fms"
                      (sanityinc/time-subtract-millis after-init-time before-init-time))))
 
-;; Time Tracking
-;;(require 'init-wakatime)
-(sauron-start)
 ;; Clock in default task (Daily Dose)
 ;; Jump: [[file:init/init-org.el::%3B%3B|%20DEFAULT%20TASK%20IDs][Default task ID function]]
 ;;(ype/clock-in-default-task-as-default)
-;;(run-at-time "60 min" 3600 'org-agenda-list)
-;;(type-break-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
