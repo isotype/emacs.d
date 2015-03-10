@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 30-06-2014                                              ;;
-;;; Last-Updated: 26-02-2015                                       ;;;
-;;;  Update #: 26                                                  ;;;
+;;; Last-Updated: 10-03-2015                                       ;;;
+;;;  Update #: 27                                                  ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-windows                                           ;;
@@ -141,6 +141,5 @@ Call a second time to restore the original window configuration."
   (setq golden-ratio-exclude-buffer-names '("*Sauron*"))
   (setq golden-ratio-extra-commands '("ace-select-window" "switch-window"))
   (golden-ratio-mode 1))
-
 
 (provide 'init-windows)

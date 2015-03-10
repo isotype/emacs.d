@@ -3,9 +3,9 @@
 ;; Author: Anton Strilchuk <anton@ilyfa.cc>                         ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 23-07-2014                                              ;;
-;; Last-Updated: 23-07-2014                                         ;;
-;;  Update #: 6                                                     ;;
-;;   By: Anton Strilchuk <anton@ilyfa.cc>                           ;;
+;;; Last-Updated: 09-03-2015                                       ;;;
+;;;  Update #: 10                                                  ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-helpers                                           ;;
 ;; Description: Simple Helper Functions to make life easier         ;;
@@ -80,6 +80,8 @@ Usage: (insert-manual-day-and-time \"day\" \"time\")
   (newline-and-indent)
   (insert "\""))
 
-
+(global-set-key (kbd "H-\'") 'ype:paste-defun-comment-pretty)
 
 (provide 'init-helpers)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;init-helpers.el ends here

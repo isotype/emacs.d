@@ -2,8 +2,8 @@
 ;;; Author: Anton Strilchuk <ype@env.sh>                           ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 16-06-2014                                            ;;;
-;;; Last-Updated: 26-02-2015                                       ;;;
-;;;  Update #: 155                                                 ;;;
+;;; Last-Updated: 09-03-2015                                       ;;;
+;;;  Update #: 156                                                 ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-edit-utils                                      ;;;
@@ -360,7 +360,6 @@ With arg N, insert N newlines."
 (guide-key-mode 1)
 (setq guide-key-tip/toggle-enable nil)
 
-
 (diminish 'guide-key-mode)
 
 (require-package 'rebox2)
@@ -400,8 +399,6 @@ With arg N, insert N newlines."
 (define-key ype:multiple-cursors-map (vector ?p) 'mc/mark-previous-word-like-this)    ; C-c m p
 (define-key ype:multiple-cursors-map (vector ?q) 'mc/mark-all-like-this-in-defun)     ; C-c m q
 (global-set-key [?\C-c ?m] 'ype:multiple-cursors-map)
-
-
 
 ;;,-----------------------------------------------------------------
 ;;|  Drag Stuff
@@ -453,8 +450,6 @@ With arg N, insert N newlines."
   "Quick convert hours to seconds"
   (* (* hours 60) 60))
 
-
-
 ;;,-------------------------------------------------------------------
 ;;| Hide Boring Buffers
 ;;|
@@ -470,8 +465,6 @@ With arg N, insert N newlines."
 ;;   (interactive)
 ;;   (unless (string-match-p "^ " (buffer-name))
 ;;     (rename-buffer (concat " " (buffer-name)))))
-
-
 
 ;;,-------------------------------------------------------------------
 ;;| Org-Link-Minor-Mode
@@ -501,7 +494,6 @@ With arg N, insert N newlines."
 (global-set-key (kbd "A-x 2") 'ype/toggle-OLMM-0)
 (add-hook 'prog-mode-hook 'org-link-minor-mode)
 
-
 ;;Linum Mode
 (require 'linum)
 (require-package 'linum-relative)
@@ -548,11 +540,10 @@ With arg N, insert N newlines."
   (global-set-key (kbd "M-g g") 'show-linum-goto-num))
 
 (ype:autohide-linum)
-
+
 ;; Unfill Paragraph
 (global-set-key (kbd "C-c u") 'unfill-paragraph)
 
-
 ;; Quick Keys
 (define-prefix-command 'endless:toggle-map)
 ;; The manual recommends C-c for user keys, but I like using C-x for
@@ -582,7 +573,7 @@ With arg N, insert N newlines."
 
 ;; Ledger
 (set-register ?l (cons 'file "/Volumes/ype/finances/ledgers/ledger-monthly.ledger"))
-
+
 ;; Reformat Buffer
 (defun indent-buffer ()
   (interactive)

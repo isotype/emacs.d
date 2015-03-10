@@ -4,8 +4,8 @@
 ;;; Author: Anton Strilchuk <anton@env.sh>                         ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Version: 0.0.0.0.0.0.1                                         ;;;
-;;; Last-Updated: 06-03-2015                                       ;;;
-;;;  Update #: 8                                                   ;;;
+;;; Last-Updated: 09-03-2015                                       ;;;
+;;;  Update #: 15                                                  ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Description: Do Atlassian Apps the right way :)                ;;;
@@ -41,9 +41,9 @@
 ;;+==================================+;;
 ;; Source: [[https://github.com/hgschmie/org-confluence][hgschmie/org-confluence]]
 
-(el-get-bundle 'jwalsh/org-confluence)
-(add-to-list 'load-path (expand-file-name "el-get/org-confluence" user-emacs-directory))
-(require 'org-confluence)
+;; (el-get-bundle 'hgschmie/org-confluence)
+;; (add-to-list 'load-path (expand-file-name "el-get/org-confluence" user-emacs-directory))
+;; (require 'org-confluence)
 
 ;;+=================+;;
 ;;| JIRA in OrgMode |;;
@@ -66,14 +66,17 @@
         (write-file file nil)))))
 
 (defun get-jira ()
+  "Gets JIRA Issues from JQL Query"
   (org-jira-get-issues-from-filter "SUPPORT: bigquery")
-  (defvar jiradir (directory-file-name "~/.org-jira/"))
-  (let ((files (directory-files jiradir nil nil t)))
+  (defconst jira-dir (directory-file-name "~/.org-jira/")
+    "Default JIRA Directory")
+  (let ((files (directory-files jira-dir nil nil t)))
     (dolist (file files)
       (unless (member file '("." ".." ".DS_Store" "projects-list.org" "my-ticks.org"))
-        (sort-jira (concat jiradir "/" file))))))
+        (sort-jira (concat jira-dir "/" file))))))
 
 (defun jira-get-issues ()
+  "Interactive function to get JIRA issues"
   (interactive)
   (get-jira))
 

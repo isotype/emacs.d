@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 11-06-2014                                              ;;
-;;; Last-Updated: 15-01-2015                                       ;;;
+;;; Last-Updated: 22-01-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-mu4e                                              ;;
@@ -34,7 +34,7 @@
 
 (setq mail-user-agent 'mu4e-user-agent                           ; mu4e as default mail agent
       read-mail-command 'mu4e
-      mu4e-maildir "~/.mail/ilyfa.cc"                            ; set mu4e mail directory
+      mu4e-maildir "~/.mail/adaptavist.com"                      ; set mu4e mail directory
       mu4e-drafts-folder "/drafts"                               ; set drafts folder
       mu4e-sent-folder   "/sent"                                 ; set sent folder
       mu4e-trash-folder  "/trash"                                ; set trash folder
@@ -56,12 +56,7 @@
       mu4e-html-renderer 'w3m                                    ; use w3m to render html in mail
       mu4e-view-show-images nil                                   ; auto show images
       mu4e-view-image-max-width 450                              ; set max image width
-      mu4e-user-mail-address-list '("anton@env.sh"
-                                    "ype@env.sh"
-                                    "anton@ilyfa.cc"
-                                    "anton@ilyfa.com"
-                                    "antonstrilchuk@gmail.com"
-                                    "anton@homeroom.org.uk"))
+      mu4e-user-mail-address-list '("astrilchuk@adaptavist.com"))
 
 (add-hook 'mu4e-compose-mode-hook 'turn-off-auto-fill)
 (remove-hook 'text-mode-hook 'turn-on-auto-fill)
@@ -76,19 +71,9 @@
               (if msg
                   (setq user-mail-address
                         (cond
-                         ((mu4e-message-contact-field-matches msg :to "antonstrilchuk@gmail.com")
-                          "anton@env.sh")
-                         ((mu4e-message-contact-field-matches msg :to "anton@ilyfa.cc")
-                          "anton@env.sh")
-                         ((mu4e-message-contact-field-matches msg :to "anton@ilyfa.com")
-                          "anton@env.sh")
-                         ((mu4e-message-contact-field-matches msg :to "anton@env.sh")
-                          "anton@env.sh")
-                         ((mu4e-message-contact-field-matches msg :to "anton@homeroom.org.uk")
-                          "anton@homeroom.org.uk")
-                         ((mu4e-message-contact-field-matches msg :to "ype@env.sh")
-                          "ype@env.sh")
-                         (t "anton@env.sh")))))))
+                         ((mu4e-message-contact-field-matches msg :to "astrilchuk@adaptavist.com")
+                          "astrilchuk@adaptavist.com")
+                         (t "astrilchuk@adaptavist.com")))))))
 
 ;; reply attribution line
 (setq message-citation-line-format "On %A \[%d/%m/%y\]\n%N wrote:"
@@ -148,14 +133,14 @@
 (setq message-send-mail-function 'async-smtpmail-send-it
       send-mail-function 'async-smtpmail-send-it
       smtpmail-stream-type 'starttls
-      smtpmail-default-smtp-server "smtp.mandrillapp.com"
-      smtpmail-smtp-server "smtp.mandrillapp.com"
+      smtpmail-default-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587
       smtpmail-debug-info nil
-      smtpmail-local-domain "ilyfa.cc"
+      smtpmail-local-domain "adaptavist.com"
       sendmail-coding-system 'utf-8
       smtpmail-queue-mail t
-      smtpmail-queue-dir "/Users/anton/.mail/queue/cur")
+      smtpmail-queue-dir "/Users/astrilchuk/.mail/queue/cur")
 
 (global-set-key (kbd "H-x s") 'smtpmail-send-queued-mail)
 
@@ -180,8 +165,6 @@
 
 (add-to-list 'mu4e-view-actions
              '("View in browser" . mu4e-msgv-action-view-in-browser) t)
-
-
 
 (require 'gnus-dired)
 ;; make the `gnus-dired-mail-buffers' function also work on
@@ -226,8 +209,7 @@
       mu4e-maildirs-extension-title nil
       mu4e-maildirs-extension-maildir-separator " » "
       mu4e-maildirs-extension-submaildir-separator " | "
-      mu4e-maildirs-extension-custom-list (quote ("/INBOX" "/A_important" "/B_work"
-                                                  "/C_misc" "/flagged" "/drafts"
+      mu4e-maildirs-extension-custom-list (quote ("/INBOX" "/Support" "/Support/Archives"
                                                   "/sent" "/archive" "/trash")))
 
 
@@ -237,8 +219,6 @@
 (require 'org-mu4e)
 (setq org-mu4e-convert-to-html t)
 (defalias 'org-mail 'org-mu4e-compose-org-mode)
-
-
 
 (global-set-key (kbd "H-c") 'mu4e)
 
@@ -292,7 +272,7 @@
            ))
        (setq monitor-attributes att))) file secs))
 
-(defvar monitor-timer (mail-monitor "/Users/anton/.offlineimap/Account-anton-ilyfa/LocalStatus-sqlite/inbox" 60))
+(defvar monitor-timer (mail-monitor "/Users/astrilchuk/.offlineimap/Account-adaptavist/LocalStatus-sqlite/INBOX" 60))
 
 
 ;;,---------
@@ -340,7 +320,6 @@
 ;;|  Not Required by Config
 ;;`---------------------------------------
 (require 'init-mu4e-sr)
-
 
 ;; Import OSX Addressbook
 (add-to-list 'load-path (expand-file-name "init-tools" user-emacs-directory))

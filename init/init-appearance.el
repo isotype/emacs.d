@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;;; Last-Updated: 08-02-2015                                       ;;;
+;;; Last-Updated: 09-03-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-appearance                                      ;;;
@@ -77,12 +77,16 @@
 ;;(require-package 'wiki-nav)
 ;;(global-wiki-nav-mode)
 
+FIX
 ;; FIXME: highlights keywords
 (defun ype:font-lock-comment-annot ()
   (font-lock-add-keywords
-   nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|BUG\\):"
+   nil '(("\\<\\(TODO\\|FIXME\\|OPTIMIZE\\|HACK\\|REVIEW\\):"
           1 font-lock-warning-face t))))
-(add-hook 'prog-mode-hook 'ype:font-lock-comment-annot)
+(add-hook 'comment- 'ype:font-lock-comment-annot)
 
-
+
 (provide 'init-appearance)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;init-edit-utils.el ends here
