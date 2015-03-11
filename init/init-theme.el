@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-03-2014                                            ;;;
-;;; Last-Updated: 25-02-2015                                       ;;;
+;;; Last-Updated: 11-03-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-theme                                           ;;;
@@ -16,9 +16,9 @@
 (require-git-submodule 'powerline t)
 (powerline-vim-theme)
 
-(require-package 'sublime-themes)
-(require-package 'leuven-theme)
+(require-package 'leuven-theme nil)
 (add-to-list 'load-path (expand-file-name "ype-emacs-packages/36-symbols-theme/" user-emacs-directory))
+(require '36-symbols-theme)
 
 ;; Change Light Based on OSX Ambient Light Sensor Values
 (defvar direct-sun 20000000)
@@ -60,6 +60,7 @@
 ;;|
 ;;| eg. check light sensor every hour
 ;;`-------------------------------------------------
-(after-load 'init-theme
-  (adjust-theme-to-light)
-  (run-at-time 180 (* 60 3) 'adjust-theme-to-light))
+;; (after-load 'init-theme
+;;   ;;(adjust-theme-to-light)
+;;   ;;(run-at-time 180 (* 60 3) 'adjust-theme-to-light)
+;;   )

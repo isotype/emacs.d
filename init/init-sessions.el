@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 20-08-2014                                              ;;
-;;; Last-Updated: 10-03-2015                                       ;;;
-;;;  Update #: 13                                                  ;;;
+;;; Last-Updated: 11-03-2015                                       ;;;
+;;;  Update #: 17                                                  ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-sessions                                          ;;
@@ -49,10 +49,10 @@
 (require 'savehist)
 (setq-default history-length 1000)
 (savehist-mode t)
-(require-package 'session)
+;;(require-package 'session)
 
-(setq session-save-file (expand-file-name ".session" user-emacs-directory))
-(add-hook 'after-init-hook 'session-initialize)
+;;(setq session-save-file (expand-file-name ".session" user-emacs-directory))
+;;(add-hook 'after-init-hook 'session-initialize)
 
 ;; save a bunch of variables to the desktop file
 ;; for lists specify the len of the maximal saved data also
@@ -92,9 +92,9 @@
     (frame-restore)))
 
 ;;; Window Revive
-(require-package 'revive)
-(define-key ctl-x-map "S" 'save-current-configuration)
-(define-key ctl-x-map "F" 'resume)
-(define-key ctl-x-map "K" 'wipe)
+;; (require-package 'revive)
+;; (define-key ctl-x-map "S" 'save-current-configuration)
+;; (define-key ctl-x-map "F" 'resume)
+;; (define-key ctl-x-map "K" 'wipe)
 
 (provide 'init-sessions)
