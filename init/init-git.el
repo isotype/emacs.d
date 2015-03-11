@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 07-04-2014                                            ;;;
-;;; Last-Updated: 25-02-2015                                       ;;;
+;;; Last-Updated: 11-03-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-git                                             ;;;
@@ -145,6 +145,10 @@
 ;; Git Training Wheels
 (require-package 'git-commit-training-wheels-mode)
 (add-hook 'git-commit-mode-hook 'git-commit-training-wheels-mode)
+
+;; Check Git on Quit
+(require-package 'vc-check-status)
+(vc-check-status-activate 1)
 
 (provide 'init-git)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
