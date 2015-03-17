@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 28-03-2014                                            ;;;
-;;; Last-Updated: 25-02-2015                                       ;;;
+;;; Last-Updated: 16-03-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-ido                                             ;;;
@@ -44,8 +44,8 @@
     (find-file (ido-completing-read "Open file: " recentf-list nil t))))
 
 (global-set-key (kbd "C-c C-f") 'recentf-ido-find-file)
+(define-key ctrl-apos (kbd "C-f") 'ido-find-file)
 
-
 ;;ibuffer
 (require 'init-ibuffer)
 
@@ -55,7 +55,11 @@
   (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
   (global-set-key [remap execute-extended-command] 'smex))
 
-
+;;SMEX Keys
+(define-key ctrl-apos (kbd "C-c") 'smex)
+(define-key ctrl-apos (kbd "M-x") 'smex)
+(define-key ctrl-apos (kbd "c") 'smex-major-mode-commands)
+
 ;; Bookmark
 (require 'bookmark)
 

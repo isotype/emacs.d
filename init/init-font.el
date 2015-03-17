@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 08-04-2014                                            ;;;
-;;; Last-Updated: 09-03-2015                                       ;;;
+;;; Last-Updated: 12-03-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-font                                            ;;;
@@ -31,8 +31,6 @@
 (global-set-key (kbd "H-\=") 'default-text-scale-increase)
 (global-set-key (kbd "H-\-") 'default-text-scale-decrease)
 
-(set-frame-font "Input Mono-16" nil t)
-
-
+(set-frame-font "Input Mono-15" nil t)
 
 (provide 'init-font)

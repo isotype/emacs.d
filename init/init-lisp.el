@@ -3,8 +3,8 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 10-04-2014                                            ;;;
-;; Last-Updated: 09-10-2014                                         ;;
-;;   By: Anton Strilchuk <ype@env.sh>                               ;;
+;;; Last-Updated: 16-03-2015                                       ;;;
+;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-lisp                                            ;;;
 ;;; Version:                                                       ;;;
@@ -19,11 +19,6 @@
 
 (require-package 'lively)
 
-(setq initial-scratch-message
-      (concat ";; Happy hacking " (or user-login-name "") "!\n\n"))
-
-;; Make C-x C-e run 'eval-region if the region is active
-
 (defun sanityinc/eval-last-sexp-or-region (beg end prefix)
   "Eval region from BEG to END if active, otherwise the last sexp."
   (interactive "r\nP")
@@ -34,7 +29,7 @@
 (global-set-key (kbd "M-:") 'pp-eval-expression)
 
 (after-load 'lisp-mode
-  (define-key emacs-lisp-mode-map (kbd "H-x \\") 'sanityinc/eval-last-sexp-or-region))
+  (define-key emacs-lisp-mode-map (kbd "C-\' C-e") 'sanityinc/eval-last-sexp-or-region))
 
 (require-package 'ipretty)
 (ipretty-mode 1)

@@ -44,11 +44,6 @@
 ;;Comment out
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
-;;SMEX Keys
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "C-x x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-
 ;;Multiple Cursors
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)

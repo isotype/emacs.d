@@ -4,8 +4,8 @@
 ;;; Author: Anton Strilchuk <anton@env.sh>                         ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Version:                                                       ;;;
-;;; Last-Updated: 11-03-2015                                       ;;;
-;;;  Update #: 47                                                  ;;;
+;;; Last-Updated: 17-03-2015                                       ;;;
+;;;  Update #: 51                                                  ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Description:                                                   ;;;
@@ -17,32 +17,32 @@
 (require 'jabber)
 
 (setq jabber-history-enabled t
-      jabber-use-global-history nil
-      jabber-backlog-number 20
-      jabber-backlog-days 5.0
-      jabber-auto-reconnect t
-      jabber-chat-foreign-prompt-format "%n@%t> "
-      jabber-chat-local-prompt-format "%t>>> "
-      jabber-groupchat-prompt-format "%n@%t> "
-      jabber-groupchat-buffer-format "*-jg-%n-*"
-      jabber-roster-show-bindings nil
-      jabber-roster-show-title nil
-      jabber-show-resources nil
-      jabber-roster-buffer "*-roster-*"
-      jabber-roster-line-format "%-25n %S %s"
-      jabber-chat-buffer-format "*-jc-%n-*"
-      jabber-muc-private-buffer-format "*-jp-%g-%n-*"
-      jabber-chat-time-format "%H:%M:%S"
-      jabber-rare-time-format "====================================\n%d/%m/%y %H:00\n===================================="
-      jabber-chat-buffer-show-avatar nil
-      jabber-chatstates-confirm nil
-      jabber-show-offline-contacts nil
-      jabber-events-confirm-composing t
-      jabber-activity-query-unread nil
-      jabber-activity-mode t
-      jabber-muc-colorize-foreign t
-      jabber-mode-line-compact t
-      jabber-mode-line-mode t)
+ jabber-use-global-history nil
+ jabber-backlog-number 20
+ jabber-backlog-days 5.0
+ jabber-auto-reconnect t
+ jabber-chat-foreign-prompt-format "%n@%t> "
+ jabber-chat-local-prompt-format "%t>>> "
+ jabber-groupchat-prompt-format "%n@%t> "
+ jabber-groupchat-buffer-format "*-jg-%n-*"
+ jabber-roster-show-bindings nil
+ jabber-roster-show-title nil
+ jabber-show-resources nil
+ jabber-roster-buffer "*-roster-*"
+ jabber-roster-line-format "%-25n %S %s"
+ jabber-chat-buffer-format "*-jc-%n-*"
+ jabber-muc-private-buffer-format "*-jp-%g-%n-*"
+ jabber-chat-time-format "%H:%M:%S"
+ jabber-rare-time-format "====================================\n%d/%m/%y %H:00\n===================================="
+ jabber-chat-buffer-show-avatar nil
+ jabber-chatstates-confirm nil
+ jabber-show-offline-contacts nil
+ jabber-events-confirm-composing t
+ jabber-activity-query-unread nil
+ jabber-activity-mode t
+ jabber-muc-colorize-foreign t
+ jabber-mode-line-compact t
+ jabber-mode-line-mode t)
 
 (add-hook 'jabber-roster-mode-hook (lambda () (toggle-truncate-lines t)))
 (define-key jabber-chat-mode-map (kbd "RET") 'newline)
@@ -121,7 +121,7 @@
 (setq jabber-alert-presence-hooks nil)
 (defun jabber-message-content-message (from buffer text)
   (when (or jabber-message-alert-same-buffer
-           (not (memq (selected-window) (get-buffer-window-list buffer))))
+            (not (memq (selected-window) (get-buffer-window-list buffer))))
     (if (jabber-muc-sender-p from)
         (format "%s: %s" (jabber-jid-resource from) text)
       (format "%s: %s" (jabber-jid-displayname from) text))))

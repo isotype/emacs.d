@@ -2,8 +2,8 @@
 ;;; Author: Anton Strilchuk <ype@env.sh>                           ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 16-06-2014                                            ;;;
-;;; Last-Updated: 09-03-2015                                       ;;;
-;;;  Update #: 156                                                 ;;;
+;;; Last-Updated: 16-03-2015                                       ;;;
+;;;  Update #: 157                                                 ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-edit-utils                                      ;;;
@@ -12,6 +12,9 @@
 ;;;                                                                ;;;
 ;;; Package Requires: ()                                           ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Global Key Changes
+(define-key ctrl-apos (kbd "C-s") 'save-buffer)
 
 (require-package 'unfill)
 (require-package 'whole-line-or-region)
@@ -147,7 +150,7 @@
 ;; C-u C-c SPC => ace-jump-char-mode
 ;; C-u C-u C-c SPC => ace-jump-line-mode
 (require-package 'ace-jump-mode)
-(define-key ctrl-apos (kbd "c") 'ace-jump-char-mode)
+(define-key ctrl-apos (kbd "C") 'ace-jump-char-mode)
 (define-key ctrl-apos (kbd "L") 'ace-jump-char-mode)
 
 (global-set-key (kbd "C-c J") (lambda () (interactive) (join-line 1)))

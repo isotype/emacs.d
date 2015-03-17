@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;;; Last-Updated: 06-03-2015                                       ;;;
+;;; Last-Updated: 16-03-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
@@ -331,7 +331,7 @@
                                             ("b." . "-"))))
 
 ;; Set default column view headings: Task Effort Clock_Summary
-(setq org-columns-default-format "%45ITEM %ID %5priority(P) %10assignee(Assignee) %status(Status) %15type(Type) %15updated(Update) %reporter(Reporter)")
+(setq org-columns-default-format "%35ITEM %ID %5priority(P) %status(Status) %10assignee(Assignee) %10reporter(Reporter) %15updated(Update)")
                                         ; global Effort estimate values
                                         ; global STYLE property values for completion
 
@@ -859,6 +859,10 @@
 
 ;; Time Clocks
 (el-get-bundle roman/clocker.el)
+
+;; Journal
+(require-package 'org-journal)
+(setq org-journal-dir "~/Docs/dajour/")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init-org.el ends here

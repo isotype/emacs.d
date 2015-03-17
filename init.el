@@ -2,8 +2,8 @@
 ;;; Author: Anton Strilchuk <anton@env.sh>                         ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 16-06-2014                                            ;;;
-;;; Last-Updated: 10-03-2015                                       ;;;
-;;;  Update #: 195                                                 ;;;
+;;; Last-Updated: 16-03-2015                                       ;;;
+;;;  Update #: 197                                                 ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -198,11 +198,14 @@
   (require-package 'osx-location))
 (require-package 'regex-tool)
 
-;;----------------------------------------------------------------------------
+(setq initial-scratch-message
+      (concat ";; Happy hacking " (or user-login-name "") "!\n\n"))
+
+;;--------------------------------------------------------------------
 ;; Byte compile every .el file into a .elc file in the
 ;; given directory. Must go after all init-* require.
 ;; Source: http://ubuntuforums.org/archive/index.php/t-183638.html
-;;----------------------------------------------------------------------------
+;;--------------------------------------------------------------------
 (defun lw:byte-compile-directory(directory)
   (interactive
    (list

@@ -4,8 +4,8 @@
 ;;; Author: Anton Strilchuk <anton@env.sh>                         ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Version: 0.0.0.0.0.0.1                                         ;;;
-;;; Last-Updated: 09-03-2015                                       ;;;
-;;;  Update #: 15                                                  ;;;
+;;; Last-Updated: 17-03-2015                                       ;;;
+;;;  Update #: 18                                                  ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Description: Do Atlassian Apps the right way :)                ;;;
@@ -50,9 +50,6 @@
 ;;+=================+;;
 (require-package 'org-jira)
 (require 'jiralib)
-(setq jiralib-host "adaptavist.com")
-(setq jiralib-wsdl-descriptor-url "https://tracker.adaptavist.com/rpc/soap/jirasoapservice-v2?wsdl")
-(setq jiralib-url "https://tracker.adaptavist.com")
 
 (defun sort-jira (file)
   (with-temp-buffer
@@ -65,9 +62,8 @@
       (when (file-writable-p file)
         (write-file file nil)))))
 
-(defun get-jira ()
-  "Gets JIRA Issues from JQL Query"
-  (org-jira-get-issues-from-filter "SUPPORT: bigquery")
+(defun clean-jira ()
+  "Cleans JIRA Issues from retrieved via JQL Query"
   (defconst jira-dir (directory-file-name "~/.org-jira/")
     "Default JIRA Directory")
   (let ((files (directory-files jira-dir nil nil t)))
@@ -75,10 +71,33 @@
       (unless (member file '("." ".." ".DS_Store" "projects-list.org" "my-ticks.org"))
         (sort-jira (concat jira-dir "/" file))))))
 
-(defun jira-get-issues ()
-  "Interactive function to get JIRA issues"
-  (interactive)
-  (get-jira))
+(setq jira-host "adaptavist.com"
+      jira-jql "SUPPORT: Task List"
+      jiralib-host "Adaptavist"
+      jiralib-url "https://tracker.adaptavist.com"
+      jiralib-wsdl-descriptor-url (concat jiralib-url "/rpc/soap/jirasoapservice-v2?wsdl"))
+
+(defun jira-grab-adaptavist ()
+  (org-jira-get-issues-from-filter jira-jql)
+  (clean-jira))
+
+;; (defun jira-get-issues (host)
+;;   "Interactive function to get JIRA issues"
+;;   (interactive "s [a]daptavist or [d]ell?: ")
+;;   (let ((jira-hostname host))
+;;     (when (equal jira-hostname "a")
+;;       (setq jira-host "tracker.adaptavist.com")
+;;       (setq jira-jql "SUPPORT: bigquery"))
+;;     (when (equal jira-hostname "d")
+;;       (setq jira-host "jira.labs.dell.com")
+;;       (setq jira-jql "Adaptavist Support JQL Filter"))
+;;     (unless (equal jira-host nil)
+;;       (setq jiralib-host jira-host)
+;;       (setq jiralib-url (concat "https://" jira-host))
+;;       (setq jiralib-wsdl-descriptor-url (concat jiralib-url "/rpc/soap/jirasoapservice-v2?wsdl"))
+;;       (unless (equal jira-jql nil)
+;;         (org-jira-get-issues-from-filter jira-jql)
+;;         (clean-jira)))))
 
 ;;---------------------------------------------------------------------
 ;; Optional Timer
