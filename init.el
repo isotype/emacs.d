@@ -2,8 +2,8 @@
 ;;; Author: Anton Strilchuk <anton@env.sh>                         ;;;
 ;;; URL: http://ype.env.sh                                         ;;;
 ;;; Created: 16-06-2014                                            ;;;
-;;; Last-Updated: 16-03-2015                                       ;;;
-;;;  Update #: 197                                                 ;;;
+;;; Last-Updated: 02-04-2015                                       ;;;
+;;;  Update #: 199                                                 ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init                                                 ;;;
@@ -33,7 +33,7 @@
 ;; ---------------- ;;
 ;;(require 'init-compat)
 (require 'init-utils)
-(require 'oVr-mode)
+;;(require 'oVr-mode)
 (require 'init-prefix-keys)
 
 ;; Package.el
@@ -43,7 +43,7 @@
 (require-package 'el-get)
 (setq el-get-notify 'growl)
 ;; Paradox Package Rankings from GitHub
-(require 'init-paradox-github)
+;;(require 'init-paradox-github)
 
 ;; $PATH
 (require 'init-exec-path)
@@ -68,7 +68,7 @@
 (setq user-mail-address "anton@env.sh"
       user-full-name "Anton Strilchuk")
 
-(require 'init-keys) ; Keys and Passwords, do not include in public git
+;;(require 'init-keys) ; Keys and Passwords, do not include in public git
 (require 'init-frame-hooks)
 (require 'init-xterm)
 (require-package 'fold-dwim)
@@ -83,9 +83,9 @@
 
 ;;Customizations
 (add-to-list 'load-path (expand-file-name "custom" user-emacs-directory))
-(el-get-bundle 'emacsmirror/terminal-notifier)
-(add-to-list 'load-path (expand-file-name "init-tools/notify.el" user-emacs-directory))
-(require 'notify)
+;;(el-get-bundle 'emacsmirror/terminal-notifier)
+;;(add-to-list 'load-path (expand-file-name "init-tools/notify.el" user-emacs-directory))
+;;(require 'notify)
 
 ;;Search Modes
 (require 'init-search)
@@ -100,7 +100,7 @@
 (require 'init-paredit)
 (require 'init-flycheck)
 
-(require-package 'ack-and-a-half)
+(el-get-bundle 'rferraz/ack-and-a-half)
 
 ;; Org-Sync
 (el-get-bundle daimrod/org-sync)
@@ -116,13 +116,13 @@
 (require 'init-javascript)
 (require 'init-lisp)
 (require 'init-slime)
-(require 'init-common-lisp)
-(require 'init-clojure)
-(require 'init-literate-clojure)
+;;(require 'init-common-lisp)
+;;(require 'init-clojure)
+;;(require 'init-literate-clojure)
 (require 'init-python)
-(require 'init-go)
-(require 'init-ruby)
-(require 'init-oascript)
+;;(require 'init-go)
+;;(require 'init-ruby)
+;;(require 'init-oascript)
 
 ;;Custom Functions
 ;;(require 'init-random-defuns)
@@ -159,8 +159,8 @@
 (require 'init-latex)
 
 ;;MU4E
-(require 'init-contacts)
-(require 'init-mu4e)
+;;(require 'init-contacts)
+;;(require 'init-mu4e)
 
 ;;Dash
 (require 'init-dash)

@@ -69,16 +69,16 @@
 ;;(add-hook 'mu4e-compose-mode-hook 'wordsmith-mode)
 
 ;; Predictive Text
-(add-to-list 'load-path (expand-file-name "submodules/predictive" user-emacs-directory))
-(require 'predictive)
-(set-default 'predictive-auto-add-to-dict t)
-(setq predictive-main-dict 'rpg-dictionary
-      predictive-auto-learn t
-      predictive-add-to-dict-ask nil
-      predictive-use-auto-learn-cache nil
-      predictive-which-dict t)
+;; (add-to-list 'load-path (expand-file-name "submodules/predictive" user-emacs-directory))
+;; (require 'predictive)
+;; (set-default 'predictive-auto-add-to-dict t)
+;; (setq predictive-main-dict 'rpg-dictionary
+;;       predictive-auto-learn t
+;;       predictive-add-to-dict-ask nil
+;;       predictive-use-auto-learn-cache nil
+;;       predictive-which-dict t)
 
-(when 'predictive-mode
-  (define-key ctrl-apos [?t ?p] 'complete-predictive-ispell))
+;; (when 'predictive-mode
+;;   (define-key ctrl-apos [?t ?p] 'complete-predictive-ispell))
 
 (provide 'init-writing)

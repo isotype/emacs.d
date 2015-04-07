@@ -3,7 +3,7 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 06-06-2014                                              ;;
-;;; Last-Updated: 16-03-2015                                       ;;;
+;;; Last-Updated: 03-04-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-org                                               ;;
@@ -90,12 +90,12 @@
 
 ;; (when (or (string-equal system-name "fennec.local")
 ;;           (string-equal system-name "fennec.lan")))
-(setq org-directory "~/Dev/OrgFiles/"
-      org-agenda-files '("~/Dev/OrgFiles/TRIAGE.org"
-                         "~/Dev/OrgFiles/gcal.org"
-                         "~/Dev/OrgFiles/refile.org"
-                         "~/.org-jira/"
-                         "~/Dev/OrgFiles/org-project-todos/projects.org")
+(setq org-directory "~/docu/OrgFiles/"
+      org-agenda-files '("~/docu/OrgFiles/TRIAGE.org"
+                         "~/docu/OrgFiles/gcal.org"
+                         "~/docu/OrgFiles/refile.org"
+                         ;;"~/.org-jira/"
+                         "~/docu/OrgFiles/org-project-todos/projects.org")
       org-archive-location (concat org-directory "archive/%s_archive::")
       org-default-notes-file (concat org-directory "refile.org"))
 
@@ -500,23 +500,23 @@
 (setq org-agenda-custom-commands
       '(
         ("0" "NEEDS TRIAGE"
-         ((org-agenda-files '("~/Dev/OrgFiles/TRIAGE.org"))
+         ((org-agenda-files '("~/docu/OrgFiles/TRIAGE.org"))
           (agenda "" ((org-agenda-ndays 1)))
           (tags-todo "+PRIORITY=\"0\"")))
         ("1" "CRITICAL"
-         ((org-agenda-files '("~/Dev/OrgFiles/TRIAGE.org"))
+         ((org-agenda-files '("~/docu/OrgFiles/TRIAGE.org"))
           (agenda "" ((org-agenda-ndays 1)))
           (tags-todo "+PRIORITY=\"1\"")))
         ("2" "URGENT"
-         ((org-agenda-files '("~/Dev/OrgFiles/TRIAGE.org"))
+         ((org-agenda-files '("~/docu/OrgFiles/TRIAGE.org"))
           (agenda "" ((org-agenda-ndays 1)))
           (tags-todo "+PRIORITY=\"2\"")))
         ("3" "TWO2FOUR"
-         ((org-agenda-files '("~/Dev/OrgFiles/TRIAGE.org"))
+         ((org-agenda-files '("~/docu/OrgFiles/TRIAGE.org"))
           (agenda "" ((org-agenda-ndays 1)))
           (tags-todo "+PRIORITY=\"3\"")))
         ("4" "HELD"
-         ((org-agenda-files '("~/Dev/OrgFiles/TRIAGE.org"))
+         ((org-agenda-files '("~/docu/OrgFiles/TRIAGE.org"))
           (agenda "" ((org-agenda-ndays 1)))
           (tags-todo "+PRIORITY=\"4\"")))
         ("5" "Tickets" todo "TODO"
@@ -556,11 +556,11 @@
           (org-tags-match-list-sublevels nil)
           (org-agenda-sorting-strategy '(priority-down))))
         ("g" "Google Calendar" alltodo ""
-         ((org-agenda-files '("~/Dev/OrgFiles/gcal.org"))
+         ((org-agenda-files '("~/docu/OrgFiles/gcal.org"))
           (org-agenda-ndays 31)
           (org-agenda-time-grid nil)))
         ("r" "Tasks to Refile" tags "@refile"
-         ((org-agenda-files '("~/Dev/OrgFiles/gcal.org" "~/Dev/OrgFiles/refile.org"))
+         ((org-agenda-files '("~/docu/OrgFiles/gcal.org" "~/docu/OrgFiles/refile.org"))
           (org-agenda-overriding-header "Tasks to Refile")
           (org-tags-match-list-sublevels nil)))
         ("c" . "Custom queries")
@@ -676,8 +676,8 @@
 (el-get-bundle tkf/emacs-request)
 (require 'org-gcal)
 (setq org-gcal-file-alist
-      '(("astrilchuk@adaptavist.com" .  "~/Dev/OrgFiles/adapt-gcal.org")
-        ("anton@ilyfa.cc" .  "~/Dev/OrgFiles/ilyfa-gcal.org")))
+      '(("astrilchuk@adaptavist.com" .  "~/docu/OrgFiles/adapt-gcal.org")
+        ("anton@ilyfa.cc" .  "~/docu/OrgFiles/ilyfa-gcal.org")))
 (run-at-time "30 min" 3600 'org-gcal-fetch)
 
 ;;,------------
@@ -770,7 +770,7 @@
 (setq org-drill-use-visible-cloze-face-p t
       org-drill-maximum-items-per-session 20
       org-drill-maximum-duration 10
-      org-drill-scope `("~/Dev/OrgFiles/drill.org")
+      org-drill-scope `("~/docu/OrgFiles/drill.org")
       org-drill-save-buffers-after-drill-sessions-p nil
       org-drill-spaced-repetition-algorithm 'sm5
       org-drill-add-random-noise-to-intervals-p t
@@ -862,7 +862,7 @@
 
 ;; Journal
 (require-package 'org-journal)
-(setq org-journal-dir "~/Docs/dajour/")
+(setq org-journal-dir "~/docu/dajour/")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init-org.el ends here

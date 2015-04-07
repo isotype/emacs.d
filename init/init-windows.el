@@ -3,8 +3,8 @@
 ;; Author: Anton Strilchuk <ype@env.sh>                             ;;
 ;; URL: http://ype.env.sh                                           ;;
 ;; Created: 30-06-2014                                              ;;
-;;; Last-Updated: 10-03-2015                                       ;;;
-;;;  Update #: 27                                                  ;;;
+;;; Last-Updated: 02-04-2015                                       ;;;
+;;;  Update #: 29                                                  ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;                                                                  ;;
 ;; Filename: init-windows                                           ;;
@@ -21,7 +21,7 @@
 ;; Make "M-`" prompt for a target window when there are more than 2
 (require-package 'switch-window)
 (require 'switch-window)
-(global-set-key (kbd "M-\`") 'switch-window)
+(global-set-key (kbd "<f1>") 'switch-window)
 
 ;; Ace Window
 ;;(require-package 'ace-window)

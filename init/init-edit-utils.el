@@ -317,7 +317,7 @@ With arg N, insert N newlines."
       (move-beginning-of-line 1))))
 
 ;; remap C-a to smarter-move-beginning-of-line
-(oVr-set-key "C-a" 'ype:smart-move-beginning-of-line)
+(global-set-key (kbd "C-a") 'ype:smart-move-beginning-of-line)
 
 ;;----------------------------------------------------------------------------
 ;; Random line sorting

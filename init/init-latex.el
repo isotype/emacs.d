@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 24-04-2014                                            ;;;
-;;; Last-Updated: 29-12-2014                                       ;;;
+;;; Last-Updated: 25-03-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-latex                                           ;;;
@@ -21,7 +21,7 @@
 (setq TeX-parse-self t)
 (setq TeX-save-query nil)
 (setq TeX-PDF-mode t) ; Compile to PDF by default
-(add-to-list 'ac-modes 'LaTeX-mode)
+;;(add-to-list 'ac-modes 'LaTeX-mode)
 
 ;; set XeTeX mode in TeX/LaTeX
 (add-hook 'LaTeX-mode-hook
@@ -44,20 +44,22 @@
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
 (add-hook 'latex-mode-hook 'turn-on-reftex)   ; with Emacs latex mode
 
-(setq TeX-view-program-list
-      '(("PDF Viewer" "/opt/homebrew-cask/Caskroom/skim/1.4.8/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
+;; (setq TeX-view-program-list
+;;       '(("PDF Viewer" "/opt/homebrew-cask/Caskroom/skim/1.4.8/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
 
 ;; AC Maths
-(require-package 'ac-math)
-(add-to-list 'ac-modes 'latex-mode)   ; make auto-complete aware of `latex-mode`
-(setq ac-math-unicode-in-math-p t)
+;;(require-package 'ac-math)
+;;(add-to-list 'ac-modes 'latex-mode)   ; make auto-complete aware of `latex-mode`
+;; (setq ac-math-unicode-in-math-p t)
 
-(defun ac-latex-mode-setup ()
-  (setq ac-sources
-        (append '(ac-source-math-unicode ac-source-latex-commands)
-                ac-sources)))
-(add-hook 'latex-mode-hook 'ac-latex-mode-setup)
-(ac-flyspell-workaround)
+
+;; (defun ac-latex-mode-setup ()
+;;   (setq ac-sources
+;;         (append '(ac-source-math-unicode ac-source-latex-commands)
+;;                 ac-sources
+;;                 )))
+;;(add-hook 'latex-mode-hook 'ac-latex-mode-setup)
+;;(ac-flyspell-workaround)
 
 ;;,-=========-
 ;;| Org Latex

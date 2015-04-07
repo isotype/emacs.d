@@ -77,7 +77,6 @@
 ;;(require-package 'wiki-nav)
 ;;(global-wiki-nav-mode)
 
-FIX
 ;; FIXME: highlights keywords
 (defun ype:font-lock-comment-annot ()
   (font-lock-add-keywords
