@@ -3,7 +3,7 @@
 ;;; Author: Anton Strilchuk <anton@isoty.pe>                       ;;;
 ;;; URL: http://isoty.pe                                           ;;;
 ;;; Created: 03-05-2014                                            ;;;
-;;; Last-Updated: 10-02-2015                                       ;;;
+;;; Last-Updated: 07-04-2015                                       ;;;
 ;;;   By: Anton Strilchuk <anton@env.sh>                           ;;;
 ;;;                                                                ;;;
 ;;; Filename: init-writing                                         ;;;
@@ -35,9 +35,16 @@
 ;;,---------
 ;;| TextLint
 ;;`---------
-(el-get-bundle DamienCassou/textlint)
+(el-get-bundle 'DamienCassou/Textlint
+  :name textlint
+  :type git
+  :url "git://github.com/DamienCassou/textlint.git"
+  :website "http://scg.unibe.ch/research/textlint"
+  :description "Allows the integration of TextLint within Emacs"
+  :load "textlint.el")
+
 (require 'textlint)
-(setq textlint-location-textlint "~/.emacs.d/submodules/textlint/")
+(setq textlint-location-textlint "~/.emacs.d/el-get/textlint/")
 (define-key ctrl-apos [?t ?l] 'textlint-run)
 
 ;;,--------------------------------------------------
